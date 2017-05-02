@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class CreditView extends Stage implements EventHandler<ActionEvent> {
 
-	ClientView2 clntView;
+	CreditListView clntView;
 	
 	Scene scene;
 	
@@ -28,7 +28,7 @@ public class CreditView extends Stage implements EventHandler<ActionEvent> {
     Button btnConfirmar;
 	
 	
-	public CreditView(ClientView2 clntView) {
+	public CreditView(CreditListView clntView) {
 		
 		this.clntView = clntView;
 		

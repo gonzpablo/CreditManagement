@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-public class ClientView2 extends Application implements EventHandler<ActionEvent> {
+public class CreditListView extends Application implements EventHandler<ActionEvent> {
 	Button btnCredito;
     Stage window;
     TableView<CreditoModel> table;

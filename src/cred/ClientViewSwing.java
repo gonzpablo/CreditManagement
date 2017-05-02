@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ClientView extends JInternalFrame {
+public class ClientViewSwing extends JInternalFrame {
 	
 	private static final long serialVersionUID = 1345838347492871870L;
 	private JPanel panel;	
@@ -32,7 +32,7 @@ public class ClientView extends JInternalFrame {
 	private JLabel telefonoLbl = new JLabel("Teléfono");	
 	
 	
-	public ClientView() {
+	public ClientViewSwing() {
         super("Alta de Cliente", 
                 true, //resizable
                 true, //closable

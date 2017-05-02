@@ -124,7 +124,7 @@ public class MainView extends JFrame implements ActionListener {
     
     //Create a new internal frame.
     protected void createFrame() {
-        ClientView clientView = new ClientView();
+        ClientViewSwing clientView = new ClientViewSwing();
         clientView.setVisible(true); //necessary as of 1.3
         desktop.add(clientView);
         try {
