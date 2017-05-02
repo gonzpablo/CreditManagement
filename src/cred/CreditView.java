@@ -58,6 +58,7 @@ public class CreditView extends Stage implements EventHandler<ActionEvent> {
         btnConfirmar = new Button("Confirmar");
         
         btnSimular.setOnAction(this);
+        btnConfirmar.setOnAction(this);
         
         fldCantDias.setMaxWidth(40);
                               
@@ -115,12 +116,21 @@ public class CreditView extends Stage implements EventHandler<ActionEvent> {
     //Button click is an ActionEvent (also MouseEvents, TouchEvents, etc...)
     @Override
     public void handle(ActionEvent event) {
-        if (event.getSource() == btnSimular) { 
-        	
+    	
+        if (event.getSource() == btnSimular) {         	
+//        	System.out.println("simular");        	
         	simular();
         	
-        } else {
-//        	secondStage.close();
+        } else if (event.getSource() == btnConfirmar ) {
+//        	System.out.println("confirm");        	
+//        	public CreditoModel(String cliente, int cantDias, float tasaInt, float montoCredito, float montoCuota, float gciaXDia) {        	
+        	clntView.addItemToList(new CreditoModel(this.fldCliente.getText().toString(),
+        											Integer.valueOf(this.fldCantDias.getText()),
+        											Float.valueOf(fldTasaInt.getText()),
+        											Float.valueOf(fldMontoCred.getText()),
+        											Float.valueOf(fldMontoCuota.getText()),
+        											Float.valueOf(fldGciaXDia.getText())));
+        	
         }        
     }
 

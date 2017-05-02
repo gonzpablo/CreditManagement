@@ -17,12 +17,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 public class ClientView2 extends Application implements EventHandler<ActionEvent> {
-	Button buttonOK;
+	Button btnCredito;
     Stage window;
-    TableView<Product> table;
+    TableView<CreditoModel> table;
     Scene scene;
     Stage secondStage;
-
+    ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
+    
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -33,29 +35,29 @@ public class ClientView2 extends Application implements EventHandler<ActionEvent
         window.setTitle("Gestión de créditos");
 
         //Name column
-        TableColumn<Product, String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setMinWidth(200);
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<CreditoModel, String> clienteColumn = new TableColumn<>("Cliente");
+        clienteColumn.setMinWidth(200);
+        clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
 
         //Price column
-        TableColumn<Product, Double> priceColumn = new TableColumn<>("Price");
-        priceColumn.setMinWidth(100);
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        TableColumn<CreditoModel, Float> montoCuota = new TableColumn<>("Monto Cuota");
+        montoCuota.setMinWidth(100);
+        montoCuota.setCellValueFactory(new PropertyValueFactory<>("montoCuota"));
 
         //Quantity column
-        TableColumn<Product, String> quantityColumn = new TableColumn<>("Quantity");
-        quantityColumn.setMinWidth(100);
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        TableColumn<CreditoModel, Float> tasaInt = new TableColumn<>("Tasa");
+        tasaInt.setMinWidth(100);
+        tasaInt.setCellValueFactory(new PropertyValueFactory<>("tasaInt"));
 
         table = new TableView<>();
-        table.setItems(getProduct());
-        table.getColumns().addAll(nameColumn, priceColumn, quantityColumn);
+        table.setItems(initCreditos());
+        table.getColumns().addAll(clienteColumn, montoCuota, tasaInt);
 
         VBox vBox = new VBox();
-        buttonOK = new Button("OK");
-        vBox.getChildren().addAll(table, buttonOK);
+        btnCredito = new Button("Cargar Crédito");
+        vBox.getChildren().addAll(table, btnCredito);
         
-        buttonOK.setOnAction(this);      
+        btnCredito.setOnAction(this);      
         
         scene = new Scene(vBox);
         window.setScene(scene);
@@ -67,7 +69,7 @@ public class ClientView2 extends Application implements EventHandler<ActionEvent
     //Button click is an ActionEvent (also MouseEvents, TouchEvents, etc...)
     @Override
     public void handle(ActionEvent event) {
-        if (event.getSource() == buttonOK) { 
+        if (event.getSource() == btnCredito) { 
         	CreditView credit = new CreditView(this);      	
         } else {
 //        	secondStage.close();
@@ -75,17 +77,34 @@ public class ClientView2 extends Application implements EventHandler<ActionEvent
     }
     
     //Get all of the products
-    public ObservableList<Product> getProduct(){
-        ObservableList<Product> products = FXCollections.observableArrayList();
-        products.add(new Product("Laptop", 859.00, 20));
-        products.add(new Product("Bouncy Ball", 2.49, 198));
-        products.add(new Product("Toilet", 99.00, 74));
-        products.add(new Product("The Notebook DVD", 19.99, 12));
-        products.add(new Product("Corn", 1.49, 856));
-        return products;
+    public ObservableList<CreditoModel> initCreditos(){
+//        ObservableList<Product> products = FXCollections.observableArrayList();
+//        products.add(new Product("Laptop", 859.00, 20));
+//        products.add(new Product("Bouncy Ball", 2.49, 198));
+//        products.add(new Product("Toilet", 99.00, 74));
+//        products.add(new Product("The Notebook DVD", 19.99, 12));
+//        products.add(new Product("Corn", 1.49, 856));
+//    	public CreditoModel(String cliente, int cantDias, float tasaInt, float montoCredito, float montoCuota, float gciaXDia) {
+    	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, 150, 45));
+    	creditos.add(new CreditoModel("Juan", 29, 45, 3000, 150, 45));
+        return creditos;
     }
+
+    public ObservableList<CreditoModel> getCreditos(){
+//      ObservableList<Product> products = FXCollections.observableArrayList();
+//      products.add(new Product("Laptop", 859.00, 20));
+//      products.add(new Product("Bouncy Ball", 2.49, 198));
+//      products.add(new Product("Toilet", 99.00, 74));
+//      products.add(new Product("The Notebook DVD", 19.99, 12));
+//      products.add(new Product("Corn", 1.49, 856));
+  	
+//  	creditos.add(new CreditoModel("Pepe", 10, 10, 10, 10, 10));
+      return creditos;
+  }
+
     
-    public void addItemToList(Product prod) {
-    	
+    public void addItemToList(CreditoModel cred) {
+    	creditos.add(cred);
+    	table.setItems(getCreditos());
     }
 }
