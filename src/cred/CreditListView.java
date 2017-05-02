@@ -18,6 +18,8 @@ import javafx.event.EventHandler;
 
 public class CreditListView extends Application implements EventHandler<ActionEvent> {
 	Button btnCredito;
+	Button btnCliente;
+	
     Stage window;
     TableView<CreditoModel> table;
     Scene scene;
@@ -54,10 +56,17 @@ public class CreditListView extends Application implements EventHandler<ActionEv
         table.getColumns().addAll(clienteColumn, montoCuota, tasaInt);
 
         VBox vBox = new VBox();
-        btnCredito = new Button("Cargar Crédito");
-        vBox.getChildren().addAll(table, btnCredito);
+
+        btnCredito = new Button("Cargar Crédito");        
+        btnCliente = new Button("Cargar Cliente");
+        
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(btnCredito, btnCliente);
+        
+        vBox.getChildren().addAll(table, hBox);        
         
         btnCredito.setOnAction(this);      
+        btnCliente.setOnAction(this);
         
         scene = new Scene(vBox);
         window.setScene(scene);
@@ -71,8 +80,8 @@ public class CreditListView extends Application implements EventHandler<ActionEv
     public void handle(ActionEvent event) {
         if (event.getSource() == btnCredito) { 
         	CreditView credit = new CreditView(this);      	
-        } else {
-//        	secondStage.close();
+        } else if (event.getSource() == btnCliente) {
+        	ClientView cliente = new ClientView();
         }        
     }
     
