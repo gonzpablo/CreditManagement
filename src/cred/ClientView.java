@@ -1,22 +1,22 @@
 package cred;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class ClientView extends Stage implements EventHandler<ActionEvent> {
-
-	private String nombre;
-	private String apellido;
-	private String direccion;
-	private String telefono;
-	private String dni;
 	
 	private TextField fldNombre;
 	private TextField fldApellido;
@@ -25,12 +25,17 @@ public class ClientView extends Stage implements EventHandler<ActionEvent> {
 	private TextField fldDni;
 	
 	private Button btnGuardar;
-	
+
+    TableView<ClientModel> table;	
+    ObservableList<ClientModel> clientes = FXCollections.observableArrayList();
+    
 	public ClientView() {
 
 //		this.clntView = clntView;
 		
 		this.setTitle("Alta de Cliente");
+		
+        this.getIcons().add(new Image("file:1493858779_Business.png"));		
 		
 		GridPane gpane2 = new GridPane();
 		
@@ -55,7 +60,11 @@ public class ClientView extends Stage implements EventHandler<ActionEvent> {
         
 //        fldApellido.setMaxWidth(40);
                               
-        gpane2.getChildren().addAll(lblNombre, fldNombre, lblApellido, fldApellido, lblDni, fldDni,	lblDireccion, fldDireccion,lblTelefono, fldTelefono, btnGuardar);
+        TableView<ClientModel> tableCli = listaClientes();
+        
+        gpane2.getChildren().addAll(lblNombre, fldNombre, lblApellido, fldApellido, 
+        							lblDni, fldDni,	lblDireccion, fldDireccion,
+        							lblTelefono, fldTelefono, btnGuardar, tableCli);
     
      // Set the cells the buttons
         GridPane.setConstraints(lblNombre, 0, 0); // (c0, r0)
@@ -68,91 +77,137 @@ public class ClientView extends Stage implements EventHandler<ActionEvent> {
         GridPane.setConstraints(fldDireccion, 1, 3); // (c1, r0)
         GridPane.setConstraints(lblTelefono, 0, 4); // (c1, r0)
         GridPane.setConstraints(fldTelefono, 1, 4); // (c1, r0)
+
         GridPane.setConstraints(btnGuardar, 0, 5); // (c1, r0)
         GridPane.setHalignment(btnGuardar, HPos.CENTER);
         
-
+        GridPane.setConstraints(tableCli, 0, 6); // (c1, r0)
+        
+        GridPane.setColumnSpan(tableCli, 2);        
+        
         gpane2.setStyle("-fx-padding: 10;" +
 //                "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
                 "-fx-border-insets: 5;" +
                 "-fx-border-radius: 5;" );
 //                "-fx-border-color: blue;");        
-        
-//        secondStage = new Stage();()
+
         gpane2.setHgap(10); // hgap = 10px
         gpane2.setVgap(5);  // vgap = 5px
         
-        this.setHeight(300); setWidth(280);
+        this.setHeight(500); setWidth(500);
         
         Scene scene = new Scene(gpane2);
         setScene(scene);
         show();		
 	}
 	
-    public ClientView(String nombre, String apellido, String direccion, String telefono, String dni) {
-		super();
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.direccion = direccion;
-		this.telefono = telefono;
-		this.dni = dni;
-		
-		
-		
-		
-	}
-
 	//When button is clicked, handle() gets called
     //Button click is an ActionEvent (also MouseEvents, TouchEvents, etc...)
     @Override
     public void handle(ActionEvent event) {
-    	
-//        if (event.getSource() == btnSimular) {   
-//        	
-//        	
-//        }
+ 
+        if (event.getSource() == btnGuardar) { 
+        	
+        	addItemToList(new ClientModel(this.getFldNombre().getText(), this.getFldApellido().getText(), 
+        								  this.getFldDireccion().getText(), this.getFldTelefono().getText(), 
+        								  this.getFldDni().getText()));
+        	initFields();
+        }
     }
 
-	public String getNombre() {
-		return nombre;
+	private TableView<ClientModel> listaClientes() {
+
+        // Nombre
+        TableColumn<ClientModel, String> nombre = new TableColumn<>("Nombre");
+        nombre.setMinWidth(100);
+        nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+
+        // Apellido
+        TableColumn<ClientModel, String> apellido = new TableColumn<>("Apellido");
+        apellido.setMinWidth(80);
+        apellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+
+        // Dirección
+        TableColumn<ClientModel, String> direccion = new TableColumn<>("Dirección");
+        direccion.setMinWidth(60);
+        direccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+                
+        // Telefono
+        TableColumn<ClientModel, String> telefono = new TableColumn<>("Telefono");
+        telefono.setMinWidth(60);
+        telefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+
+        // DNI
+        TableColumn<ClientModel, Float> dni = new TableColumn<>("DNI");
+        dni.setMinWidth(100);
+        dni.setCellValueFactory(new PropertyValueFactory<>("dni"));        
+        
+        table = new TableView<>();
+        table.setItems(initClientes());
+        table.getColumns().addAll(nombre, apellido, direccion, telefono, dni);
+        
+        return table;
+	}
+	
+	private ObservableList<ClientModel> initClientes() {
+		return clientes;
+	}
+	
+	private ObservableList<ClientModel> getClientes() {
+		return clientes;
+	}
+	
+    private void addItemToList(ClientModel cliente) {
+    	clientes.add(cliente);
+    	table.setItems(getClientes());
+    }
+
+	public TextField getFldNombre() {
+		return fldNombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setFldNombre(TextField fldNombre) {
+		this.fldNombre = fldNombre;
 	}
 
-	public String getApellido() {
-		return apellido;
+	public TextField getFldApellido() {
+		return fldApellido;
 	}
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setFldApellido(TextField fldApellido) {
+		this.fldApellido = fldApellido;
 	}
 
-	public String getDireccion() {
-		return direccion;
+	public TextField getFldDireccion() {
+		return fldDireccion;
 	}
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setFldDireccion(TextField fldDireccion) {
+		this.fldDireccion = fldDireccion;
 	}
 
-	public String getTelefono() {
-		return telefono;
+	public TextField getFldTelefono() {
+		return fldTelefono;
 	}
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setFldTelefono(TextField fldTelefono) {
+		this.fldTelefono = fldTelefono;
 	}
 
-	public String getDni() {
-		return dni;
+	public TextField getFldDni() {
+		return fldDni;
 	}
 
-	public void setDni(String dni) {
-		this.dni = dni;
+	public void setFldDni(TextField fldDni) {
+		this.fldDni = fldDni;
 	}
-    
-    
+	
+	private void initFields() {
+		fldNombre.clear();
+		fldApellido.clear();
+		fldDireccion.clear();
+		fldDni.clear();
+		fldTelefono.clear();
+	}
 }
