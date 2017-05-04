@@ -6,14 +6,17 @@ import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class CreditView extends Stage implements EventHandler<ActionEvent> {
+public class CreditView extends Stage {
 
+	CreditoModel credito;
 	CreditListView clntView;
 	
 	Scene scene;
@@ -24,12 +27,12 @@ public class CreditView extends Stage implements EventHandler<ActionEvent> {
     TextField fldMontoCuota;
     TextField fldTasaInt;
     TextField fldGciaXDia;
-    TextField fldCuotasPagas;
-	
-	Button btnSimular;
-    Button btnConfirmar;
-	
-    	
+    TextField fldCobrador;
+
+    protected GridPane gpane = new GridPane();
+
+    TableRow<CreditoModel> row;
+    
 	public CreditView(CreditListView clntView) {
 
         this.getIcons().add(new Image("file:1493858779_Business.png"));
@@ -37,8 +40,6 @@ public class CreditView extends Stage implements EventHandler<ActionEvent> {
 		this.clntView = clntView;
 		
 		this.setTitle("Alta de crédito");
-		
-		GridPane gpane = new GridPane();
 		
 		Label lblCliente = new Label("Cliente");
         fldCliente = new TextField();
@@ -58,23 +59,8 @@ public class CreditView extends Stage implements EventHandler<ActionEvent> {
         Label lblGciaXDia = new Label("Ganancia x día");
         fldGciaXDia = new TextField();
         
-        Label lblCuotasPagas = new Label("Cuotas Pagas");
-        fldCuotasPagas = new TextField();
-        fldCuotasPagas.setMaxWidth(40);
-        fldCuotasPagas.setDisable(true);
-        
-     // Creates an integer spinner with 1 as min, 10 as max and 2 as initial value
-//        Spinner<Integer> spinner1 = new Spinner<>(1, 10, 2);
-        
-        // Creates an integer spinner with 0 as min, 100 as max and 10 as initial 
-        // value and 10 as amount to increment or decrement by, per step
-//        Spinner<Integer> spinner2 = new Spinner<>(0, 100, 10, 10);
-        
-        btnSimular = new Button("Simular");
-        btnConfirmar = new Button("Confirmar");
-        
-        btnSimular.setOnAction(this);
-        btnConfirmar.setOnAction(this);
+        Label lblCobrador = new Label("Cobrador");
+        fldCobrador = new TextField();        
         
         fldCantDias.setMaxWidth(40);
                               
@@ -83,32 +69,26 @@ public class CreditView extends Stage implements EventHandler<ActionEvent> {
         						   lblMontoCuota, fldMontoCuota,
         						   lblTasaInt, fldTasaInt,
         						   lblGciaXDia, fldGciaXDia,
-        						   lblCuotasPagas, fldCuotasPagas,
-        						   btnSimular, btnConfirmar);
+        						   lblCobrador, fldCobrador);
     
-     // Set the cells the buttons
-        GridPane.setConstraints(lblCliente, 0, 0); // (c0, r0)
-        GridPane.setConstraints(fldCliente, 1, 0); // (c0, r0)
-        GridPane.setConstraints(lblCantDias, 0, 1); // (c0, r0)        
-        GridPane.setConstraints(fldCantDias, 1, 1); // (c1, r0)        
-        GridPane.setConstraints(lblMontoCred, 0, 2); // (c0, r0)        
-        GridPane.setConstraints(fldMontoCred, 1, 2); // (c1, r0)        
-        GridPane.setConstraints(lblMontoCuota, 0, 3); // (c1, r0)
-        GridPane.setConstraints(fldMontoCuota, 1, 3); // (c1, r0)
-        GridPane.setConstraints(lblTasaInt, 0, 4); // (c1, r0)
-        GridPane.setConstraints(fldTasaInt, 1, 4); // (c1, r0)
-        GridPane.setConstraints(lblGciaXDia, 0, 5); // (c1, r0)        
-        GridPane.setConstraints(fldGciaXDia, 1, 5); // (c1, r0)
-
-        GridPane.setConstraints(lblCuotasPagas, 0, 6); // (c1, r0)
-        GridPane.setConstraints(fldCuotasPagas, 1, 6); // (c1, r0)
+        GridPane.setConstraints(lblCliente, 0, 0);
+        GridPane.setConstraints(fldCliente, 1, 0);
+        GridPane.setConstraints(lblCantDias, 0, 1);       
+        GridPane.setConstraints(fldCantDias, 1, 1);   
+        GridPane.setConstraints(lblMontoCred, 0, 2); 
+        GridPane.setConstraints(fldMontoCred, 1, 2);     
+        GridPane.setConstraints(lblMontoCuota, 0, 3);
+        GridPane.setConstraints(fldMontoCuota, 1, 3);
+        GridPane.setConstraints(lblTasaInt, 0, 4); 
+        GridPane.setConstraints(fldTasaInt, 1, 4); 
+        GridPane.setConstraints(lblGciaXDia, 0, 5); 
+        GridPane.setConstraints(fldGciaXDia, 1, 5);
+        GridPane.setConstraints(lblCobrador, 0, 6);      
+        GridPane.setConstraints(fldCobrador, 1, 6);
         
-        GridPane.setConstraints(btnSimular, 0, 7); // (c1, r0)
-        GridPane.setConstraints(btnConfirmar, 1, 7); // (c1, r0)
-        GridPane.setHalignment(btnSimular, HPos.CENTER);        
-        GridPane.setHalignment(btnConfirmar, HPos.CENTER);
+//        GridPane.setHalignment(btnSimular, HPos.CENTER);        
+//        GridPane.setHalignment(btnConfirmar, HPos.CENTER);
         
-
         gpane.setStyle("-fx-padding: 10;" +
 //                "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
@@ -123,77 +103,20 @@ public class CreditView extends Stage implements EventHandler<ActionEvent> {
         
         Scene scene = new Scene(gpane);
         setScene(scene);
+        this.setMaxWidth(280);
+        this.setMaxHeight(320);
+        
+        this.setMinWidth(280);
+        this.setMinHeight(320);
+        
         show();
 
 	}
 
-    //When button is clicked, handle() gets called
-    //Button click is an ActionEvent (also MouseEvents, TouchEvents, etc...)
-    @Override
-    public void handle(ActionEvent event) {
-    	
-        if (event.getSource() == btnSimular) {         	
-//        	System.out.println("simular");        	
-        	simular();
-        	
-        } else if (event.getSource() == btnConfirmar ) {
-//        	System.out.println("confirm");        	
-//        	public CreditoModel(String cliente, int cantDias, float tasaInt, float montoCredito, float montoCuota, float gciaXDia) {        	
-        	clntView.addItemToList(new CreditoModel(this.fldCliente.getText().toString(),
-        											Integer.valueOf(this.fldCantDias.getText()),
-        											Float.valueOf(fldTasaInt.getText()),
-        											Float.valueOf(fldMontoCred.getText()),
-        											Float.valueOf(fldMontoCuota.getText()),
-        											Float.valueOf(fldGciaXDia.getText())));
-        	this.close();
-        }        
-    }
 
-	private void simular() {
 
-		float montoCuota;
-		float cuotaCapital;
-		
-		if (fldCliente.getText().equals("")) {
-			System.out.println("Ingrese Cliente");
-			
-			return;
-		} 
-		
-		if (fldCantDias.getText().equals("")) {
-			System.out.println("Ingrese Cantidad de días");
-			return;
-		}		
-		
-		cuotaCapital = Float.valueOf(fldMontoCred.getText()) / Float.valueOf(fldCantDias.getText());
-		
-		montoCuota = cuotaCapital + ( cuotaCapital * ( Float.valueOf(fldTasaInt.getText()) / 100 )); //Float.valueOf("100") )); 
-
-		fldMontoCuota.setText(String.valueOf(montoCuota));
-
-		fldGciaXDia.setText(String.valueOf(montoCuota - cuotaCapital));
-		
-	}
-
-	public void setCredito(CreditoModel credito) {
-
-		this.fldCliente.setText(credito.getCliente());
-		this.fldCantDias.setText(Integer.toString(credito.getCantDias()));
-		this.fldMontoCred.setText(Float.toString(credito.getMontoCredito()));
-		this.fldMontoCuota.setText(Float.toString(credito.getMontoCuota()));
-		this.fldTasaInt.setText(Float.toString(credito.getTasaInt()));
-		this.fldGciaXDia.setText(Float.toString(credito.getGciaXDia()));
-
-		
-//		fldGciaXDia.setEditable(false);
-		fldCliente.setDisable(true);
-		fldCantDias.setDisable(true);
-		fldMontoCred.setDisable(true);
-		fldMontoCuota.setDisable(true);
-		fldTasaInt.setDisable(true);
-        fldGciaXDia.setDisable(true);		
-        fldCuotasPagas.setDisable(false);
-	}	
+//	public GridPane getGpane() {
+//		return gpane;
+//	}	
 	
 }
-

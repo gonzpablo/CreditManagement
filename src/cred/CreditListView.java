@@ -54,10 +54,10 @@ public class CreditListView extends Application implements EventHandler<ActionEv
         gciaXDia.setMinWidth(60);
         gciaXDia.setCellValueFactory(new PropertyValueFactory<>("gciaXDia"));
                 
-        // Tasa de interés mensual
-        TableColumn<CreditoModel, Float> tasaInt = new TableColumn<>("Tasa");
-        tasaInt.setMinWidth(60);
-        tasaInt.setCellValueFactory(new PropertyValueFactory<>("tasaInt"));
+        // Saldo de capital
+        TableColumn<CreditoModel, Float> saldoCapital = new TableColumn<>("Saldo Capital");
+        saldoCapital.setMinWidth(60);
+        saldoCapital.setCellValueFactory(new PropertyValueFactory<>("saldoCapital"));
 
         // Monto Crédito
         TableColumn<CreditoModel, Float> montoCredito = new TableColumn<>("Monto Crédito");
@@ -74,6 +74,11 @@ public class CreditListView extends Application implements EventHandler<ActionEv
         cantDias.setMinWidth(40);
         cantDias.setCellValueFactory(new PropertyValueFactory<>("cantDias"));        
         
+        // Cobrador
+        TableColumn<CreditoModel, String> cobrador = new TableColumn<>("Cobrador");
+        cobrador.setMinWidth(40);
+        cobrador.setCellValueFactory(new PropertyValueFactory<>("cobrador"));        
+        
         table = new TableView<>();
         table.setItems(initCreditos());
         
@@ -86,13 +91,17 @@ public class CreditListView extends Application implements EventHandler<ActionEv
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     CreditoModel rowData = row.getItem();
 //                    System.out.println(rowData.getCliente());
-                    visualizarCredito(rowData);
+                    
+                    visualizarCredito(rowData, row);
                 }
             });
-            return row ;
+            return row;
         });        
-        
-        table.getColumns().addAll(clienteColumn, montoCuota, gciaXDia, tasaInt, cuotasPagas, cantDias, montoCredito);
+                
+        table.getColumns().addAll(clienteColumn, montoCuota,
+        						  gciaXDia, 
+        						  cuotasPagas, cantDias, saldoCapital, 
+        						  montoCredito, cobrador);
 
         VBox vBox = new VBox();
 
@@ -114,19 +123,20 @@ public class CreditListView extends Application implements EventHandler<ActionEv
         
 //        @FXML private AnchorPane ap;
 //        Stage stage = (Stage) ap.getScene().getWindow();
-        
-       
+              
         
         window.setScene(scene);
         window.setHeight(600);window.setWidth(900);
         window.show();
     }
     
-    private void visualizarCredito(CreditoModel rowData) {
+    private void visualizarCredito(CreditoModel rowData, TableRow<CreditoModel> row) {
 
-    	CreditView credit = new CreditView(this);    
-		
-    	credit.setCredito(rowData);
+    	CreditPayView credit = new CreditPayView(this);    		
+    	credit.setCredito(rowData, row);
+    	
+    	credit.camposPropios();
+    	
 	}
 
 	//When button is clicked, handle() gets called
@@ -134,7 +144,7 @@ public class CreditListView extends Application implements EventHandler<ActionEv
     @Override
     public void handle(ActionEvent event) {
         if (event.getSource() == btnCredito) { 
-        	CreditView credit = new CreditView(this);      	
+        	CreditCreateView credit = new CreditCreateView(this);      	
         } else if (event.getSource() == btnCliente) {
         	ClientView cliente = new ClientView();
         }        
@@ -143,8 +153,8 @@ public class CreditListView extends Application implements EventHandler<ActionEv
     //Get all of the products
     public ObservableList<CreditoModel> initCreditos(){
 
-    	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, 150, 45));
-    	creditos.add(new CreditoModel("Juan", 15, 45, 2000, 150, 45));
+    	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, 150, 45, 3000, "Luis"));
+    	creditos.add(new CreditoModel("Juan", 15, 45, 2000, 150, 45, 2000, "Miguel"));
     	
         return creditos;
     }
