@@ -17,6 +17,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
 public class CreditListView extends Application implements EventHandler<ActionEvent> {
 	Button btnCredito;
@@ -105,28 +108,45 @@ public class CreditListView extends Application implements EventHandler<ActionEv
 
         VBox vBox = new VBox();
 
+//        vBox.setStyle("-fx-padding: 10;" +
+////              "-fx-border-style: solid inside;" +
+//              "-fx-border-width: 2;" +
+//              "-fx-border-insets: 5;" +
+//              "-fx-border-radius: 5;" );        
+        vBox.setSpacing(10);
+//        vBox.setPadding(new Insets(0, 5, 5, 5)); 
+        
         btnCredito = new Button("Cargar Crédito");        
-        btnCliente = new Button("Clientes");
+        btnCliente = new Button("Gestionar Clientes");
         
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(btnCredito, btnCliente);
+        btnCredito.setMaxWidth(150);
+        btnCliente.setMaxWidth(150);
         
-        vBox.getChildren().addAll(table, hBox);        
+//        HBox hBox = new HBox();
+//        hBox.getChildren().addAll(btnCredito, btnCliente);
         
+        vBox.getChildren().addAll(table, btnCredito, btnCliente);        
+      vBox.setAlignment(Pos.TOP_CENTER);        
         btnCredito.setOnAction(this);      
         btnCliente.setOnAction(this);
+
+//        hBox.setHalignment(btnCredito, HPos.CENTER);        
+//        GridPane.setHalignment(btnCliente, HPos.CENTER);        
         
         scene = new Scene(vBox);
+//        vBox.setAlignment(Pos.CENTER);
+
+
+//        vBox.setPadding(Insets.EMPTY);
         
 //        primaryStage.getIcons().add(new Image("file:1493858779_Business.png"));
         primaryStage.getIcons().add(new Image("file:1493859896_Timetable.png"));        
         
 //        @FXML private AnchorPane ap;
 //        Stage stage = (Stage) ap.getScene().getWindow();
-              
-        
+
         window.setScene(scene);
-        window.setHeight(600);window.setWidth(900);
+        window.setHeight(520);window.setWidth(900);
         window.show();
     }
     
@@ -136,7 +156,7 @@ public class CreditListView extends Application implements EventHandler<ActionEv
     	credit.setCredito(rowData, row);
     	
     	credit.camposPropios();
-    	
+
 	}
 
 	//When button is clicked, handle() gets called
