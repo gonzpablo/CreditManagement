@@ -3,12 +3,14 @@ package cred;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 //import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 //import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -30,7 +32,8 @@ public class CreditListView extends Application implements EventHandler<ActionEv
     Scene scene;
     Stage secondStage;
     ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
-    
+    FilteredList<CreditoModel> filteredData;
+    TextField filterField;
     
     public static void main(String[] args) {
         launch(args);
@@ -81,9 +84,40 @@ public class CreditListView extends Application implements EventHandler<ActionEv
         TableColumn<CreditoModel, String> cobrador = new TableColumn<>("Cobrador");
         cobrador.setMinWidth(40);
         cobrador.setCellValueFactory(new PropertyValueFactory<>("cobrador"));        
+
+        initCreditos();
+        filterField = new TextField();
+        
+     // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        filteredData = new FilteredList<>(creditos, p -> true);
+        
+     // 2. Set the filter Predicate whenever the filter changes.
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(credito -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (credito.getCobrador().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches first name.
+//                } else if (creditoModel.getLastName().toLowerCase().contains(lowerCaseFilter)) {
+//                    return true; // Filter matches last name.
+                }
+                return false; // Does not match.
+            });
+        });        
+        
+        // 5. Add sorted (and filtered) data to the table.
+//        personTable.setItems(sortedData);        
         
         table = new TableView<>();
-        table.setItems(initCreditos());
+    
+//        table.setItems(initCreditos());
+        table.setItems(filteredData);
         
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setRowFactory( tv -> {
@@ -125,8 +159,11 @@ public class CreditListView extends Application implements EventHandler<ActionEv
 //        HBox hBox = new HBox();
 //        hBox.getChildren().addAll(btnCredito, btnCliente);
         
-        vBox.getChildren().addAll(table, btnCredito, btnCliente);        
-      vBox.setAlignment(Pos.TOP_CENTER);        
+
+        filterField.setMaxWidth(120);
+        filterField.setAlignment(Pos.TOP_LEFT);
+        vBox.getChildren().addAll(filterField, table, btnCredito, btnCliente);        
+//      vBox.setAlignment(Pos.TOP_CENTER);        
         btnCredito.setOnAction(this);      
         btnCliente.setOnAction(this);
 
@@ -140,7 +177,7 @@ public class CreditListView extends Application implements EventHandler<ActionEv
 //        vBox.setPadding(Insets.EMPTY);
         
 //        primaryStage.getIcons().add(new Image("file:1493858779_Business.png"));
-        primaryStage.getIcons().add(new Image("file:1493859896_Timetable.png"));        
+        primaryStage.getIcons().add(new Image("file:icons/1493859896_Timetable.png"));        
         
 //        @FXML private AnchorPane ap;
 //        Stage stage = (Stage) ap.getScene().getWindow();
@@ -172,7 +209,6 @@ public class CreditListView extends Application implements EventHandler<ActionEv
     
     //Get all of the products
     public ObservableList<CreditoModel> initCreditos(){
-
     	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, 150, 45, 3000, "Luis"));
     	creditos.add(new CreditoModel("Juan", 15, 45, 2000, 150, 45, 2000, "Miguel"));
     	

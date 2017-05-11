@@ -35,7 +35,7 @@ public class CreditView extends Stage {
     
 	public CreditView(CreditListView clntView) {
 
-        this.getIcons().add(new Image("file:1493858779_Business.png"));
+        this.getIcons().add(new Image("file:icons/1493858779_Business.png"));
         
 		this.clntView = clntView;
 		
