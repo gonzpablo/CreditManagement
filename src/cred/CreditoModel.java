@@ -1,8 +1,11 @@
 package cred;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class CreditoModel {
 
-	private String cliente;
+	private final StringProperty cliente;
 	private int cantDias;
 	private float tasaInt;
 	private float montoCredito;
@@ -17,7 +20,8 @@ public class CreditoModel {
 						float montoCredito, float montoCuota,
 						float gciaXDia, float saldoCapital, String cobrador) {
 
-		this.cliente = cliente;
+		this.cliente = new SimpleStringProperty(cliente);			
+		
 		this.cantDias = cantDias;
 		this.tasaInt = tasaInt;
 		this.montoCredito = montoCredito;
@@ -68,11 +72,12 @@ public class CreditoModel {
 	}
 
 	public String getCliente() {
-		return cliente;
+		return cliente.get();
 	}
 
 	public void setCliente(String cliente) {
-		this.cliente = cliente;
+//		this.clienteColumn = cliente;
+		this.cliente.set(cliente);
 	}
 
 	public int getCuotasPagas() {
@@ -97,5 +102,10 @@ public class CreditoModel {
 
 	public void setSaldoCapital(float saldoCapital) {
 		this.saldoCapital = saldoCapital;
-	}		
+	}
+	
+	public StringProperty clienteProperty() {
+		return cliente;
+	}	
+	
 }
