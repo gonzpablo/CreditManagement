@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.MainController">
    <children>
       <MenuBar>
         <menus>
@@ -28,9 +28,9 @@
       </MenuBar>
       <ToolBar prefHeight="19.0" prefWidth="600.0">
          <items>
-            <HBox prefWidth="200.0" spacing="10.0">
+            <HBox alignment="CENTER_LEFT" spacing="1.0">
                <children>
-                  <Label alignment="BASELINE_CENTER" contentDisplay="CENTER" prefWidth="90.0" text="Cobrador" textAlignment="CENTER">
+                  <Label alignment="BASELINE_CENTER" contentDisplay="CENTER" text="Cobrador" textAlignment="CENTER">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
@@ -43,21 +43,26 @@
                         <Insets />
                      </HBox.margin>
                   </TextField>
+                  <Label text="Ruta">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <ComboBox fx:id="rutaFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </ComboBox>
+                  <Button id="btnCleanFilters" fx:id="btnCleanFilters" mnemonicParsing="false" text="Limpiar Filtros">
+                     <HBox.margin>
+                        <Insets left="250.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
                <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding>
             </HBox>
-            <Label text="Ruta">
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </Label>
-            <ComboBox fx:id="rutaFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0">
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </ComboBox>
          </items>
       </ToolBar>
       <TableView fx:id="creditosTable" maxWidth="1.7976931348623157E308" prefHeight="328.0" prefWidth="648.0" VBox.vgrow="ALWAYS">

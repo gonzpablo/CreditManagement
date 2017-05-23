@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -41,8 +42,9 @@ public class MainController {
     private TableColumn<CreditoModel, String> rutaColumn;	
 	@FXML
 	private ComboBox<String> rutaFilterCombo;
+	@FXML
+	private Button btnCleanFilters;
 
-	
 	ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
 
 	
@@ -78,13 +80,18 @@ public class MainController {
         credito -> rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(), 
         rutaFilterCombo.valueProperty()));		
 		
-		
         FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
         creditosTable.setItems(filteredItems);    
         
+//		Esto hace que el filtro sea acumulativo (de los dos filtros) (ver el .and)        
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(
                 () -> cobradorFilter.get().and(rutaFilter.get()), 
-                cobradorFilter, rutaFilter));        
+                cobradorFilter, rutaFilter));
+
+        btnCleanFilters.setOnAction(e -> {
+            rutaFilterCombo.setValue(null);
+            cobradorFilterField.clear();
+        });        
         
 	}
 	
