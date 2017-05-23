@@ -5,7 +5,8 @@ import javafx.beans.property.StringProperty;
 
 public class CreditoModel {
 
-	private final StringProperty cliente;
+//	private final StringProperty cliente;
+	private String cliente;
 	private int cantDias;
 	private float tasaInt;
 	private float montoCredito;
@@ -13,15 +14,16 @@ public class CreditoModel {
 	private float gciaXDia;
 	private int cuotasPagas;
 	private String cobrador;
+	private String ruta;
 	private float saldoCapital;
 	
 //	Hacer un constructor que pase solo Cliente, cantDias, Monto y tasa y que calcule el resto?	
 	public CreditoModel(String cliente, int cantDias, float tasaInt,
 						float montoCredito, float montoCuota,
-						float gciaXDia, float saldoCapital, String cobrador) {
+						float gciaXDia, float saldoCapital, String cobrador, String ruta) {
 
-		this.cliente = new SimpleStringProperty(cliente);			
-		
+//		this.cliente = new SimpleStringProperty(cliente);			
+		this.cliente = cliente;
 		this.cantDias = cantDias;
 		this.tasaInt = tasaInt;
 		this.montoCredito = montoCredito;
@@ -29,6 +31,7 @@ public class CreditoModel {
 		this.gciaXDia = gciaXDia;
 		this.cobrador = cobrador;
 		this.saldoCapital = saldoCapital;
+		this.ruta = ruta;
 	}
 
 	public int getCantDias() {
@@ -72,12 +75,14 @@ public class CreditoModel {
 	}
 
 	public String getCliente() {
-		return cliente.get();
+//		return cliente.get();
+		return cliente;
 	}
 
 	public void setCliente(String cliente) {
 //		this.clienteColumn = cliente;
-		this.cliente.set(cliente);
+//		this.cliente.set(cliente);
+		this.cliente = cliente;
 	}
 
 	public int getCuotasPagas() {
@@ -103,9 +108,19 @@ public class CreditoModel {
 	public void setSaldoCapital(float saldoCapital) {
 		this.saldoCapital = saldoCapital;
 	}
+
+	public String getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
+	}
+
 	
-	public StringProperty clienteProperty() {
-		return cliente;
-	}	
+	
+//	public StringProperty clienteProperty() {
+//		return cliente;
+//	}	
 	
 }

@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 
 /**
  * Main class to start the application.
- * 
  */
 public class Main extends Application {
 
