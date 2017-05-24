@@ -45,7 +45,14 @@ public class MainController {
 	@FXML
 	private Button btnCleanFilters;
 
-	ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
+	@FXML
+	private TextField cuotaPuraField;
+	@FXML
+	private TextField gciaDiaField;
+	
+	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
+	
+	private FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
 
 	
 	/**
@@ -70,7 +77,6 @@ public class MainController {
 		
         ObjectProperty<Predicate<CreditoModel>> cobradorFilter = new SimpleObjectProperty<>();
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();		
-		
 	
 		cobradorFilter.bind(Bindings.createObjectBinding(() -> 
         credito -> credito.getCobrador().toLowerCase().contains(cobradorFilterField.getText().toLowerCase()), 
@@ -80,7 +86,7 @@ public class MainController {
         credito -> rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(), 
         rutaFilterCombo.valueProperty()));		
 		
-        FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
+//        FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
         creditosTable.setItems(filteredItems);    
         
 //		Esto hace que el filtro sea acumulativo (de los dos filtros) (ver el .and)        
@@ -88,13 +94,28 @@ public class MainController {
                 () -> cobradorFilter.get().and(rutaFilter.get()), 
                 cobradorFilter, rutaFilter));
 
+        calc();
+        
         btnCleanFilters.setOnAction(e -> {
             rutaFilterCombo.setValue(null);
-            cobradorFilterField.clear();
+            cobradorFilterField.clear();           
         });        
+    
+        rutaFilterCombo.setOnAction(e -> {
+        	calc();
+        });
         
 	}
 	
+	private void calc() {
+		float sum= 0;
+		
+		for ( CreditoModel cred : filteredItems ) {
+			
+			sum+=cred.getMontoCuota();
+        	cuotaPuraField.setText(String.valueOf(sum));
+        }		
+	}
 	@FXML
 //	private void initialize2() {
 //
@@ -239,6 +260,8 @@ public class MainController {
         
 		// 5. Add sorted (and filtered) data to the table.
 //		((TableView<CreditoModel>) creditos).setItems(filteredData);
+	
+		
 //	}
 	
     private void initComboRuta() {
@@ -263,6 +286,8 @@ public class MainController {
     public ObservableList<CreditoModel> initCreditos(){
     	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, 150, 45, 3000, "Luis", "1"));
     	creditos.add(new CreditoModel("Juan", 15, 45, 2000, 150, 45, 2000, "Miguel", "2"));
+    	creditos.add(new CreditoModel("Jorge", 29, 45, 3000, 250, 45, 3000, "Luis", "1"));
+    	creditos.add(new CreditoModel("Bernardo", 15, 45, 2000, 350, 45, 2000, "Ezequiel", "2"));
     	
         return creditos;
     }	

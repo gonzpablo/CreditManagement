@@ -26,7 +26,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ToolBar prefHeight="19.0" prefWidth="600.0">
+      <ToolBar>
          <items>
             <HBox alignment="CENTER_LEFT" spacing="1.0">
                <children>
@@ -53,6 +53,12 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </ComboBox>
+                  <Label text="Fecha">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <DatePicker prefWidth="110.0" />
                   <Button id="btnCleanFilters" fx:id="btnCleanFilters" mnemonicParsing="false" text="Limpiar Filtros">
                      <HBox.margin>
                         <Insets left="250.0" />
@@ -81,5 +87,25 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <ToolBar>
+         <items>
+            <HBox>
+               <children>
+                  <Label text="Cuota Pura" textAlignment="CENTER">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="cuotaPuraField" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefWidth="80.0" scaleShape="false" />
+                  <Label text="Ganancia Día" textAlignment="CENTER">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="gciaDiaField" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefWidth="80.0" scaleShape="false" />
+               </children>
+            </HBox>
+         </items>
+      </ToolBar>
    </children>
 </VBox>
