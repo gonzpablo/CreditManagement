@@ -108,7 +108,7 @@ public class MainController {
 	}
 	
 	private void calc() {
-		float sum= 0;
+		float sum = 0;
 		
 		for ( CreditoModel cred : filteredItems ) {
 			
