@@ -1,5 +1,6 @@
 package cred;
 
+import java.io.IOException;
 import java.util.function.Predicate;
 
 import javafx.beans.binding.Bindings;
@@ -9,14 +10,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
-public class MainController {
+public class MainController extends Stage {
 	
 	@FXML
 	private TextField cobradorFilterField;
@@ -105,15 +111,57 @@ public class MainController {
         	calc();
         });
         
+//		Doble-click        
+        creditosTable.setRowFactory( tv -> {
+        	
+            TableRow<CreditoModel> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+            	
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    CreditoModel rowData = row.getItem();
+//                    System.out.println(rowData.getCliente());
+                    
+                    pago(rowData, row);
+                }
+            });
+            return row;
+        });           
+        
+	}
+	
+	private void pago(CreditoModel rowData, TableRow<CreditoModel> row) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Pago.fxml"));
+            GridPane page = (GridPane) loader.load();
+            
+            Scene scene = new Scene(page);
+
+            setScene(scene);
+            this.setMaxWidth(280);
+            this.setMaxHeight(320);
+            
+            this.setMinWidth(280);
+            this.setMinHeight(320);
+            
+            show();
+            
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }   	
 	}
 	
 	private void calc() {
-		float sum = 0;
+		float sumaCuotaPura = 0,
+			  sumaGciaXDia = 0;
 		
 		for ( CreditoModel cred : filteredItems ) {
 			
-			sum+=cred.getMontoCuota();
-        	cuotaPuraField.setText(String.valueOf(sum));
+			sumaCuotaPura+=cred.getMontoCuota();
+			sumaGciaXDia+=cred.getGciaXDia();
+        	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
+        	gciaDiaField.setText(String.valueOf(sumaGciaXDia));
         }		
 	}
 	@FXML
