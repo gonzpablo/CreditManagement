@@ -138,11 +138,11 @@ public class MainController extends Stage {
             Scene scene = new Scene(page);
 
             setScene(scene);
-            this.setMaxWidth(280);
-            this.setMaxHeight(320);
-            
-            this.setMinWidth(280);
-            this.setMinHeight(320);
+//            this.setMaxWidth(280);
+//            this.setMaxHeight(320);
+//            
+//            this.setMinWidth(280);
+//            this.setMinHeight(320);
             
             show();
             

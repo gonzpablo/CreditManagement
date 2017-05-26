@@ -6,9 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.PagoController">
+<GridPane maxHeight="300.0" prefHeight="300.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.PagoController">
    <columnConstraints>
       <ColumnConstraints />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
    <rowConstraints>
@@ -47,10 +49,10 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </TextField>
-      <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+      <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn prefWidth="75.0" text="Fecha Pago" />
+          <TableColumn prefWidth="75.0" text="Monto Pagado" />
         </columns>
       </TableView>
    </children>
