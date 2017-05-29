@@ -12,4 +12,28 @@ public class PagoModel {
 	public PagoModel() {
 		
 	}
+
+	public float getMontoPago() {
+		return montoPago;
+	}
+
+	public void setMontoPago(float montoPago) {
+		this.montoPago = montoPago;
+	}
+
+	public LocalDate getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
+
+	public LocalTime getHora() {
+		return hora;
+	}
+
+	public void setHora(LocalTime hora) {
+		this.hora = hora;
+	}
 }

@@ -1,5 +1,8 @@
 package cred;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -16,6 +19,8 @@ public class CreditoModel {
 	private String cobrador;
 	private String ruta;
 	private float saldoCapital;
+	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
+	
 	
 //	Hacer un constructor que pase solo Cliente, cantDias, Monto y tasa y que calcule el resto?	
 	public CreditoModel(String cliente, int cantDias, float tasaInt,
