@@ -122,10 +122,11 @@ public class CreditoModel {
 		this.ruta = ruta;
 	}
 
+	public List<PagoModel> getListaPagos() {
+		return listaPagos;
+	}	
 	
-	
-//	public StringProperty clienteProperty() {
-//		return cliente;
-//	}	
-	
+	public void agregarPago(PagoModel pago) {
+		listaPagos.add(pago);
+	}
 }

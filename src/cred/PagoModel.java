@@ -1,6 +1,7 @@
 package cred;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class PagoModel {
@@ -11,6 +12,12 @@ public class PagoModel {
 	
 	public PagoModel() {
 		
+	    LocalDateTime currentDateTime = LocalDateTime.now();
+		LocalDate date1 = currentDateTime.toLocalDate();
+		LocalTime time1 = currentDateTime.toLocalTime();
+	    this.setFecha(date1);
+	    this.setHora(time1);
+//		this.fechaPagoField.setValue(date1);
 	}
 
 	public float getMontoPago() {

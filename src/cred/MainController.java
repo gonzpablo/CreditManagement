@@ -107,9 +107,7 @@ public class MainController extends Stage {
             cobradorFilterField.clear();           
         });        
     
-        rutaFilterCombo.setOnAction(e -> {
-        	calc();
-        });
+        rutaFilterCombo.setOnAction(e -> { 	calc();  });
         
 //		Doble-click        
         creditosTable.setRowFactory( tv -> {
@@ -128,34 +126,29 @@ public class MainController extends Stage {
         });           
         
 	}
-	
+
 	private void pago(CreditoModel rowData, TableRow<CreditoModel> row) {
 
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("Pago.fxml"));
             GridPane page = (GridPane) loader.load();
-            
+            PagoController controller = loader.<PagoController>getController();
+//            rowData.agregarPago(new PagoModel());
+            controller.setCredito(rowData);
+//            System.out.println(rowData.getCliente());
+//            rowData.agregarPago(new PagoModel());
             Scene scene = new Scene(page);
-
             setScene(scene);
-//            this.setMaxWidth(280);
-//            this.setMaxHeight(320);
-//            
-//            this.setMinWidth(280);
-//            this.setMinHeight(320);
-            
             show();
-            
-            
         } catch (IOException e) {
             e.printStackTrace();
-        }   	
+        }
 	}
-	
+
 	private void calc() {
 		float sumaCuotaPura = 0,
 			  sumaGciaXDia = 0;
-		
+
 		for ( CreditoModel cred : filteredItems ) {
 			
 			sumaCuotaPura+=cred.getMontoCuota();
@@ -164,159 +157,9 @@ public class MainController extends Stage {
         	gciaDiaField.setText(String.valueOf(sumaGciaXDia));
         }		
 	}
-	@FXML
-//	private void initialize2() {
-//
-//		// 0. Initialize the columns.		
-//		initColumns();		
-//
-//		initComboRuta();
-//		
-//		// 1. Wrap the ObservableList in a FilteredList (initially display all data).
-//		FilteredList<CreditoModel> filteredData = new FilteredList<>(creditos, p -> true);
-//       
-//        // Add a listener to the textProperty of the combobox editor. The
-//        // listener will simply filter the list every time the input is changed
-//        // as long as the user hasn't selected an item in the list.
-////		rutaCombo.setEditable(true);
-//		
-//		rutaCombo.getSelectionModel().selectedIndexProperty().addListener((obs, oldValue, newValue) -> {
-////        rutaCombo.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-//          	
-//            	final TextField editor = rutaCombo.getEditor();
-//                final String selected = rutaCombo.getSelectionModel().getSelectedItem();
-//
-//                // If filter text is empty, display all persons.
-////                if (newValue == null || newValue.isEmpty()) {
-////                	if (newValue == null) {                	
-////                    return true;
-////                }                
-//                
-//                if (selected == null || !selected.equals(editor.getText())) {
-//                    filteredData.setPredicate(item -> {
-//                        // We return true for any items that starts with the
-//                        // same letters as the input. We use toUpperCase to
-//                        // avoid case sensitivity.
-////                        if (item.getRuta().toUpperCase().startsWith(newValue.toUpperCase())) {
-//                    	
-////                    	int test = intValue(newValue);
-//                    	int test = newValue.intValue() + 1;
-//                    	
-//                    	
-//                    	System.out.println(item.getRuta() + " - " + editor.getText());
-//                        if (item.getRuta().toUpperCase().startsWith(String.valueOf(test)) )   {                        	
-//                            return true;
-//                        } else {
-//                            return false;
-//                        }
-//                    });
-////                }
-//                
-//                
-////                // If filter text is empty, display all persons.
-////                if (newValue == null || newValue.isEmpty()) {
-////                    return true;
-////                }
-////
-////                // Compare first name and last name of every person with filter text.
-////                String lowerCaseFilter = newValue.toLowerCase();
-////
-////                if (credito.getCobrador().toLowerCase().contains(lowerCaseFilter)) {
-////                    return true; // Filter matches first name.
-//////                } else if (creditoModel.getLastName().toLowerCase().contains(lowerCaseFilter)) {
-//////                    return true; // Filter matches last name.
-////                }
-////                return false; // Does not match.
-////            });
-//        	
-////        	final TextField editor = rutaCombo.getEditor();
-////            final String selected = rutaCombo.getSelectionModel().getSelectedItem();
-//
-////            // This needs run on the GUI thread to avoid the error described
-////            // here: https://bugs.openjdk.java.net/browse/JDK-8081700.
-////            Platform.runLater(() -> {
-////                // If the no item in the list is selected or the selected item
-////                // isn't equal to the current input, we refilter the list.
-////                if (selected == null || !selected.equals(editor.getText())) {
-////                    filteredData.setPredicate(item -> {
-////                        // We return true for any items that starts with the
-////                        // same letters as the input. We use toUpperCase to
-////                        // avoid case sensitivity.
-////                        if (item.getRuta().toUpperCase().startsWith(newValue.toUpperCase())) {
-////                            return true;
-////                        } else {
-////                            return false;
-////                        }
-////                    });
-////                }
-////            });
-//                }
-//        });
-		
-		
-//        rutaCombo.getEditor().textProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//            	
-//            	
-//                previousValue = oldValue;
-//                final TextField editor = rutaCombo.getEditor();
-//                final String selected = rutaCombo.getSelectionModel().getSelectedItem();
-//
-//                if (selected == null || !selected.equals(editor.getText())) {
-////                    filterItems(newValue, currentInstance);
-//
-////                    currentInstance.show();
-////                    if (currentInstance.getItems().size() == 1) {
-////                        setUserInputToOnlyOption(currentInstance, editor);
-////                    }
-//                }
-//            }
-//        });		
-		
-//        cobradorFilter.textProperty().addListener((observable, oldValue, newValue) -> {
-//            filteredData.setPredicate(credito -> {
-//                // If filter text is empty, display all persons.
-//                if (newValue == null || newValue.isEmpty()) {
-//                    return true;
-//                }
-//
-//                // Compare first name and last name of every person with filter text.
-//                String lowerCaseFilter = newValue.toLowerCase();
-//
-//                if (credito.getCobrador().toLowerCase().contains(lowerCaseFilter)) {
-//                    return true; // Filter matches first name.
-////                } else if (creditoModel.getLastName().toLowerCase().contains(lowerCaseFilter)) {
-////                    return true; // Filter matches last name.
-//                }
-//                return false; // Does not match.
-//            });
-//        });   
-        
-        
-		// 3. Wrap the FilteredList in a SortedList. 
-//		SortedList<CreditoModel> sortedData = new SortedList<>(filteredData);
-		
-		// 4. Bind the SortedList comparator to the TableView comparator.
-		// 	  Otherwise, sorting the TableView would have no effect.
-//		sortedData.comparatorProperty().bind(creditos.comparatorProperty());
-		
-//        creditosTable = new TableView<>();
-        
-//      table.setItems(initCreditos());
-//        creditosTable.setItems(filteredData);        
-        
-		// 5. Add sorted (and filtered) data to the table.
-//		((TableView<CreditoModel>) creditos).setItems(filteredData);
-	
-		
-//	}
 	
     private void initComboRuta() {
-
-		
 		rutaFilterCombo.setItems(FXCollections.observableArrayList("1","2","3","4"));
-		
 	}
 
 	private void initColumns() {
@@ -336,9 +179,9 @@ public class MainController extends Stage {
     	creditos.add(new CreditoModel("Juan", 15, 45, 2000, 150, 45, 2000, "Miguel", "2"));
     	creditos.add(new CreditoModel("Jorge", 29, 45, 3000, 250, 45, 3000, "Luis", "1"));
     	creditos.add(new CreditoModel("Bernardo", 15, 45, 2000, 350, 45, 2000, "Ezequiel", "2"));
-    	
+
         return creditos;
-    }	
+    }
 
     public ObservableList<CreditoModel> getCreditos() {
         return creditos;

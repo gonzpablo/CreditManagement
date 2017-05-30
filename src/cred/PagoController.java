@@ -1,47 +1,43 @@
 package cred;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class PagoController {
 
 	@FXML
-	private DatePicker fechaPagoField;	
-	
-	@FXML
 	private TextField clienteField;
+	@FXML
+	private TextField montoPagadoField;
+	@FXML
+	private DatePicker fechaPagoField;		
+	@FXML
+	private Button ingresarPagoButton;
+	@FXML
+	private TableColumn<PagoModel, LocalDate> fechaColumn;
+	@FXML	
+    private TableColumn<PagoModel, Float> montoPagoColumn;	
+	@FXML
+	private TableView<PagoModel> pagosTable;
+	
+	private PagoModel pago = new PagoModel();
+
+	private CreditoModel credito;
+
+	private ObservableList<PagoModel> pagos = FXCollections.observableArrayList();	
 	
 	public PagoController() {
-		System.out.println("here");
-
-		clienteField.setText("PEpe");
-		
-	
-		
-//		// Add some action (in Java 8 lambda syntax style).
-//		fechaPagoField.setOnAction(event -> {
-//		    LocalDate date = fechaPagoField.getValue();
-//		    System.out.println("Selected date: " + date);
-//		});
-
-		
-	      LocalDateTime currentDateTime = LocalDateTime.now();
-		LocalDate date1 = currentDateTime.toLocalDate();
-//		fechaPagoField.setValue(LocalDate.of(2017,1,1));
-//		fechaPagoField.setValue(date1);
-//		fechaPagoField = date1;
-//	    System.out.println("date1: " + date1);
-	      				
+//		pagos.addAll(this.credito.getListaPagos());
 	}
 
 	public static final LocalDate LOCAL_DATE (String dateString){
@@ -57,12 +53,36 @@ public class PagoController {
 	
 	@FXML
 	private void initialize() {
-
-//		fechaPagoField = new DatePicker();
-//	      LocalDateTime currentDateTime = LocalDateTime.now();
-//		LocalDate date1 = currentDateTime.toLocalDate();
+		initColumns();
+//		clienteField.setText(this.getCliente());
 //	      
-//		fechaPagoField.setValue(date1);
+		fechaPagoField.setValue(pago.getFecha());
+		
+		pagosTable.setItems(pagos);
+		ingresarPagoButton.setOnAction((event) -> {
+		    // Button was clicked, do something...
+		    ingresarPago();
+		});		
 	}
-	
+
+	private void initColumns() {
+		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));		
+        montoPagoColumn.setCellValueFactory(new PropertyValueFactory<>("montoPago"));	
+	}
+
+	private void ingresarPago() {		
+		this.pago.setMontoPago(Float.valueOf(montoPagadoField.getText()));
+		this.pago.setFecha(fechaPagoField.getValue());
+		this.credito.agregarPago(this.pago);
+//		pagos.add(this.credito.getListaPagos());
+		pagos.add(this.pago);
+	}
+
+	public void setCredito(CreditoModel credito) {
+		this.credito = credito;
+		clienteField.setText(this.credito.getCliente());
+		pagos.addAll(this.credito.getListaPagos());
+//		pagosTable.setItems(pagos);
+	}
+
 }
