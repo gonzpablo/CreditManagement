@@ -76,6 +76,7 @@ public class PagoController {
 		this.credito.agregarPago(this.pago);
 //		pagos.add(this.credito.getListaPagos());
 		pagos.add(this.pago);
+		this.pago = new PagoModel();
 	}
 
 	public void setCredito(CreditoModel credito) {
