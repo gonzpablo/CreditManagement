@@ -1,8 +1,12 @@
 package cred;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -67,9 +71,23 @@ public class PagoController {
 
 	private void initColumns() {
 		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));		
+//		fechaColumn.setCellValueFactory( 
+//			pago -> { 
+//				SimpleStringProperty property = new SimpleStringProperty();
+//				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//				property.setValue(dateFormat.format(pago.getValue().getFecha()));
+////				return ObservableValue<>.toString(property);
+//				return property;
+//				
+//	});
         montoPagoColumn.setCellValueFactory(new PropertyValueFactory<>("montoPago"));	
 	}
 
+	private void initFields() {
+//		fechaPagoField
+		montoPagadoField.clear();
+	}
+	
 	private void ingresarPago() {		
 		this.pago.setMontoPago(Float.valueOf(montoPagadoField.getText()));
 		this.pago.setFecha(fechaPagoField.getValue());
@@ -77,6 +95,7 @@ public class PagoController {
 //		pagos.add(this.credito.getListaPagos());
 		pagos.add(this.pago);
 		this.pago = new PagoModel();
+		initFields();
 	}
 
 	public void setCredito(CreditoModel credito) {

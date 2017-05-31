@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane maxHeight="336.0" prefHeight="336.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.PagoController">
+<GridPane maxHeight="444.0" prefHeight="444.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.PagoController">
    <columnConstraints>
       <ColumnConstraints maxWidth="118.0" minWidth="99.0" prefWidth="118.0" />
       <ColumnConstraints maxWidth="195.0" minWidth="10.0" prefWidth="126.0" />
@@ -21,8 +21,7 @@
       <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="39.0" />
       <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="39.0" />
       <RowConstraints maxHeight="89.0" minHeight="10.0" prefHeight="35.0" />
-      <RowConstraints maxHeight="89.0" minHeight="0.0" prefHeight="61.0" />
-      <RowConstraints maxHeight="34.0" minHeight="0.0" prefHeight="34.0" />
+      <RowConstraints maxHeight="150.0" minHeight="0.0" prefHeight="150.0" />
    </rowConstraints>
    <children>
       <Label text="Cliente">
@@ -54,7 +53,7 @@
          </padding>
       </TextField>
       <DatePicker fx:id="fechaPagoField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <TableView fx:id="pagosTable" prefHeight="86.0" prefWidth="390.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
+      <TableView fx:id="pagosTable" prefHeight="142.0" prefWidth="390.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
         <columns>
           <TableColumn fx:id="fechaColumn" prefWidth="119.0" text="Fecha Pago" />
           <TableColumn fx:id="montoPagoColumn" prefWidth="113.0" text="Monto Pagado" />
