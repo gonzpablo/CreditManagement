@@ -77,7 +77,12 @@ public class MainController extends Stage {
 	
 	@FXML
 	private void initialize() {
-		
+
+        rutaFilterCombo.setOnAction(e -> { 	calc();  });
+//      cobradorFilterField.setOnAction(e -> { calc(); });
+//      cobradorFilterField.setOnInputMethodTextChanged(e -> { calc(); });
+        cobradorFilterField.setOnKeyPressed(e -> { calc(); });		
+		cobradorFilterField.setOnAction(e -> { calc(); });
 		initColumns();
 		initComboRuta();
 		
@@ -107,8 +112,7 @@ public class MainController extends Stage {
             cobradorFilterField.clear();           
         });        
     
-        rutaFilterCombo.setOnAction(e -> { 	calc();  });
-        
+       
 //		Doble-click        
         creditosTable.setRowFactory( tv -> {
         	
@@ -123,8 +127,9 @@ public class MainController extends Stage {
                 }
             });
             return row;
-        });           
+        });
         
+                
 	}
 
 	private void pago(CreditoModel rowData, TableRow<CreditoModel> row) {
@@ -149,13 +154,13 @@ public class MainController extends Stage {
 		float sumaCuotaPura = 0,
 			  sumaGciaXDia = 0;
 
-		for ( CreditoModel cred : filteredItems ) {
-			
+		for ( CreditoModel cred : filteredItems ) {			
 			sumaCuotaPura+=cred.getMontoCuota();
 			sumaGciaXDia+=cred.getGciaXDia();
-        	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
-        	gciaDiaField.setText(String.valueOf(sumaGciaXDia));
         }		
+		
+    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
+    	gciaDiaField.setText(String.valueOf(sumaGciaXDia));		
 	}
 	
     private void initComboRuta() {
@@ -163,7 +168,7 @@ public class MainController extends Stage {
 	}
 
 	private void initColumns() {
-		clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));		
+		clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
         montoCuotaColumn.setCellValueFactory(new PropertyValueFactory<>("montoCuota"));
         gciaXDiaColumn.setCellValueFactory(new PropertyValueFactory<>("gciaXDia"));                
         saldoCapitalColumn.setCellValueFactory(new PropertyValueFactory<>("saldoCapital"));
