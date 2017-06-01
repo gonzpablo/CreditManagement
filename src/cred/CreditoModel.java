@@ -4,12 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class CreditoModel {
 
-//	private final StringProperty cliente;
 	private String cliente;
 	private int cantDias;
 	private float tasaInt;
@@ -75,6 +71,8 @@ public class CreditoModel {
 			if ( pago.getFecha().equals(fechaFiltro) )
 				montoCuotaPura+= pago.getMontoPago();
 
+		this.setMontoCuota(montoCuotaPura);
+		
 		return montoCuotaPura;		
 	}
 
@@ -90,13 +88,17 @@ public class CreditoModel {
 		
 		float cuotaCapital = this.getMontoCredito() / this.getCantDias();		
 //		montoCuota = cuotaCapital + ( cuotaCapital * ( Float.valueOf(fldTasaInt.getText()) / 100 )); //Float.valueOf("100") ));		
-		
+		float montoPagado = 0;		
 		float gciaXDia = 0;
+		
 		
 		for ( PagoModel pago: listaPagos ) 
 			if ( pago.getFecha().equals(fechaFiltro) )
-				gciaXDia = pago.getMontoPago() - cuotaCapital;		
+				montoPagado+= pago.getMontoPago();
 	
+		if (montoPagado > 0)
+			gciaXDia = montoPagado - cuotaCapital;		
+		
 		this.setGciaXDia(gciaXDia);
 		
 		return gciaXDia;

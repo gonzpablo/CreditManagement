@@ -21,9 +21,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainController extends Stage {
+public class MainController {
 
 	@FXML
 	private TableView<CreditoModel> creditosTable;
@@ -125,36 +126,27 @@ public class MainController extends Stage {
             rutaFilterCombo.setValue(null);
             cobradorFilterCombo.setValue(null);
             fechaFilterField.setValue(null);
-        });        
-    
-       
+        });
+
 //		Doble-click        
         creditosTable.setRowFactory( tv -> {
-        	
+
             TableRow<CreditoModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-            	
+
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     CreditoModel rowData = row.getItem();
 //                    System.out.println(rowData.getCliente());
-                    
+
                     pago(rowData, row);
                 }
             });
             return row;
-        });                        
+        });
 	}
 
-	private void calcPagos() {
+	public void calcPagos() {
 		
-//		Refresh tableview content al seleccionar fecha filtro
-//		creditosTable.getColumns().get(0).setVisible(false);
-//		creditosTable.getColumns().get(0).setVisible(true);
-		
-		creditosTable.refresh();
-		
-		System.out.println("fecha_pagos");
-
 		float sumaCuotaPura = 0,
 			  sumaGciaXDia = 0;
 
@@ -165,7 +157,8 @@ public class MainController extends Stage {
 			
     	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
     	gciaDiaField.setText(String.valueOf(sumaGciaXDia));				
-		
+
+		creditosTable.refresh();
 	}
 
 	private void pago(CreditoModel rowData, TableRow<CreditoModel> row) {
@@ -174,13 +167,19 @@ public class MainController extends Stage {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("Pago.fxml"));
             GridPane page = (GridPane) loader.load();
             PagoController controller = loader.<PagoController>getController();
-//            rowData.agregarPago(new PagoModel());
-            controller.setCredito(rowData);
-//            System.out.println(rowData.getCliente());
-//            rowData.agregarPago(new PagoModel());
+
+            controller.setCredito(rowData, creditos);
+            controller.setMainController(this);            
+            
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Gestionar Pagos");
+          
             Scene scene = new Scene(page);
-            setScene(scene);
-            show();
+
+            stage.setScene(scene);
+            stage.show();
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -224,11 +223,15 @@ public class MainController extends Stage {
     	creditos.add(new CreditoModel("Juan", 15, 45, 2000, 150, 2000, "Miguel", "2"));
     	creditos.add(new CreditoModel("Jorge", 29, 45, 3000, 250, 3000, "Luis", "1"));
     	creditos.add(new CreditoModel("Bernardo", 15, 45, 2000, 350, 2000, "Ezequiel", "2"));
-    	System.out.println("initCreditos");
+
         return creditos;
     }
 
     public ObservableList<CreditoModel> getCreditos() {
         return creditos;
-      }
+    }
+    
+    public void refreshTableView() {
+    	creditosTable.refresh();
+    }
 }

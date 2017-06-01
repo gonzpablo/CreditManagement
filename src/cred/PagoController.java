@@ -1,12 +1,8 @@
 package cred;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,9 +35,12 @@ public class PagoController {
 	private CreditoModel credito;
 
 	private ObservableList<PagoModel> pagos = FXCollections.observableArrayList();	
-	
+
+	private MainController mainController;
+
+		
 	public PagoController() {
-//		pagos.addAll(this.credito.getListaPagos());
+		
 	}
 
 	public static final LocalDate LOCAL_DATE (String dateString){
@@ -92,17 +91,21 @@ public class PagoController {
 		this.pago.setMontoPago(Float.valueOf(montoPagadoField.getText()));
 		this.pago.setFecha(fechaPagoField.getValue());
 		this.credito.agregarPago(this.pago);
-//		pagos.add(this.credito.getListaPagos());
+
 		pagos.add(this.pago);
 		this.pago = new PagoModel();
 		initFields();
+
+		this.mainController.calcPagos();
 	}
 
-	public void setCredito(CreditoModel credito) {
+	public void setCredito(CreditoModel credito, ObservableList<CreditoModel> creditosTab) {
 		this.credito = credito;
 		clienteField.setText(this.credito.getCliente());
 		pagos.addAll(this.credito.getListaPagos());
-//		pagosTable.setItems(pagos);
 	}
 
+	public void setMainController(MainController mainController) {
+		this.mainController = mainController;
+	}
 }
