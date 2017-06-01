@@ -103,10 +103,6 @@ public class MainController extends Stage {
         ObjectProperty<Predicate<CreditoModel>> cobradorFilter = new SimpleObjectProperty<>();
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();		
 	
-//		cobradorFilter.bind(Bindings.createObjectBinding(() -> 
-//        credito -> credito.getCobrador().toLowerCase().contains(cobradorFilterField.getText().toLowerCase()), 
-//        cobradorFilterField.textProperty()));
-		
         cobradorFilter.bind(Bindings.createObjectBinding(() ->
         credito -> cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(), 
         cobradorFilterCombo.valueProperty()));				
@@ -150,19 +146,25 @@ public class MainController extends Stage {
 	}
 
 	private void calcPagos() {
+		
+//		Refresh tableview content al seleccionar fecha filtro
+//		creditosTable.getColumns().get(0).setVisible(false);
+//		creditosTable.getColumns().get(0).setVisible(true);
+		
+		creditosTable.refresh();
+		
 		System.out.println("fecha_pagos");
-
 
 		float sumaCuotaPura = 0,
 			  sumaGciaXDia = 0;
 
 			for ( CreditoModel cred : filteredItems ) {
 				sumaCuotaPura+=cred.getMontoCuota(fechaFilterField.getValue());
-//				sumaGciaXDia+=cred.getGciaXDia();
+				sumaGciaXDia+=cred.getGciaXDia(fechaFilterField.getValue());
 			}
 			
     	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
-//    	gciaDiaField.setText(String.valueOf(sumaGciaXDia));				
+    	gciaDiaField.setText(String.valueOf(sumaGciaXDia));				
 		
 	}
 
@@ -218,11 +220,11 @@ public class MainController extends Stage {
 	}
 
     public ObservableList<CreditoModel> initCreditos(){
-    	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, 150, 45, 3000, "Luis", "1"));
-    	creditos.add(new CreditoModel("Juan", 15, 45, 2000, 150, 45, 2000, "Miguel", "2"));
-    	creditos.add(new CreditoModel("Jorge", 29, 45, 3000, 250, 45, 3000, "Luis", "1"));
-    	creditos.add(new CreditoModel("Bernardo", 15, 45, 2000, 350, 45, 2000, "Ezequiel", "2"));
-
+    	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, 150, 3000, "Luis", "1"));
+    	creditos.add(new CreditoModel("Juan", 15, 45, 2000, 150, 2000, "Miguel", "2"));
+    	creditos.add(new CreditoModel("Jorge", 29, 45, 3000, 250, 3000, "Luis", "1"));
+    	creditos.add(new CreditoModel("Bernardo", 15, 45, 2000, 350, 2000, "Ezequiel", "2"));
+    	System.out.println("initCreditos");
         return creditos;
     }
 
