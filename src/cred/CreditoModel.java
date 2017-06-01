@@ -24,8 +24,7 @@ public class CreditoModel {
 	
 	
 //	Hacer un constructor que pase solo Cliente, cantDias, Monto y tasa y que calcule el resto?	
-	public CreditoModel(String cliente, int cantDias, float tasaInt,
-						float montoCredito, float montoCuota, float saldoCapital, String cobrador, String ruta) {
+	public CreditoModel(String cliente, int cantDias, float tasaInt, float montoCredito, String cobrador, String ruta) {
 
 //		this.cliente = new SimpleStringProperty(cliente);			
 		this.cliente = cliente;
@@ -34,11 +33,16 @@ public class CreditoModel {
 		this.montoCredito = montoCredito;
 //		this.valorCuota = montoCuota;
 		this.cobrador = cobrador;
-		this.saldoCapital = saldoCapital;
+//		this.saldoCapital = saldoCapital;
 		this.ruta = ruta;
 		this.valorCuota = this.montoCredito * (1 + ( this.tasaInt / 100 )) / this.cantDias;
 		calcularMontoAcumulado();
 		calcularCuotasPagas();
+		calcularSaldoCapital();
+	}
+
+	public void calcularSaldoCapital() {
+		this.saldoCapital = this.montoCredito - this.montoCuotaAcumulado;		
 	}
 
 	public int getCantDias() {

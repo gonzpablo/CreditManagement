@@ -84,6 +84,7 @@ public class PagoController {
 	private void initFields() {
 //		fechaPagoField
 		montoPagadoField.clear();
+		this.montoPagadoField.setText(Float.toString(this.credito.getValorCuota()));		
 	}
 	
 	private void ingresarPago() {		
@@ -96,6 +97,7 @@ public class PagoController {
 		initFields();
 		credito.calcularMontoAcumulado();
 		credito.calcularCuotasPagas();
+		credito.calcularSaldoCapital();
 		this.mainController.calcPagos();
 	}
 
@@ -103,6 +105,8 @@ public class PagoController {
 		this.credito = credito;
 		clienteField.setText(this.credito.getCliente());
 		pagos.addAll(this.credito.getListaPagos());
+
+		this.montoPagadoField.setText(Float.toString(this.credito.getValorCuota()));
 	}
 
 	public void setMainController(MainController mainController) {

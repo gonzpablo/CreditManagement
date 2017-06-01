@@ -45,9 +45,6 @@ public class CreditCreateView extends CreditView implements EventHandler<ActionE
 	      											Integer.valueOf(this.fldCantDias.getText()),
 	      											Float.valueOf(fldTasaInt.getText()),
 	      											Float.valueOf(fldMontoCred.getText()),	      											
-	      											Float.valueOf(fldMontoCuota.getText()),
-//	      											Float.valueOf(fldGciaXDia.getText()),
-	      											Float.valueOf(fldMontoCred.getText()),
 	      											this.fldCobrador.getText().toString(),
 	      											"1"));
 	      	this.close();

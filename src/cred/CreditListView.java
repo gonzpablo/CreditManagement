@@ -209,8 +209,8 @@ public class CreditListView extends Application implements EventHandler<ActionEv
     
     //Get all of the products
     public ObservableList<CreditoModel> initCreditos(){
-    	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, 150, 3000, "Luis", "1"));
-    	creditos.add(new CreditoModel("Juan", 15, 45, 2000, 150, 2000, "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, "Luis", "1"));
+    	creditos.add(new CreditoModel("Juan", 15, 45, 2000, "Miguel", "2"));
     	
         return creditos;
     }
