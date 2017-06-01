@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -23,41 +24,54 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class MainController extends Stage {
-	
-	@FXML
-	private TextField cobradorFilterField;
+
 	@FXML
 	private TableView<CreditoModel> creditosTable;
+//  -------------------------------------------------------------------
+//  Columnas tabla
+//  -------------------------------------------------------------------	
 	@FXML
 	private TableColumn<CreditoModel, String> clienteColumn;
 	@FXML	
-    private TableColumn<CreditoModel, Float> montoCuotaColumn;	
+	private TableColumn<CreditoModel, Float> montoCuotaColumn;	
 	@FXML	
-    private TableColumn<CreditoModel, Float> gciaXDiaColumn;	
+	private TableColumn<CreditoModel, Float> gciaXDiaColumn;
 	@FXML	
-    private TableColumn<CreditoModel, Float> saldoCapitalColumn;   
+	private TableColumn<CreditoModel, Float> saldoCapitalColumn;
 	@FXML	
-    private TableColumn<CreditoModel, Float> montoCreditoColumn;	    
+	private TableColumn<CreditoModel, Float> montoCreditoColumn;
 	@FXML	
-    private TableColumn<CreditoModel, Integer> cuotasPagasColumn;    
+	private TableColumn<CreditoModel, Integer> cuotasPagasColumn;
 	@FXML	
-    private TableColumn<CreditoModel, Integer> cantDiasColumn;    
+	private TableColumn<CreditoModel, Integer> cantDiasColumn;
 	@FXML	
-    private TableColumn<CreditoModel, String> cobradorColumn;
+	private TableColumn<CreditoModel, String> cobradorColumn;
 	@FXML	
-    private TableColumn<CreditoModel, String> rutaColumn;	
+	private TableColumn<CreditoModel, String> rutaColumn;
+//  -------------------------------------------------------------------
+//  Filtros	
+//  -------------------------------------------------------------------	
 	@FXML
 	private ComboBox<String> rutaFilterCombo;
 	@FXML
+	private ComboBox<String> cobradorFilterCombo;
+	@FXML
+	private DatePicker fechaFilterField;
+//  -------------------------------------------------------------------	
+	@FXML
 	private Button btnCleanFilters;
 
+//  -------------------------------------------------------------------
+//  Sumarizadores
+//  -------------------------------------------------------------------
 	@FXML
 	private TextField cuotaPuraField;
 	@FXML
 	private TextField gciaDiaField;
+//  -------------------------------------------------------------------
 	
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
-	
+
 	private FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
 
 	
@@ -79,19 +93,23 @@ public class MainController extends Stage {
 	private void initialize() {
 
         rutaFilterCombo.setOnAction(e -> { 	calc();  });
-//      cobradorFilterField.setOnAction(e -> { calc(); });
-//      cobradorFilterField.setOnInputMethodTextChanged(e -> { calc(); });
-        cobradorFilterField.setOnKeyPressed(e -> { calc(); });		
-		cobradorFilterField.setOnAction(e -> { calc(); });
+        cobradorFilterCombo.setOnAction(e -> { calc(); });
+        fechaFilterField.setOnAction(e -> { calcPagos(); } );
+        
 		initColumns();
+		initComboCobrador();
 		initComboRuta();
-		
+				
         ObjectProperty<Predicate<CreditoModel>> cobradorFilter = new SimpleObjectProperty<>();
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();		
 	
-		cobradorFilter.bind(Bindings.createObjectBinding(() -> 
-        credito -> credito.getCobrador().toLowerCase().contains(cobradorFilterField.getText().toLowerCase()), 
-        cobradorFilterField.textProperty()));
+//		cobradorFilter.bind(Bindings.createObjectBinding(() -> 
+//        credito -> credito.getCobrador().toLowerCase().contains(cobradorFilterField.getText().toLowerCase()), 
+//        cobradorFilterField.textProperty()));
+		
+        cobradorFilter.bind(Bindings.createObjectBinding(() ->
+        credito -> cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(), 
+        cobradorFilterCombo.valueProperty()));				
 		
         rutaFilter.bind(Bindings.createObjectBinding(() ->
         credito -> rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(), 
@@ -109,7 +127,8 @@ public class MainController extends Stage {
         
         btnCleanFilters.setOnAction(e -> {
             rutaFilterCombo.setValue(null);
-            cobradorFilterField.clear();           
+            cobradorFilterCombo.setValue(null);
+            fechaFilterField.setValue(null);
         });        
     
        
@@ -127,9 +146,24 @@ public class MainController extends Stage {
                 }
             });
             return row;
-        });
-        
-                
+        });                        
+	}
+
+	private void calcPagos() {
+		System.out.println("fecha_pagos");
+
+
+		float sumaCuotaPura = 0,
+			  sumaGciaXDia = 0;
+
+			for ( CreditoModel cred : filteredItems ) {
+				sumaCuotaPura+=cred.getMontoCuota(fechaFilterField.getValue());
+//				sumaGciaXDia+=cred.getGciaXDia();
+			}
+			
+    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
+//    	gciaDiaField.setText(String.valueOf(sumaGciaXDia));				
+		
 	}
 
 	private void pago(CreditoModel rowData, TableRow<CreditoModel> row) {
@@ -165,6 +199,10 @@ public class MainController extends Stage {
 	
     private void initComboRuta() {
 		rutaFilterCombo.setItems(FXCollections.observableArrayList("1","2","3","4"));
+	}
+
+    private void initComboCobrador() {
+		cobradorFilterCombo.setItems(FXCollections.observableArrayList("Luis","Miguel", "Ezequiel"));
 	}
 
 	private void initColumns() {

@@ -35,14 +35,11 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="cobradorFilterField">
+                  <ComboBox fx:id="cobradorFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </TextField>
+                  </ComboBox>
                   <Label text="Ruta">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -58,7 +55,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <DatePicker prefWidth="110.0" />
+                  <DatePicker fx:id="fechaFilterField" prefWidth="110.0" />
                   <Button id="btnCleanFilters" fx:id="btnCleanFilters" mnemonicParsing="false" text="Limpiar Filtros">
                      <HBox.margin>
                         <Insets left="250.0" />

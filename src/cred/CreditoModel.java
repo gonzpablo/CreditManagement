@@ -1,5 +1,6 @@
 package cred;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,18 @@ public class CreditoModel {
 
 	public float getMontoCuota() {
 		return montoCuota;
+	}
+	
+	public float getMontoCuota(LocalDate fechaFiltro) {
+		
+		float montoCuotaPura = 0;
+		
+		for ( PagoModel pago: listaPagos ) 
+
+			if ( pago.getFecha().equals(fechaFiltro) )
+				montoCuotaPura+= pago.getMontoPago();
+
+		return montoCuotaPura;		
 	}
 
 	public void setMontoCuota(float montoCuota) {
