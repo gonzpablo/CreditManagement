@@ -9,8 +9,12 @@ public class CreditoModel {
 	private String cliente;
 	private int cantDias;
 	private float tasaInt;
+	
 	private float montoCredito;
-	private float montoCuota;
+	private float valorCuota;  // Monto credito * interes / cant. dias
+	private float montoCuota;  // Monto pagado un día determinado
+	private float montoCuotaAcumulado;
+	
 	private float gciaXDia;
 	private int cuotasPagas;
 	private String cobrador;
@@ -28,10 +32,13 @@ public class CreditoModel {
 		this.cantDias = cantDias;
 		this.tasaInt = tasaInt;
 		this.montoCredito = montoCredito;
-		this.montoCuota = montoCuota;
+//		this.valorCuota = montoCuota;
 		this.cobrador = cobrador;
 		this.saldoCapital = saldoCapital;
 		this.ruta = ruta;
+		this.valorCuota = this.montoCredito * (1 + ( this.tasaInt / 100 )) / this.cantDias;
+		calcularMontoAcumulado();
+		calcularCuotasPagas();
 	}
 
 	public int getCantDias() {
@@ -146,6 +153,22 @@ public class CreditoModel {
 	public String getRuta() {
 		return ruta;
 	}
+	
+	public float getValorCuota() {
+		return valorCuota;
+	}
+
+	public void setValorCuota(float valorCuota) {
+		this.valorCuota = valorCuota;
+	}
+
+	public float getMontoCuotaAcumulado() {
+		return montoCuotaAcumulado;
+	}
+
+	public void setMontoCuotaAcumulado(float montoCuotaAcumulado) {
+		this.montoCuotaAcumulado = montoCuotaAcumulado;
+	}
 
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
@@ -157,5 +180,19 @@ public class CreditoModel {
 	
 	public void agregarPago(PagoModel pago) {
 		listaPagos.add(pago);
+	}
+	
+	public void calcularMontoAcumulado() {
+
+		float montoAcumulado = 0;
+		
+		for ( PagoModel pago: listaPagos ) 
+			montoAcumulado+= pago.getMontoPago();
+
+		this.setMontoCuotaAcumulado(montoAcumulado);				
+	}
+	
+	public void calcularCuotasPagas() {
+		this.cuotasPagas = (int) Math.floor((double)this.montoCuotaAcumulado / this.valorCuota);
 	}
 }

@@ -38,9 +38,9 @@ public class PagoController {
 
 	private MainController mainController;
 
-		
+
 	public PagoController() {
-		
+
 	}
 
 	public static final LocalDate LOCAL_DATE (String dateString){
@@ -48,17 +48,16 @@ public class PagoController {
 	    LocalDate localDate = LocalDate.parse(dateString, formatter);
 	    return localDate;
 	}
-	
+
 	/**
 	 * Initializes the controller class. This method is automatically called
 	 * after the fxml file has been loaded.
 	 */
-	
+
 	@FXML
 	private void initialize() {
 		initColumns();
-//		clienteField.setText(this.getCliente());
-//	      
+	      
 		fechaPagoField.setValue(pago.getFecha());
 		
 		pagosTable.setItems(pagos);
@@ -95,7 +94,8 @@ public class PagoController {
 		pagos.add(this.pago);
 		this.pago = new PagoModel();
 		initFields();
-
+		credito.calcularMontoAcumulado();
+		credito.calcularCuotasPagas();
 		this.mainController.calcPagos();
 	}
 

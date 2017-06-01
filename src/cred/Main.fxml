@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.MainController">
    <children>
       <MenuBar>
         <menus>
@@ -71,7 +71,9 @@
       <TableView fx:id="creditosTable" maxWidth="1.7976931348623157E308" prefHeight="328.0" prefWidth="648.0" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="clienteColumn" prefWidth="75.0" text="Cliente" />
+            <TableColumn fx:id="valorCuotaColumn" prefWidth="75.0" text="Valor Cuota" />
           <TableColumn fx:id="montoCuotaColumn" prefWidth="45.0" text="Monto Cuota" />
+            <TableColumn fx:id="montoCuotaAcumuladoColumn" prefWidth="75.0" text="Monto Acumulado" />
             <TableColumn fx:id="gciaXDiaColumn" prefWidth="100.0" text="Gcia. X Día" />
             <TableColumn fx:id="saldoCapitalColumn" prefWidth="84.0" text="Saldo Capital" />
             <TableColumn fx:id="montoCreditoColumn" prefWidth="74.0" text="Monto Crédito" />

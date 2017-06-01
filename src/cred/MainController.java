@@ -34,7 +34,11 @@ public class MainController {
 	@FXML
 	private TableColumn<CreditoModel, String> clienteColumn;
 	@FXML	
-	private TableColumn<CreditoModel, Float> montoCuotaColumn;	
+	private TableColumn<CreditoModel, Float> valorCuotaColumn;	
+	@FXML	
+	private TableColumn<CreditoModel, Float> montoCuotaColumn;
+	@FXML	
+	private TableColumn<CreditoModel, Float> montoCuotaAcumuladoColumn;		
 	@FXML	
 	private TableColumn<CreditoModel, Float> gciaXDiaColumn;
 	@FXML	
@@ -157,7 +161,7 @@ public class MainController {
 			
     	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
     	gciaDiaField.setText(String.valueOf(sumaGciaXDia));				
-
+    	
 		creditosTable.refresh();
 	}
 
@@ -208,7 +212,12 @@ public class MainController {
 
 	private void initColumns() {
 		clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
+		
+		
+		valorCuotaColumn.setCellValueFactory(new PropertyValueFactory<>("valorCuota"));
         montoCuotaColumn.setCellValueFactory(new PropertyValueFactory<>("montoCuota"));
+        montoCuotaAcumuladoColumn.setCellValueFactory(new PropertyValueFactory<>("montoCuotaAcumulado"));
+//        montoCuotaColumn.setCellValueFactory(cellData -> cellData.getValue().getMontoCuota().asObject());                
         gciaXDiaColumn.setCellValueFactory(new PropertyValueFactory<>("gciaXDia"));                
         saldoCapitalColumn.setCellValueFactory(new PropertyValueFactory<>("saldoCapital"));
         montoCreditoColumn.setCellValueFactory(new PropertyValueFactory<>("montoCredito"));               
