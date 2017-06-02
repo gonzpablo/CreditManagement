@@ -20,6 +20,8 @@ public class PagoController {
 	@FXML
 	private TextField montoPagadoField;
 	@FXML
+	private TextField cuotasPagadasField;		
+	@FXML
 	private DatePicker fechaPagoField;		
 	@FXML
 	private Button ingresarPagoButton;
@@ -58,6 +60,8 @@ public class PagoController {
 	private void initialize() {
 		initColumns();
 	      
+		
+		
 		fechaPagoField.setValue(pago.getFecha());
 		
 		pagosTable.setItems(pagos);
