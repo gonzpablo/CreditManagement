@@ -3,6 +3,7 @@ package cred;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -60,8 +61,6 @@ public class PagoController {
 	private void initialize() {
 		initColumns();
 	      
-		
-		
 		fechaPagoField.setValue(pago.getFecha());
 		
 		pagosTable.setItems(pagos);
