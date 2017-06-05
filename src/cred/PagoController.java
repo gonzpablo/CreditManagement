@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -59,8 +62,12 @@ public class PagoController {
 
 	@FXML
 	private void initialize() {
-		initColumns();
-	      
+
+		initColumns();		
+
+
+		
+		
 		fechaPagoField.setValue(pago.getFecha());
 		
 		pagosTable.setItems(pagos);
@@ -110,6 +117,41 @@ public class PagoController {
 		pagos.addAll(this.credito.getListaPagos());
 
 		this.montoPagadoField.setText(Float.toString(this.credito.getValorCuota()));
+		
+		
+		
+//
+		
+		StringProperty monto = new SimpleStringProperty();		
+		
+		System.out.println(montoPagadoField.textProperty().getValue().length());
+		if ( montoPagadoField.textProperty().getValue().length() == 0 ) {
+		
+		} else {
+			
+ 
+//		monto.bind(montoPagadoField.textProperty());
+//		monto.setValue();
+//		monto.setValue(String.valueOf(this.credito.getValorCuota() * 10));
+		
+		
+		System.out.println(monto.getValue());
+		}
+//		montoPagadoField.textProperty().get
+		cuotasPagadasField.textProperty().bind(Bindings.multiply(5, montoPagadoField.textProperty().getValue())));		
+		
+		
+		
+		
+//		private IntegerProperty totalCents = new SimpleIntegerProperty();
+
+//		and then you can let your display bind its text to a formatted version of that property:
+
+//		display.textProperty().bind(totalCents.divide(100.0).asString("$ %.2f"));		
+		
+		//
+		
+		
 	}
 
 	public void setMainController(MainController mainController) {
