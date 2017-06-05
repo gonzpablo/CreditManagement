@@ -64,19 +64,40 @@ public class PagoController {
 	private void initialize() {
 
 		initColumns();		
-
-
-		
 		
 		fechaPagoField.setValue(pago.getFecha());
 		
 		pagosTable.setItems(pagos);
+		
+		montoPagadoField.setOnKeyReleased( (event) -> {			
+			actualizarCuotasPagadasField();
+		});
+		
+		cuotasPagadasField.setOnKeyReleased( (event) -> {
+			actualizarMontoPagadoField();
+		});
+		
 		ingresarPagoButton.setOnAction((event) -> {
 		    // Button was clicked, do something...
 		    ingresarPago();
 		});		
 	}
 
+	private void actualizarMontoPagadoField() {
+		montoPagadoField.setText(String.valueOf(credito.calcularMontoSegunCuota(Integer.valueOf(cuotasPagadasField.textProperty().getValue()))));		
+	}
+	
+	private void actualizarCuotasPagadasField() {
+		
+		if (montoPagadoField.textProperty().getValue().length() == 0)
+			return;
+	
+		credito.setMontoCuota(Float.valueOf(montoPagadoField.textProperty().getValue()));
+			
+//		cuotasPagadasField.setText(montoPagadoField.textProperty().getValue());
+		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasSegunMonto()));
+	};	
+	
 	private void initColumns() {
 		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));		
 //		fechaColumn.setCellValueFactory( 
@@ -118,30 +139,23 @@ public class PagoController {
 
 		this.montoPagadoField.setText(Float.toString(this.credito.getValorCuota()));
 		
-		
-		
-//
-		
+/*		
 		StringProperty monto = new SimpleStringProperty();		
 		
 		System.out.println(montoPagadoField.textProperty().getValue().length());
+		
 		if ( montoPagadoField.textProperty().getValue().length() == 0 ) {
 		
-		} else {
-			
+		} else {		
  
-//		monto.bind(montoPagadoField.textProperty());
-//		monto.setValue();
-//		monto.setValue(String.valueOf(this.credito.getValorCuota() * 10));
-		
-		
-		System.out.println(monto.getValue());
+			monto.bind(montoPagadoField.textProperty());
+			monto.setValue();
+			monto.setValue(String.valueOf(this.credito.getValorCuota() * 10));
+				
+			System.out.println(monto.getValue());
 		}
 //		montoPagadoField.textProperty().get
 		cuotasPagadasField.textProperty().bind(Bindings.multiply(5, montoPagadoField.textProperty().getValue())));		
-		
-		
-		
 		
 //		private IntegerProperty totalCents = new SimpleIntegerProperty();
 
@@ -149,9 +163,7 @@ public class PagoController {
 
 //		display.textProperty().bind(totalCents.divide(100.0).asString("$ %.2f"));		
 		
-		//
-		
-		
+*/				
 	}
 
 	public void setMainController(MainController mainController) {

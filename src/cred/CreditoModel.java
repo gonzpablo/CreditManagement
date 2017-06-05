@@ -199,4 +199,12 @@ public class CreditoModel {
 	public void calcularCuotasPagas() {
 		this.cuotasPagas = (int) Math.floor((double)this.montoCuotaAcumulado / this.valorCuota);
 	}
+		
+	public int calcularCuotasSegunMonto() {
+		return (int) Math.floor((double)this.montoCuota / this.valorCuota);
+	}
+	
+	public float calcularMontoSegunCuota(int cantCuotas) {
+		return (float) cantCuotas * this.valorCuota;
+	}	
 }
