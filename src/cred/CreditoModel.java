@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+//http://www.opentaps.org/docs/index.php/How_to_Use_Java_BigDecimal:_A_Tutorial
+
 public class CreditoModel {
 
 	private String cliente;
@@ -22,27 +24,36 @@ public class CreditoModel {
 	private float saldoCapital;
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
-	
-//	Hacer un constructor que pase solo Cliente, cantDias, Monto y tasa y que calcule el resto?	
 	public CreditoModel(String cliente, int cantDias, float tasaInt, float montoCredito, String cobrador, String ruta) {
-
-//		this.cliente = new SimpleStringProperty(cliente);			
+		
 		this.cliente = cliente;
 		this.cantDias = cantDias;
 		this.tasaInt = tasaInt;
 		this.montoCredito = montoCredito;
-//		this.valorCuota = montoCuota;
 		this.cobrador = cobrador;
-//		this.saldoCapital = saldoCapital;
 		this.ruta = ruta;
-		this.valorCuota = this.montoCredito * (1 + ( this.tasaInt / 100 )) / this.cantDias;
+//		this.valorCuota = this.montoCredito * (1 + ( this.tasaInt / 100 )) / this.cantDias;
+//		this.valorCuota = this.getCostoTotalCredito() / this.cantDias;
+		this.valorCuota = calcularValorCuota();
 		calcularMontoAcumulado();
 		calcularCuotasPagas();
 		calcularSaldoCapital();
 	}
 
+	private float calcularValorCuota() {
+		return getCostoTotalCredito() / cantDias;
+	}
+
 	public void calcularSaldoCapital() {
-		this.saldoCapital = this.montoCredito - this.montoCuotaAcumulado;		
+		
+		float saldo; 
+				
+		saldo = this.montoCredito - this.montoCuotaAcumulado;
+		
+		if (saldo < 0)
+			this.saldoCapital = 0;
+		else
+			this.saldoCapital = saldo;
 	}
 
 	public int getCantDias() {
@@ -94,24 +105,22 @@ public class CreditoModel {
 	public float getGciaXDia() {
 		return gciaXDia;		
 	}
-	
+
 	public float getGciaXDia(LocalDate fechaFiltro) {
-		
-		float cuotaCapital = this.getMontoCredito() / this.getCantDias();		
-//		montoCuota = cuotaCapital + ( cuotaCapital * ( Float.valueOf(fldTasaInt.getText()) / 100 )); //Float.valueOf("100") ));		
-		float montoPagado = 0;		
+
+		float cuotaCapital = this.getMontoCredito() / this.getCantDias();
+		float montoPagado = 0;
 		float gciaXDia = 0;
-		
-		
+
 		for ( PagoModel pago: listaPagos ) 
 			if ( pago.getFecha().equals(fechaFiltro) )
 				montoPagado+= pago.getMontoPago();
-	
+
 		if (montoPagado > 0)
-			gciaXDia = montoPagado - cuotaCapital;		
-		
+			gciaXDia = montoPagado - cuotaCapital;
+
 		this.setGciaXDia(gciaXDia);
-		
+
 		return gciaXDia;
 	}
 
@@ -120,13 +129,10 @@ public class CreditoModel {
 	}
 
 	public String getCliente() {
-//		return cliente.get();
 		return cliente;
 	}
 
 	public void setCliente(String cliente) {
-//		this.clienteColumn = cliente;
-//		this.cliente.set(cliente);
 		this.cliente = cliente;
 	}
 
@@ -193,18 +199,40 @@ public class CreditoModel {
 		for ( PagoModel pago: listaPagos ) 
 			montoAcumulado+= pago.getMontoPago();
 
-		this.setMontoCuotaAcumulado(montoAcumulado);				
+		this.setMontoCuotaAcumulado(montoAcumulado);
 	}
-	
+
 	public void calcularCuotasPagas() {
-		this.cuotasPagas = (int) Math.floor((double)this.montoCuotaAcumulado / this.valorCuota);
-	}
 		
-	public int calcularCuotasSegunMonto() {
-		return (int) Math.floor((double)this.montoCuota / this.valorCuota);
+		//this.cuotasPagas = (int) Math.floor((double)this.montoCuotaAcumulado / this.valorCuota);
+		//System.out.println((double)this.montoCuotaAcumulado / this.valorCuota);
+		this.cuotasPagas = (int) Math.round((double)this.montoCuotaAcumulado / this.valorCuota);
+	}
+
+	public int calcularCuotasAPagarSegunMonto() {
+//		Segun el monto a pagar calcula la cantidad de cuotas que representa.
+//		Si el monto de cuota a pagar es cero, devuelve 0		
+		
+		if ( montoCuota == 0)
+			return 0;
+		else
+			return (int) Math.floor((double)this.montoCuota / this.valorCuota);
 	}
 	
 	public float calcularMontoSegunCuota(int cantCuotas) {
-		return (float) cantCuotas * this.valorCuota;
-	}	
+		return (float) cantCuotas * valorCuota;
+	}
+	
+	private float getCostoTotalCredito() {
+		return montoCredito * (1 + ( tasaInt / 100 ));
+	}
+	
+	public boolean validarMontoAPagar(float monto) {
+		boolean result = true;
+		
+		if ( montoCuotaAcumulado + monto > this.getCostoTotalCredito() )
+			result = false;
+
+		return result;
+	}
 }

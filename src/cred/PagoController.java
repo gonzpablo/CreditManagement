@@ -3,13 +3,11 @@ package cred;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
@@ -68,7 +66,7 @@ public class PagoController {
 		fechaPagoField.setValue(pago.getFecha());
 		
 		pagosTable.setItems(pagos);
-		
+
 		montoPagadoField.setOnKeyReleased( (event) -> {			
 			actualizarCuotasPagadasField();
 		});
@@ -78,9 +76,17 @@ public class PagoController {
 		});
 		
 		ingresarPagoButton.setOnAction((event) -> {
-		    // Button was clicked, do something...
 		    ingresarPago();
 		});		
+	}
+
+	private void disableFields() {
+		
+		montoPagadoField.setDisable(true);		
+		cuotasPagadasField.setDisable(true);
+//		ingresarPagoButton.setVisible(false);
+		ingresarPagoButton.setDisable(true);		
+		fechaPagoField.setDisable(true);
 	}
 
 	private void actualizarMontoPagadoField() {
@@ -94,31 +100,35 @@ public class PagoController {
 	
 		credito.setMontoCuota(Float.valueOf(montoPagadoField.textProperty().getValue()));
 			
-//		cuotasPagadasField.setText(montoPagadoField.textProperty().getValue());
-		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasSegunMonto()));
+		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 	};	
 	
 	private void initColumns() {
 		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));		
-//		fechaColumn.setCellValueFactory( 
-//			pago -> { 
-//				SimpleStringProperty property = new SimpleStringProperty();
-//				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//				property.setValue(dateFormat.format(pago.getValue().getFecha()));
-////				return ObservableValue<>.toString(property);
-//				return property;
-//				
-//	});
         montoPagoColumn.setCellValueFactory(new PropertyValueFactory<>("montoPago"));	
 	}
 
 	private void initFields() {
-//		fechaPagoField
+
 		montoPagadoField.clear();
-		this.montoPagadoField.setText(Float.toString(this.credito.getValorCuota()));		
+		montoPagadoField.setText(Float.toString(credito.getValorCuota()));
+		credito.setMontoCuota(credito.getValorCuota());
+
+		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 	}
 	
-	private void ingresarPago() {		
+	private void ingresarPago() {
+		
+		if (!(credito.validarMontoAPagar(Float.valueOf(montoPagadoField.textProperty().getValue())))) {
+			
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Error al ingresar pago");
+			alert.setContentText("El monto a pagar excede el monto total del crédito");
+			alert.showAndWait();									
+			return;
+		}
+			
 		this.pago.setMontoPago(Float.valueOf(montoPagadoField.getText()));
 		this.pago.setFecha(fechaPagoField.getValue());
 		this.credito.agregarPago(this.pago);
@@ -126,9 +136,10 @@ public class PagoController {
 		pagos.add(this.pago);
 		this.pago = new PagoModel();
 		initFields();
-		credito.calcularMontoAcumulado();
-		credito.calcularCuotasPagas();
+		credito.calcularMontoAcumulado();		
+		credito.calcularCuotasAPagarSegunMonto();
 		credito.calcularSaldoCapital();
+		credito.calcularCuotasPagas();
 		this.mainController.calcPagos();
 	}
 
@@ -138,32 +149,13 @@ public class PagoController {
 		pagos.addAll(this.credito.getListaPagos());
 
 		this.montoPagadoField.setText(Float.toString(this.credito.getValorCuota()));
+		credito.setMontoCuota(this.credito.getValorCuota());
+		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 		
-/*		
-		StringProperty monto = new SimpleStringProperty();		
-		
-		System.out.println(montoPagadoField.textProperty().getValue().length());
-		
-		if ( montoPagadoField.textProperty().getValue().length() == 0 ) {
-		
-		} else {		
- 
-			monto.bind(montoPagadoField.textProperty());
-			monto.setValue();
-			monto.setValue(String.valueOf(this.credito.getValorCuota() * 10));
+		if (this.credito.getCuotasPagas() == this.credito.getCantDias())		// cantidad de dias deberia cambiar a cantidad cuotas totales y en otro campo la unidad, dias o semanas
+			disableFields();
 				
-			System.out.println(monto.getValue());
-		}
-//		montoPagadoField.textProperty().get
-		cuotasPagadasField.textProperty().bind(Bindings.multiply(5, montoPagadoField.textProperty().getValue())));		
 		
-//		private IntegerProperty totalCents = new SimpleIntegerProperty();
-
-//		and then you can let your display bind its text to a formatted version of that property:
-
-//		display.textProperty().bind(totalCents.divide(100.0).asString("$ %.2f"));		
-		
-*/				
 	}
 
 	public void setMainController(MainController mainController) {
