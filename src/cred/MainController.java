@@ -1,6 +1,7 @@
 package cred;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.function.Predicate;
 
 import javafx.beans.binding.Bindings;
@@ -150,13 +151,21 @@ public class MainController {
 	}
 
 	public void calcPagos() {
+			
+//		float sumaCuotaPura = 0,
+//			  sumaGciaXDia = 0;
+		BigDecimal sumaCuotaPura = NumeroUtil.crearBigDecimal("0"),
+					sumaGciaXDia = NumeroUtil.crearBigDecimal("0");
 		
-		float sumaCuotaPura = 0,
-			  sumaGciaXDia = 0;
-
+//		System.out.println("calcPago()");		
 			for ( CreditoModel cred : filteredItems ) {
-				sumaCuotaPura+=cred.getMontoCuota(fechaFilterField.getValue());
-				sumaGciaXDia+=cred.getGciaXDia(fechaFilterField.getValue());
+
+
+//				sumaCuotaPura+=cred.getMontoCuota(fechaFilterField.getValue());
+				sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota(fechaFilterField.getValue()));
+//				System.out.println(cred.getMontoCuota(fechaFilterField.getValue()));
+//				sumaGciaXDia+=cred.getGciaXDia(fechaFilterField.getValue());
+				sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia(fechaFilterField.getValue()));
 			}
 			
     	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
@@ -190,12 +199,25 @@ public class MainController {
 	}
 
 	private void calc() {
-		float sumaCuotaPura = 0,
-			  sumaGciaXDia = 0;
+
+//		float sumaCuotaPura = 0,
+//				  sumaGciaXDia = 0;
+			
+		BigDecimal sumaCuotaPura = NumeroUtil.crearBigDecimal("0"),
+				sumaGciaXDia = NumeroUtil.crearBigDecimal("0");
+		
+//		for ( CreditoModel cred : filteredItems ) {
+////			sumaCuotaPura+=cred.getMontoCuota(fechaFilterField.getValue());
+//			sumaCuotaPura.add(cred.getMontoCuota(fechaFilterField.getValue()));
+//			
+////			sumaGciaXDia+=cred.getGciaXDia(fechaFilterField.getValue());
+//			sumaGciaXDia.add(cred.getGciaXDia(fechaFilterField.getValue()));	
 
 		for ( CreditoModel cred : filteredItems ) {			
-			sumaCuotaPura+=cred.getMontoCuota();
-			sumaGciaXDia+=cred.getGciaXDia();
+//			sumaCuotaPura+=cred.getMontoCuota();
+			sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota());
+//			sumaGciaXDia+=cred.getGciaXDia();
+			sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia());
         }		
 		
     	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
@@ -228,10 +250,10 @@ public class MainController {
 	}
 
     public ObservableList<CreditoModel> initCreditos(){
-    	creditos.add(new CreditoModel("Carlos", 29, 45, 3000, "Luis", "1"));
-    	creditos.add(new CreditoModel("Juan", 15, 45, 2000, "Miguel", "2"));
-    	creditos.add(new CreditoModel("Jorge", 29, 45, 3000, "Luis", "1"));
-    	creditos.add(new CreditoModel("Bernardo", 15, 45, 2000, "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Carlos", 29, "45", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Juan", 15, "45", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Jorge", 29, "45", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Bernardo", 15, "45", "2000", "Ezequiel", "2"));
 
         return creditos;
     }

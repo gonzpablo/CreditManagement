@@ -1,5 +1,7 @@
 package cred;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,7 +13,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class PagoModel {
 
-	private FloatProperty montoPago;
+//	private FloatProperty montoPago;
+	private BigDecimal montoPago; 
 	private IntegerProperty cuotasPagas;
 	private LocalDate fecha;
 	private LocalTime hora;
@@ -23,16 +26,20 @@ public class PagoModel {
 		LocalTime time1 = currentDateTime.toLocalTime();
 	    setFecha(date1);
 	    setHora(time1);
-	    montoPago = new SimpleFloatProperty();
+//	    montoPago = new SimpleFloatProperty();
+//	    montoPago = new BigDecimal();
 	    cuotasPagas = new SimpleIntegerProperty();
 	}
 
-	public float getMontoPago() {
-		return montoPago.get();
+	public BigDecimal getMontoPago() {
+//		return montoPago.setScale(2, RoundingMode.HALF_UP);
+		return montoPago;
 	}
 
-	public void setMontoPago(float montoPago) {
-		this.montoPago.set(montoPago);
+	public void setMontoPago(String montoPago) {
+//		this.montoPago.set(montoPago);
+//		this.montoPago = new BigDecimal(montoPago);
+		this.montoPago = NumeroUtil.crearBigDecimal(montoPago);
 	}
 
 	public LocalDate getFecha() {

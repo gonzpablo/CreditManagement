@@ -1,5 +1,6 @@
 package cred;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -98,7 +99,7 @@ public class PagoController {
 		if (montoPagadoField.textProperty().getValue().length() == 0)
 			return;
 	
-		credito.setMontoCuota(Float.valueOf(montoPagadoField.textProperty().getValue()));
+		credito.setMontoCuota(new BigDecimal(montoPagadoField.textProperty().getValue()));
 			
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 	};	
@@ -111,7 +112,7 @@ public class PagoController {
 	private void initFields() {
 
 		montoPagadoField.clear();
-		montoPagadoField.setText(Float.toString(credito.getValorCuota()));
+		montoPagadoField.setText(credito.getValorCuota().toString());
 		credito.setMontoCuota(credito.getValorCuota());
 
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
@@ -119,7 +120,7 @@ public class PagoController {
 	
 	private void ingresarPago() {
 		
-		if (!(credito.validarMontoAPagar(Float.valueOf(montoPagadoField.textProperty().getValue())))) {
+		if (!(credito.validarMontoAPagar(new BigDecimal(montoPagadoField.textProperty().getValue())))) {
 			
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
@@ -129,7 +130,7 @@ public class PagoController {
 			return;
 		}
 			
-		this.pago.setMontoPago(Float.valueOf(montoPagadoField.getText()));
+		this.pago.setMontoPago(montoPagadoField.getText());
 		this.pago.setFecha(fechaPagoField.getValue());
 		this.credito.agregarPago(this.pago);
 
@@ -148,7 +149,7 @@ public class PagoController {
 		clienteField.setText(this.credito.getCliente());
 		pagos.addAll(this.credito.getListaPagos());
 
-		this.montoPagadoField.setText(Float.toString(this.credito.getValorCuota()));
+		this.montoPagadoField.setText(this.credito.getValorCuota().toString());
 		credito.setMontoCuota(this.credito.getValorCuota());
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 		
