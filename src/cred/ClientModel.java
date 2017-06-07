@@ -1,5 +1,7 @@
 package cred;
 
+import java.util.List;
+
 public class ClientModel {
 
 	private String nombre;
@@ -7,9 +9,10 @@ public class ClientModel {
 	private String direccion;
 	private String telefono;
 	private String dni;
-	
+	private List<CreditoModel> creditos;
+
 	public ClientModel() {
-		
+
 	}
 	
 	public ClientModel(String nombre, String apellido, String direccion, String telefono, String dni) {
@@ -59,5 +62,13 @@ public class ClientModel {
 
 	public void setDni(String dni) {
 		this.dni = dni;
-	}	
+	}
+
+	public List<CreditoModel> getCreditos() {
+		return creditos;
+	}
+
+	public void setCreditos(List<CreditoModel> creditos) {
+		this.creditos = creditos;
+	}
 }

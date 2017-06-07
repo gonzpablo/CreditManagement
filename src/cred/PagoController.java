@@ -144,7 +144,8 @@ public class PagoController {
 		this.mainController.calcPagos();
 	}
 
-	public void setCredito(CreditoModel credito, ObservableList<CreditoModel> creditosTab) {
+//	public void setCredito(CreditoModel credito, ObservableList<CreditoModel> creditosTab) {
+		public void setCredito(CreditoModel credito) {		
 		this.credito = credito;
 		clienteField.setText(this.credito.getCliente());
 		pagos.addAll(this.credito.getListaPagos());

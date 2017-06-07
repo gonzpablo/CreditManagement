@@ -3,6 +3,7 @@ package cred;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.beans.binding.Bindings;
@@ -85,6 +86,8 @@ public class MainController {
 
 	private FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
 
+//	Lista de clientes	
+	private List<ClientModel> clientes;
 	
 	/**
 	 * Just add some sample data in the constructor.
@@ -217,7 +220,8 @@ public class MainController {
             GridPane page = (GridPane) loader.load();
             PagoController controller = loader.<PagoController>getController();
 
-            controller.setCredito(rowData, creditos);
+//            controller.setCredito(rowData, creditos);
+            controller.setCredito(rowData);            
             controller.setMainController(this);            
             
             Stage stage = new Stage();
@@ -287,7 +291,16 @@ public class MainController {
         rutaColumn.setCellValueFactory(new PropertyValueFactory<>("ruta"));
 	}
 
-    public ObservableList<CreditoModel> initCreditos(){
+    public ObservableList<CreditoModel> initCreditos() {
+    	
+//    	for ( ClientModel client : clientes ) {
+//    		
+//    		for ( CreditoModel cred : client.getCreditos() ) {
+//    			creditos.add(cred);
+//    		}
+//    		
+//    	}
+    	
     	creditos.add(new CreditoModel("Carlos", 29, "45", "3000", "Luis", "1"));
     	creditos.add(new CreditoModel("Juan", 15, "45", "2000", "Miguel", "2"));
     	creditos.add(new CreditoModel("Jorge", 29, "45", "3000", "Luis", "1"));
