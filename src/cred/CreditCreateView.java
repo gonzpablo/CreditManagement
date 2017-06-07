@@ -43,8 +43,8 @@ public class CreditCreateView extends CreditView implements EventHandler<ActionE
 		  
 	      	clntView.addItemToList(new CreditoModel(this.fldCliente.getText().toString(),
 	      											Integer.valueOf(this.fldCantDias.getText()),
-	      											Float.valueOf(fldTasaInt.getText()),
-	      											Float.valueOf(fldMontoCred.getText()),	      											
+	      											fldTasaInt.getText(),
+	      											fldMontoCred.getText(),	      											
 	      											this.fldCobrador.getText().toString(),
 	      											"1"));
 	      	this.close();

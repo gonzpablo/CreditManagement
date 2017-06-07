@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -76,6 +77,9 @@ public class MainController {
 	@FXML
 	private TextField gciaDiaField;
 //  -------------------------------------------------------------------
+	@FXML
+	private MenuItem clienteMenuGestionar;
+	
 	
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
 
@@ -102,6 +106,8 @@ public class MainController {
         rutaFilterCombo.setOnAction(e -> { 	calc();  });
         cobradorFilterCombo.setOnAction(e -> { calc(); });
         fechaFilterField.setOnAction(e -> { calcPagos(); } );
+        clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
+        
         
 		initColumns();
 		initComboCobrador();
@@ -149,6 +155,29 @@ public class MainController {
             });
             return row;
         });
+	}
+
+	private void gestClientes() {
+		   try {
+	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Cliente.fxml"));
+	            GridPane page = (GridPane) loader.load();
+//	            PagoController controller = loader.<PagoController>getController();
+
+//	            controller.setCredito(rowData, creditos);
+//	            controller.setMainController(this);            
+	            
+	            Stage stage = new Stage();
+	            stage.initModality(Modality.APPLICATION_MODAL);
+	            stage.setTitle("Gestionar Clientes");
+	          
+	            Scene scene = new Scene(page);
+
+	            stage.setScene(scene);
+	            stage.show();
+	            
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }		
 	}
 
 	public void calcPagos() {

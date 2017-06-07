@@ -46,18 +46,18 @@ public class CreditPayView extends CreditView implements EventHandler<ActionEven
 	  float saldo = 0;
 		
       if (event.getSource() == btnConfirmar ) {
-    	  	clntView.table.getItems().contains(super.credito);
-    	  	credito.setCuotasPagas(credito.getCuotasPagas() + fldCuotasPagas.getValue());
-    
-    	  	saldo = credito.getSaldoCapital() - (fldCuotasPagas.getValue() * credito.getMontoCuota());
-    	  	
-    	  	if (saldo >= 0) 
-    	  		credito.setSaldoCapital(saldo);
-    	  	else
-    	  		credito.setSaldoCapital(0);
-    	  	
-    	  	clntView.table.getItems().set(row.getIndex(), credito);    	  	
-	      	this.close();
+//    	  	clntView.table.getItems().contains(super.credito);
+//    	  	credito.setCuotasPagas(credito.getCuotasPagas() + fldCuotasPagas.getValue());
+//    
+//    	  	saldo = credito.getSaldoCapital() - (fldCuotasPagas.getValue() * credito.getMontoCuota());
+//    	  	
+//    	  	if (saldo >= 0) 
+//    	  		credito.setSaldoCapital(saldo);
+//    	  	else
+//    	  		credito.setSaldoCapital(0);
+//    	  	
+//    	  	clntView.table.getItems().set(row.getIndex(), credito);    	  	
+//	      	this.close();
 	      }        	
 	}
 	
@@ -67,10 +67,10 @@ public class CreditPayView extends CreditView implements EventHandler<ActionEven
 		this.row = row;
 		this.fldCliente.setText(credito.getCliente());
 		this.fldCantDias.setText(Integer.toString(credito.getCantDias()));
-		this.fldMontoCred.setText(Float.toString(credito.getMontoCredito()));
-		this.fldMontoCuota.setText(Float.toString(credito.getMontoCuota()));
-		this.fldTasaInt.setText(Float.toString(credito.getTasaInt()));
-		this.fldGciaXDia.setText(Float.toString(credito.getGciaXDia()));
+		this.fldMontoCred.setText(credito.getMontoCredito().toString());
+		this.fldMontoCuota.setText(credito.getMontoCuota().toString());
+		this.fldTasaInt.setText(credito.getTasaInt().toString());
+		this.fldGciaXDia.setText(credito.getGciaXDia().toString());
 		this.fldCobrador.setText(credito.getCobrador());
 		
 		fldCliente.setDisable(true);

@@ -16,7 +16,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Clientes">
             <items>
-              <MenuItem mnemonicParsing="false" text="Gestionar" />
+              <MenuItem fx:id="clienteMenuGestionar" mnemonicParsing="false" text="Gestionar" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Ayuda">

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane maxHeight="500.0" maxWidth="500.0" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.ClientController">
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="80.0" />
+   </rowConstraints>
+   <children>
+      <Label text="Nombre" />
+      <TextField fx:id="clienteNombreField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+      <Label text="Apellido" GridPane.rowIndex="1" />
+      <Label text="DNI" GridPane.rowIndex="2" />
+      <Label text="Dirección" GridPane.rowIndex="3" />
+      <Label text="Teléfono" GridPane.rowIndex="4" />
+      <TextField fx:id="clienteApellidoField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="clienteDniField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="clienteDireccionField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField fx:id="clienteTelefonoField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Button fx:id="clienteGuardarButton" mnemonicParsing="false" text="Guardar" GridPane.rowIndex="5" />
+      <TableView prefHeight="114.0" prefWidth="478.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
+        <columns>
+          <TableColumn fx:id="clienteNombreColumn" prefWidth="75.0" text="Nombre" />
+          <TableColumn fx:id="clienteApellidoColumn" prefWidth="75.0" text="Apellido" />
+            <TableColumn fx:id="clienteDniColumn" prefWidth="75.0" text="DNI" />
+            <TableColumn fx:id="clienteDireccionColumn" prefWidth="75.0" text="Dirección" />
+            <TableColumn fx:id="clienteTelefonoColumn" prefWidth="75.0" text="Teléfono" />
+        </columns>
+      </TableView>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <opaqueInsets>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </opaqueInsets>
+</GridPane>
