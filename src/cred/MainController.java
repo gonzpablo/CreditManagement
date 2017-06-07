@@ -2,6 +2,7 @@ package cred;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.function.Predicate;
 
 import javafx.beans.binding.Bindings;
@@ -154,8 +155,8 @@ public class MainController {
 			
 //		float sumaCuotaPura = 0,
 //			  sumaGciaXDia = 0;
-		BigDecimal sumaCuotaPura = NumeroUtil.crearBigDecimal("0"),
-					sumaGciaXDia = NumeroUtil.crearBigDecimal("0");
+		BigDecimal sumaCuotaPura = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP),
+					sumaGciaXDia = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
 		
 //		System.out.println("calcPago()");		
 			for ( CreditoModel cred : filteredItems ) {
@@ -167,9 +168,15 @@ public class MainController {
 //				sumaGciaXDia+=cred.getGciaXDia(fechaFilterField.getValue());
 				sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia(fechaFilterField.getValue()));
 			}
-			
-    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
-    	gciaDiaField.setText(String.valueOf(sumaGciaXDia));				
+
+//		sumaCuotaPura.setScale(2, RoundingMode.HALF_UP);
+//		sumaGciaXDia.setScale(2, RoundingMode.HALF_UP);
+//		System.out.println(sumaGciaXDia);
+//		System.out.println(sumaCuotaPura);
+    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura.setScale(2, RoundingMode.HALF_UP)));
+    	gciaDiaField.setText(String.valueOf(sumaGciaXDia.setScale(2, RoundingMode.HALF_UP)));				
+//    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
+//    	gciaDiaField.setText(String.valueOf(sumaGciaXDia));
     	
 		creditosTable.refresh();
 	}
@@ -220,6 +227,8 @@ public class MainController {
 			sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia());
         }		
 		
+		sumaCuotaPura.setScale(2, RoundingMode.HALF_UP);
+		sumaGciaXDia.setScale(2, RoundingMode.HALF_UP);
     	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
     	gciaDiaField.setText(String.valueOf(sumaGciaXDia));		
 	}

@@ -109,7 +109,7 @@ public class CreditoModel {
 		for ( PagoModel pago: listaPagos ) {
 
 			if ( pago.getFecha().equals(fechaFiltro) )
-				montoCuotaPura = montoCuotaPura.add(pago.getMontoPago());
+				montoCuotaPura = montoCuotaPura.add(pago.getMontoPagoInterno());
 				
 //			System.out.println(pago.getMontoPago());
 		}
@@ -141,7 +141,7 @@ public class CreditoModel {
 		
 		for ( PagoModel pago: listaPagos ) {
 			if ( pago.getFecha().equals(fechaFiltro) ) {
-				montoPagado = montoPagado.add(pago.getMontoPago());
+				montoPagado = montoPagado.add(pago.getMontoPagoInterno());
 				cant+=1;
 			}
 		}
@@ -197,10 +197,13 @@ public class CreditoModel {
 	}
 	
 	public BigDecimal getValorCuota() {
-//		return valorCuota.setScale(2, RoundingMode.HALF_UP);
-		return valorCuota;
+		return valorCuota.setScale(2, RoundingMode.HALF_UP);
 	}
 
+	public BigDecimal getValorCuotaInterno() {
+		return valorCuota;
+	}
+	
 	public void setValorCuota(BigDecimal valorCuota) {
 		this.valorCuota = valorCuota;
 	}
@@ -231,7 +234,7 @@ public class CreditoModel {
 		BigDecimal montoAcumulado = NumeroUtil.crearBigDecimal("0");
 		
 		for ( PagoModel pago: listaPagos ) 
-			montoAcumulado = montoAcumulado.add(pago.getMontoPago());
+			montoAcumulado = montoAcumulado.add(pago.getMontoPagoInterno());
 
 		this.setMontoCuotaAcumulado(montoAcumulado);
 	}

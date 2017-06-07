@@ -32,7 +32,10 @@ public class PagoModel {
 	}
 
 	public BigDecimal getMontoPago() {
-//		return montoPago.setScale(2, RoundingMode.HALF_UP);
+		return montoPago.setScale(2, RoundingMode.HALF_UP);
+	}
+	
+	public BigDecimal getMontoPagoInterno() {
 		return montoPago;
 	}
 

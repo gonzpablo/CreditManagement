@@ -112,8 +112,8 @@ public class PagoController {
 	private void initFields() {
 
 		montoPagadoField.clear();
-		montoPagadoField.setText(credito.getValorCuota().toString());
-		credito.setMontoCuota(credito.getValorCuota());
+		montoPagadoField.setText(credito.getValorCuotaInterno().toString());
+		credito.setMontoCuota(credito.getValorCuotaInterno());
 
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 	}
@@ -149,14 +149,12 @@ public class PagoController {
 		clienteField.setText(this.credito.getCliente());
 		pagos.addAll(this.credito.getListaPagos());
 
-		this.montoPagadoField.setText(this.credito.getValorCuota().toString());
-		credito.setMontoCuota(this.credito.getValorCuota());
+		this.montoPagadoField.setText(this.credito.getValorCuotaInterno().toString());
+		credito.setMontoCuota(this.credito.getValorCuotaInterno());
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 		
 		if (this.credito.getCuotasPagas() == this.credito.getCantDias())		// cantidad de dias deberia cambiar a cantidad cuotas totales y en otro campo la unidad, dias o semanas
 			disableFields();
-				
-		
 	}
 
 	public void setMainController(MainController mainController) {
