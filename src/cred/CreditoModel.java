@@ -88,8 +88,8 @@ public class CreditoModel {
 
 //	public float getMontoCredito() {
 	public BigDecimal getMontoCredito() {
-//		return montoCredito.setScale(2, RoundingMode.HALF_UP);
-		return montoCredito;
+		return montoCredito.setScale(2, RoundingMode.HALF_UP);
+//		return montoCredito;
 	}
 
 	public void setMontoCredito(String montoCredito) {
@@ -286,4 +286,15 @@ public class CreditoModel {
 
 		return result;
 	}
+	
+	public void borrarPago(PagoModel pago) {
+		listaPagos.remove(pago);
+	}
+	
+	public void calcular() {
+		calcularMontoAcumulado();		
+		calcularCuotasAPagarSegunMonto();
+		calcularSaldoCapital();
+		calcularCuotasPagas();		
+	}	
 }

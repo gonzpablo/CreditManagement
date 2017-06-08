@@ -15,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class PagoController {
 
@@ -28,6 +29,11 @@ public class PagoController {
 	private DatePicker fechaPagoField;		
 	@FXML
 	private Button ingresarPagoButton;
+	@FXML
+	private Button cancelarButton;
+	@FXML
+	private Button borrarPagoButton;
+	
 	@FXML
 	private TableColumn<PagoModel, LocalDate> fechaColumn;
 	@FXML	
@@ -79,6 +85,33 @@ public class PagoController {
 		ingresarPagoButton.setOnAction((event) -> {
 		    ingresarPago();
 		});		
+		
+		cancelarButton.setOnAction( (event) -> {
+			cancelarPago();
+		});
+		
+		borrarPagoButton.setOnAction( (event) -> {
+			borrarPago();
+		});
+	}
+
+	private void borrarPago() {
+		
+		PagoModel pago = pagosTable.getSelectionModel().getSelectedItem();
+		
+		if (pago == null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Error al borrar un pago");
+			alert.setContentText("Por favor seleccione un pago a borrar");
+			alert.showAndWait();									
+			return;
+		}
+			
+		pagos.remove(pago);
+		credito.borrarPago(pago);
+		credito.calcular();
+		this.mainController.calcPagos();
 	}
 
 	private void disableFields() {
@@ -137,15 +170,12 @@ public class PagoController {
 		pagos.add(this.pago);
 		this.pago = new PagoModel();
 		initFields();
-		credito.calcularMontoAcumulado();		
-		credito.calcularCuotasAPagarSegunMonto();
-		credito.calcularSaldoCapital();
-		credito.calcularCuotasPagas();
+		credito.calcular();
 		this.mainController.calcPagos();
 	}
 
 //	public void setCredito(CreditoModel credito, ObservableList<CreditoModel> creditosTab) {
-		public void setCredito(CreditoModel credito) {		
+	public void setCredito(CreditoModel credito) {		
 		this.credito = credito;
 		clienteField.setText(this.credito.getCliente());
 		pagos.addAll(this.credito.getListaPagos());
@@ -160,5 +190,12 @@ public class PagoController {
 
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
+	}
+	
+	public void cancelarPago() {
+	    // get a handle to the stage
+	    Stage stage = (Stage) cancelarButton.getScene().getWindow();
+	    // do what you have to do
+	    stage.close();		
 	}
 }

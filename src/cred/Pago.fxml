@@ -6,67 +6,69 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane maxHeight="444.0" prefHeight="444.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.PagoController">
+<GridPane maxHeight="400.0" maxWidth="330.0" prefHeight="400.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.PagoController">
    <columnConstraints>
-      <ColumnConstraints maxWidth="118.0" minWidth="99.0" prefWidth="118.0" />
-      <ColumnConstraints maxWidth="195.0" minWidth="10.0" prefWidth="126.0" />
-      <ColumnConstraints maxWidth="99.0" minWidth="1.0" prefWidth="46.0" />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints maxWidth="155.0" minWidth="99.0" prefWidth="154.0" />
+      <ColumnConstraints maxWidth="195.0" minWidth="10.0" prefWidth="156.0" />
+      <ColumnConstraints maxWidth="195.0" minWidth="10.0" prefWidth="156.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="39.0" />
-      <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="39.0" />
-      <RowConstraints maxHeight="89.0" minHeight="10.0" prefHeight="35.0" />
-      <RowConstraints maxHeight="150.0" minHeight="0.0" prefHeight="150.0" />
+      <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="14.0" />
+      <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="36.0" />
+      <RowConstraints maxHeight="89.0" minHeight="10.0" prefHeight="27.0" />
+      <RowConstraints maxHeight="191.0" minHeight="0.0" prefHeight="186.0" />
    </rowConstraints>
    <children>
       <Label text="Cliente">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></Label>
-      <TextField fx:id="clienteField" disable="true" editable="false" GridPane.columnIndex="1">
+      <TextField fx:id="clienteField" disable="true" editable="false" GridPane.columnIndex="2">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></TextField>
-      <Label text="Monto pagado" GridPane.rowIndex="1">
+      <Label text="Monto a pagar" GridPane.rowIndex="1">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Label>
-      <TextField fx:id="montoPagadoField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <TextField fx:id="montoPagadoField" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </TextField>
-      <Label text="Cuotas pagadas" GridPane.rowIndex="2">
+      <Label text="Cuotas a pagar" GridPane.rowIndex="2">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Label>
-      <TextField fx:id="cuotasPagadasField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <TextField fx:id="cuotasPagadasField" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </TextField>
-      <DatePicker fx:id="fechaPagoField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <DatePicker fx:id="fechaPagoField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
       <TableView fx:id="pagosTable" prefHeight="142.0" prefWidth="390.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
         <columns>
-          <TableColumn fx:id="fechaColumn" prefWidth="119.0" text="Fecha Pago" />
+          <TableColumn fx:id="fechaColumn" prefWidth="119.0" sortType="DESCENDING" text="Fecha Pago" />
           <TableColumn fx:id="montoPagoColumn" prefWidth="113.0" text="Monto Pagado" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
       <Label text="Fecha Pago" GridPane.rowIndex="3">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Label>
-      <Button fx:id="ingresarPagoButton" mnemonicParsing="false" text="Ingresar Pago" GridPane.rowIndex="5">
+      <Button fx:id="ingresarPagoButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="106.0" text="Ingresar Pago" GridPane.halignment="CENTER" GridPane.rowIndex="5">
          <GridPane.margin>
-            <Insets />
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -74,6 +76,25 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
+      </Button>
+      <Button fx:id="cancelarButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="104.0" text="Cancelar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="borrarPagoButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="106.0" text="Borrar Pago" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </Button>
    </children>
    <padding>

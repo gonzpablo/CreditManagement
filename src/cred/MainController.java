@@ -227,7 +227,8 @@ public class MainController {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Gestionar Pagos");
-          
+            stage.setResizable(false);
+            
             Scene scene = new Scene(page);
 
             stage.setScene(scene);
@@ -243,8 +244,8 @@ public class MainController {
 //		float sumaCuotaPura = 0,
 //				  sumaGciaXDia = 0;
 			
-		BigDecimal sumaCuotaPura = NumeroUtil.crearBigDecimal("0"),
-				sumaGciaXDia = NumeroUtil.crearBigDecimal("0");
+		BigDecimal sumaCuotaPura = NumeroUtil.crearBigDecimal("0").setScale(2, RoundingMode.HALF_UP),
+				sumaGciaXDia = NumeroUtil.crearBigDecimal("0").setScale(2, RoundingMode.HALF_UP);
 		
 //		for ( CreditoModel cred : filteredItems ) {
 ////			sumaCuotaPura+=cred.getMontoCuota(fechaFilterField.getValue());
