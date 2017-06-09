@@ -1,5 +1,7 @@
 package cred;
 
+import java.math.BigDecimal;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -7,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 
 public class CreditoController {
 
@@ -21,11 +24,15 @@ public class CreditoController {
 	@FXML
 	private TextField cobradorField;
 	@FXML
-	private TextField montoCuotaField;		
+	private TextField montoCuotaField;
 	@FXML
-	private ComboBox<String> unidadCombo;	
+	private TextField gciaXDiaField;					
 	@FXML
-	private ComboBox<String> cobradorCombo;			
+	private ComboBox<String> unidadCuotasCombo;	
+	@FXML
+	private ComboBox<String> cobradorCombo;
+	@FXML
+	private ComboBox<String> rutaCombo;			
 	@FXML
 	private Button crearButton;
 	@FXML
@@ -36,7 +43,7 @@ public class CreditoController {
 //
 //	private CreditoModel credito;
 //
-//	private MainController mainController;
+	private MainController mainController;
 
 
 	public CreditoController() {
@@ -47,50 +54,100 @@ public class CreditoController {
 	private void initialize() {
 		
 		initComboCobrador();
-		initComboUnidad();
-
+		initComboUnidadCuotas();
+		initComboRuta();
+		
+		montoCreditoField.setOnKeyReleased( (event) -> {			
+			simular();
+		});		
+		
+		tasaInteresField.setOnKeyReleased( (event) -> {			
+			simular();
+		});
+		
+		cantCuotasField.setOnKeyReleased( (event) -> {			
+			simular();
+		});		
+			
+		crearButton.setOnAction( (event) -> { 
+			crear();
+		});
+		
+		cancelarButton.setOnAction( (event) -> { 
+			cancelar();
+		});
+		
 	}
 
-	private void initComboUnidad() {
-		unidadCombo.setItems(FXCollections.observableArrayList("Días", "Semanas"));
+	private void crear() {
 		
+	  	if (!validar())
+	  		return;
+	  
+      	mainController.addItemToList(new CreditoModel(this.clienteField.getText(),
+      											Integer.valueOf(this.cantCuotasField.getText()),
+      											this.tasaInteresField.getText(),
+      											montoCreditoField.getText(),	      											
+      											cobradorCombo.getValue(),
+      											rutaCombo.getValue()));
+		
+	}
+
+	private void cancelar() {
+	    // get a handle to the stage
+	    Stage stage = (Stage) cancelarButton.getScene().getWindow();
+	    // do what you have to do
+	    stage.close();		
+	}
+
+	private void initComboUnidadCuotas() {
+		unidadCuotasCombo.setItems(FXCollections.observableArrayList("Días", "Semanas"));
+		unidadCuotasCombo.setValue("Días");
 	}
 
 	private void initComboCobrador() {
 		cobradorCombo.setItems(FXCollections.observableArrayList("Luis","Miguel","Ezequiel"));		
 	}
-
+	
+	private void initComboRuta() {
+		rutaCombo.setItems(FXCollections.observableArrayList("1","2","3","4"));		
+	}
+	
 	private void simular() {
 
-		float montoCuota;
-		float cuotaCapital;
+		if ( montoCreditoField.getText().length() == 0 ||
+			 cantCuotasField.getText().length() == 0 ||
+			 tasaInteresField.getText().length() == 0 ) {
 		
-	
-		if (!validar())
+			initFields();
 			return;
-		
-		cuotaCapital = Float.valueOf(fldMontoCred.getText()) / Float.valueOf(fldCantDias.getText());
-		
-		montoCuota = cuotaCapital + ( cuotaCapital * ( Float.valueOf(fldTasaInt.getText()) / 100 )); //Float.valueOf("100") )); 
+		}
 
-		fldMontoCuota.setText(String.valueOf(montoCuota));
+		BigDecimal cuotaCapital = CreditoModel.obtenerCuotaCapital(montoCreditoField.getText(), cantCuotasField.getText());		
+		BigDecimal montoTotalCredito = CreditoModel.obtenerMontoTotalCredito(montoCreditoField.getText(), tasaInteresField.getText());
+		BigDecimal montoCuota = CreditoModel.obtenerMontoCuota(montoTotalCredito, cantCuotasField.getText());
 
-		fldGciaXDia.setText(String.valueOf(montoCuota - cuotaCapital));
-		
+		montoCuotaField.setText(String.valueOf(montoCuota));
+		gciaXDiaField.setText(String.valueOf(montoCuota.subtract(cuotaCapital)));		
 	}	
+
+	private void initFields() {
+		montoCuotaField.clear();
+		gciaXDiaField.clear();		
+	}
 
 	private boolean validar() {
 		
-		if (fldCliente.getText().equals("")) {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Atención");
-			alert.setHeaderText("Error");
-			alert.setContentText("Por favor ingrese el cliente");
-			alert.showAndWait();			
-			return false;
-		} 
+//		if (clienteField.getText().equals("")) {
+//			Alert alert = new Alert(AlertType.INFORMATION);
+//			alert.setTitle("Atención");
+//			alert.setHeaderText("Error");
+//			alert.setContentText("Por favor ingrese el cliente");
+//			alert.showAndWait();			
+//			return false;
+//		} 
 
-		if (fldMontoCred.getText().equals("")) {
+		if (montoCreditoField.getText().equals("")) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Atención");
 			alert.setHeaderText("Error");
@@ -99,7 +156,7 @@ public class CreditoController {
 			return false;
 		}						
 		
-		if (fldCantDias.getText().equals("")) {
+		if (cantCuotasField.getText().equals("")) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Atención");
 			alert.setHeaderText("Error");
@@ -108,7 +165,7 @@ public class CreditoController {
 			return false;
 		}		
 
-		if (fldTasaInt.getText().equals("")) {
+		if (tasaInteresField.getText().equals("")) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Atención");
 			alert.setHeaderText("Error");
@@ -116,8 +173,8 @@ public class CreditoController {
 			alert.showAndWait();							
 			return false;
 		}				
-	
-		if (fldCobrador.getText().equals("")) {
+		
+		if (cobradorCombo.getValue() == null) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Atención");
 			alert.setHeaderText("Error");
@@ -125,9 +182,20 @@ public class CreditoController {
 			alert.showAndWait();							
 			return false;
 		}					
+
+		if (rutaCombo.getValue() == null) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Atención");
+			alert.setHeaderText("Error");
+			alert.setContentText("Ingrese la ruta");
+			alert.showAndWait();							
+			return false;
+		}					
 		
 		return true;
 	}
-		
-	
+
+	public void setMainController(MainController mainController) {
+		this.mainController = mainController;		
+	}			
 }

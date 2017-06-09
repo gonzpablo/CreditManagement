@@ -12,24 +12,17 @@ public class CreditoModel {
 
 	private String cliente;
 	private int cantDias;
-//	private float tasaInt;
 	private BigDecimal tasaInt;
 	
-//	private float montoCredito;
 	private BigDecimal montoCredito;
-//	private float valorCuota;  // Monto credito * interes / cant. dias
-	private BigDecimal valorCuota;
-//	private float montoCuota;  // Monto pagado un día determinado
-	private BigDecimal montoCuota = new BigDecimal("0");
-//	private float montoCuotaAcumulado;
+	private BigDecimal valorCuota; // Monto credito * interes / cant. dias
+	private BigDecimal montoCuota = new BigDecimal("0"); // Monto pagado un día determinado
 	private BigDecimal montoCuotaAcumulado;
 	
-//	private float gciaXDia;
 	private BigDecimal gciaXDia = new BigDecimal("0");
 	private int cuotasPagas;
 	private String cobrador;
 	private String ruta;
-//	private float saldoCapital;
 	private BigDecimal saldoCapital;
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
@@ -41,29 +34,44 @@ public class CreditoModel {
 		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
 		this.cobrador = cobrador;
 		this.ruta = ruta;
-//		this.valorCuota = this.montoCredito * (1 + ( this.tasaInt / 100 )) / this.cantDias;
-//		this.valorCuota = this.getCostoTotalCredito() / this.cantDias;
 		this.valorCuota = calcularValorCuota();
 		calcularMontoAcumulado();
 		calcularCuotasPagas();
 		calcularSaldoCapital();
 	}
 
+	public static BigDecimal obtenerCuotaCapital(String montoCred, String cantCuotas2) {
+		
+		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCred);
+		int cantCuotas = Integer.valueOf(cantCuotas2);
+		
+		return montoCredito.divide(BigDecimal.valueOf(cantCuotas), 2, RoundingMode.HALF_UP);
+	}
+
+	public static BigDecimal obtenerMontoTotalCredito(String montoCred, String tasaInt) {
+		
+		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCred);		
+		BigDecimal tasaInteres = NumeroUtil.crearBigDecimal(tasaInt);
+		
+		return montoCredito.add(montoCredito.multiply(tasaInteres).divide(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP));		
+	}
+	
+	public static BigDecimal obtenerMontoCuota(BigDecimal montoTotalCredito, String cantCuotas) {
+	
+		return montoTotalCredito.divide(BigDecimal.valueOf(Integer.valueOf(cantCuotas)), 2, RoundingMode.HALF_UP);
+	}
+	
 	private BigDecimal calcularValorCuota() {
 		return getCostoTotalCredito().divide(BigDecimal.valueOf(cantDias), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
 	}
 
 	public void calcularSaldoCapital() {
 		
-//		float saldo;
 		BigDecimal saldo;
 				
-//		saldo = this.montoCredito - this.montoCuotaAcumulado;
 		saldo = montoCredito.subtract(montoCuotaAcumulado).setScale(NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
 
-//		if (saldo < 0)
 		if (saldo.compareTo(new BigDecimal("0")) == -1)
-//			this.saldoCapital = 0;
 			this.saldoCapital = NumeroUtil.crearBigDecimal("0");
 		else
 			this.saldoCapital = NumeroUtil.crearBigDecimal(saldo.toString());
@@ -83,13 +91,10 @@ public class CreditoModel {
 
 	public void setTasaInt(String tasaInt) {
 		this.tasaInt = NumeroUtil.crearBigDecimal(tasaInt);
-//		this.tasaInt = tasaInt;
 	}
 
-//	public float getMontoCredito() {
 	public BigDecimal getMontoCredito() {
 		return montoCredito.setScale(2, RoundingMode.HALF_UP);
-//		return montoCredito;
 	}
 
 	public void setMontoCredito(String montoCredito) {
@@ -98,23 +103,16 @@ public class CreditoModel {
 
 	public BigDecimal getMontoCuota() {
 		return montoCuota.setScale(2, RoundingMode.HALF_UP);
-//		return montoCuota;
 	}
 	
 	public BigDecimal getMontoCuota(LocalDate fechaFiltro) {
 
-		//	float montoCuotaPura = 0;
 		BigDecimal montoCuotaPura = NumeroUtil.crearBigDecimal("0");
 		
-		for ( PagoModel pago: listaPagos ) {
-
+		for ( PagoModel pago: listaPagos )
 			if ( pago.getFecha().equals(fechaFiltro) )
-				montoCuotaPura = montoCuotaPura.add(pago.getMontoPagoInterno());
-				
-//			System.out.println(pago.getMontoPago());
-		}
+				montoCuotaPura = montoCuotaPura.add(pago.getMontoPagoInterno());				
 			
-//		System.out.println(montoCuotaPura.toString());
 		this.setMontoCuota(montoCuotaPura);
 		
 		return montoCuotaPura;		
@@ -126,12 +124,10 @@ public class CreditoModel {
 	
 	public BigDecimal getGciaXDia() {
 		return gciaXDia.setScale(2, RoundingMode.HALF_UP);
-//		return gciaXDia;
 	}
 
 	public BigDecimal getGciaXDia(LocalDate fechaFiltro) {
 		int cant = 0;
-//		float cuotaCapital = this.getMontoCredito() / this.getCantDias();
 		BigDecimal cuotaCapital;	
 		BigDecimal montoPagado = NumeroUtil.crearBigDecimal("0");
 		BigDecimal gciaXDia = NumeroUtil.crearBigDecimal("0");
@@ -139,14 +135,12 @@ public class CreditoModel {
 		
 		cuotaCapital = this.getMontoCredito().divide(BigDecimal.valueOf(this.getCantDias()), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);		
 		
-		for ( PagoModel pago: listaPagos ) {
+		for ( PagoModel pago: listaPagos )
 			if ( pago.getFecha().equals(fechaFiltro) ) {
 				montoPagado = montoPagado.add(pago.getMontoPagoInterno());
 				cant+=1;
 			}
-		}
 
-//		if (montoPagado > 0)
 		if (montoPagado.compareTo(BigDecimal.valueOf(0)) == 1)		
 			gciaXDia = montoPagado.subtract(cuotaCapital.multiply(BigDecimal.valueOf(cant).setScale(NumeroUtil.EXCEL_MAX_DIGITS)));
 
@@ -185,7 +179,6 @@ public class CreditoModel {
 
 	public BigDecimal getSaldoCapital() {
 		return saldoCapital.setScale(2, RoundingMode.HALF_UP);
-//		return saldoCapital;
 	}
 
 	public void setSaldoCapital(BigDecimal saldoCapital) {
@@ -210,7 +203,6 @@ public class CreditoModel {
 
 	public BigDecimal getMontoCuotaAcumulado() {
 		return montoCuotaAcumulado.setScale(2, RoundingMode.HALF_UP);
-//		return montoCuotaAcumulado;
 	}
 
 	public void setMontoCuotaAcumulado(BigDecimal montoCuotaAcumulado) {
@@ -240,10 +232,6 @@ public class CreditoModel {
 	}
 
 	public void calcularCuotasPagas() {
-		
-		//this.cuotasPagas = (int) Math.floor((double)this.montoCuotaAcumulado / this.valorCuota);
-		//System.out.println((double)this.montoCuotaAcumulado / this.valorCuota);
-//		this.cuotasPagas = (int) Math.round((double)this.montoCuotaAcumulado / this.valorCuota);
 		this.cuotasPagas = this.montoCuotaAcumulado.divide(this.valorCuota, NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP).intValue();
 	}
 
@@ -251,22 +239,17 @@ public class CreditoModel {
 //		Segun el monto a pagar calcula la cantidad de cuotas que representa.
 //		Si el monto de cuota a pagar es cero, devuelve 0		
 		
-//		if ( montoCuota == 0)
 		if ( montoCuota.compareTo(BigDecimal.valueOf(0)) == 0)		
 			return 0;
 		else
-//			return (int) Math.floor((double)this.montoCuota / this.valorCuota);
 			return this.montoCuota.divide(this.valorCuota, NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP).intValue();
 	}
 	
 	public BigDecimal calcularMontoSegunCuota(int cantCuotas) {
-//		return (float) cantCuotas * valorCuota;
 		return valorCuota.multiply(BigDecimal.valueOf(cantCuotas)).setScale(NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
 	}
 	
 	private BigDecimal getCostoTotalCredito() {
-
-//		return montoCredito * (1 + ( tasaInt / 100 ));		
 		
 		BigDecimal interes;
 		
@@ -280,7 +263,7 @@ public class CreditoModel {
 		BigDecimal montoTotal;
 		
 		montoTotal = montoCuotaAcumulado.add(monto);
-//		if ( montoCuotaAcumulado + monto > this.getCostoTotalCredito() )
+
 		if ( montoTotal.compareTo(this.getCostoTotalCredito()) == 1 )			
 			result = false;
 

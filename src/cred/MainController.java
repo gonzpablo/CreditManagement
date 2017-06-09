@@ -166,10 +166,9 @@ public class MainController {
 		   try {
 	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Credito.fxml"));
 	            GridPane page = (GridPane) loader.load();
-//	            PagoController controller = loader.<PagoController>getController();
+	            CreditoController controller = loader.<CreditoController>getController();
 
-//	            controller.setCredito(rowData, creditos);
-//	            controller.setMainController(this);            
+	            controller.setMainController(this);            
 	            
 	            Stage stage = new Stage();
 	            stage.initModality(Modality.APPLICATION_MODAL);
@@ -178,14 +177,12 @@ public class MainController {
 	            Scene scene = new Scene(page);
 
 	            stage.setScene(scene);
+	            stage.setResizable(false);
 	            stage.show();
-	            
+
 	        } catch (IOException e) {
 	            e.printStackTrace();
-	        }			
-		
-		
-		
+	        }
 	}
 
 	private void gestClientes() {
@@ -345,4 +342,10 @@ public class MainController {
     public void refreshTableView() {
     	creditosTable.refresh();
     }
+    
+    public void addItemToList(CreditoModel cred) {
+    	creditos.add(cred);
+//    	table.setItems(getCreditos());
+// refresh??    	
+    }    
 }
