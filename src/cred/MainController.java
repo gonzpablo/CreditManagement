@@ -79,6 +79,8 @@ public class MainController {
 	private TextField gciaDiaField;
 //  -------------------------------------------------------------------
 	@FXML
+	private MenuItem crearCreditoMenu;
+	@FXML
 	private MenuItem clienteMenuGestionar;
 	
 	
@@ -110,7 +112,7 @@ public class MainController {
         cobradorFilterCombo.setOnAction(e -> { calc(); });
         fechaFilterField.setOnAction(e -> { calcPagos(); } );
         clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
-        
+        crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
         
 		initColumns();
 		initComboCobrador();
@@ -158,6 +160,32 @@ public class MainController {
             });
             return row;
         });
+	}
+
+	private void crearCredito() {
+		   try {
+	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Credito.fxml"));
+	            GridPane page = (GridPane) loader.load();
+//	            PagoController controller = loader.<PagoController>getController();
+
+//	            controller.setCredito(rowData, creditos);
+//	            controller.setMainController(this);            
+	            
+	            Stage stage = new Stage();
+	            stage.initModality(Modality.APPLICATION_MODAL);
+	            stage.setTitle("Crear Crédito");
+	          
+	            Scene scene = new Scene(page);
+
+	            stage.setScene(scene);
+	            stage.show();
+	            
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }			
+		
+		
+		
 	}
 
 	private void gestClientes() {

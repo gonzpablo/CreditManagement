@@ -14,11 +14,26 @@
               <MenuItem mnemonicParsing="false" text="Salir" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Créditos">
+               <items>
+                  <MenuItem fx:id="crearCreditoMenu" mnemonicParsing="false" text="Crear crédito" />
+               </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Clientes">
             <items>
-              <MenuItem fx:id="clienteMenuGestionar" mnemonicParsing="false" text="Gestionar" />
+              <MenuItem fx:id="clienteMenuGestionar" mnemonicParsing="false" text="Gestionar Clientes" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Cobradores">
+               <items>
+                  <MenuItem fx:id="clienteMenuGestionar2" mnemonicParsing="false" text="Gestionar Clientes" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Rutas">
+               <items>
+                  <MenuItem fx:id="clienteMenuGestionar21" mnemonicParsing="false" text="Gestionar Clientes" />
+               </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Ayuda">
             <items>
               <MenuItem mnemonicParsing="false" text="Acerca de" />
@@ -35,21 +50,13 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <ComboBox fx:id="cobradorFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </ComboBox>
+                  <ComboBox fx:id="cobradorFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0" />
                   <Label text="Ruta">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <ComboBox fx:id="rutaFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </ComboBox>
+                  <ComboBox fx:id="rutaFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0" />
                   <Label text="Fecha">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

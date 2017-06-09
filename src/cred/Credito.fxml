@@ -1,32 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-
-<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<GridPane prefHeight="414.0" prefWidth="343.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="10.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="25.0" />
+      <RowConstraints maxHeight="35.0" minHeight="6.0" prefHeight="35.0" />
    </rowConstraints>
    <columnConstraints>
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints maxWidth="164.0" minWidth="10.0" prefWidth="114.0" />
+      <ColumnConstraints maxWidth="134.0" minWidth="10.0" prefWidth="114.0" />
+      <ColumnConstraints maxWidth="105.0" minWidth="10.0" prefWidth="105.0" />
    </columnConstraints>
    <children>
-      <Label text="Label" />
-      <Label text="Label" GridPane.rowIndex="1" />
-      <Label text="Label" GridPane.rowIndex="2" />
-      <Label text="Label" GridPane.rowIndex="3" />
-      <TextField GridPane.columnIndex="1" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Label text="Cliente" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin></Label>
+      <Label text="Monto Crédito" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin></Label>
+      <Label text="Tasa Interés" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin></Label>
+      <Label text="Cantidad Cuotas" GridPane.rowIndex="5">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin></Label>
+      <TextField fx:id="clienteField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding></TextField>
+      <TextField fx:id="montoCreditoField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding></TextField>
+      <TextField fx:id="tasaInteresField" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding></TextField>
+      <TextField fx:id="cantCuotasField" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding></TextField>
+      <ComboBox fx:id="unidadCuotasCombo" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin>
+      </ComboBox>
+      <Label text="Cobrador" GridPane.rowIndex="7">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin>
+      </Label>
+      <ComboBox fx:id="cobradorCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin></ComboBox>
+      <Label text="Monto Cuota" GridPane.rowIndex="9">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Ganancia/día" GridPane.rowIndex="10">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField fx:id="montoCuotaField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="gciaXDiaField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="10">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </TextField>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="12">
+         <children>
+            <Button fx:id="crearButton" alignment="CENTER" mnemonicParsing="false" text="Crear Crédito" />
+            <Button fx:id="cancelarButton" mnemonicParsing="false" text="Cancelar" />
+         </children>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

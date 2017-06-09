@@ -59,7 +59,7 @@ public class CreditListView extends Application implements EventHandler<ActionEv
         TableColumn<CreditoModel, Float> gciaXDia = new TableColumn<>("Gcia. X día");
         gciaXDia.setMinWidth(60);
         gciaXDia.setCellValueFactory(new PropertyValueFactory<>("gciaXDia"));
-                
+
         // Saldo de capital
         TableColumn<CreditoModel, Float> saldoCapital = new TableColumn<>("Saldo Capital");
         saldoCapital.setMinWidth(60);
@@ -69,17 +69,17 @@ public class CreditListView extends Application implements EventHandler<ActionEv
         TableColumn<CreditoModel, Float> montoCredito = new TableColumn<>("Monto Crédito");
         montoCredito.setMinWidth(100);
         montoCredito.setCellValueFactory(new PropertyValueFactory<>("montoCredito"));        
-        
+
         // Cuotas pagas
         TableColumn<CreditoModel, Integer> cuotasPagas = new TableColumn<>("Cuotas Pagas");
         cuotasPagas.setMinWidth(40);
         cuotasPagas.setCellValueFactory(new PropertyValueFactory<>("cuotasPagas"));
-        
+
         // Cantidad de días
         TableColumn<CreditoModel, Integer> cantDias = new TableColumn<>("Cant. Días");
         cantDias.setMinWidth(40);
         cantDias.setCellValueFactory(new PropertyValueFactory<>("cantDias"));        
-        
+
         // Cobrador
         TableColumn<CreditoModel, String> cobrador = new TableColumn<>("Cobrador");
         cobrador.setMinWidth(40);
