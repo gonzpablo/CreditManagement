@@ -1,14 +1,20 @@
 package cred;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class CreditoController {
@@ -37,12 +43,15 @@ public class CreditoController {
 	private Button crearButton;
 	@FXML
 	private Button cancelarButton;
+	@FXML
+	private Button buscarButton;
 	
 	
 //	private PagoModel pago = new PagoModel();
 //
 //	private CreditoModel credito;
 //
+	private ClientModel cliente;
 	private MainController mainController;
 
 
@@ -77,6 +86,43 @@ public class CreditoController {
 			cancelar();
 		});
 		
+		buscarButton.setOnAction( (event) -> {
+			buscarCliente();
+		});
+		
+	}
+
+	private void initCliente() {
+		if (cliente == null)
+			return;
+		
+		this.clienteField.setText(cliente.getNombre() + ' ' + cliente.getApellido());		
+	}
+
+	private void buscarCliente() {
+		
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("ClienteSearch.fxml"));
+            VBox page = (VBox) loader.load();
+            ClienteSearchController controller = loader.<ClienteSearchController>getController();
+
+            controller.setClientes(mainController.getClientes());
+//            controller.setCredito(rowData);            
+            controller.setMainController(this);            
+            
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Buscar cliente");
+            stage.setResizable(false);
+            
+            Scene scene = new Scene(page);
+
+            stage.setScene(scene);
+            stage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }		
 	}
 
 	private void crear() {
@@ -90,7 +136,11 @@ public class CreditoController {
       											montoCreditoField.getText(),	      											
       											cobradorCombo.getValue(),
       											rutaCombo.getValue()));
-		
+
+	    // get a handle to the stage
+	    Stage stage = (Stage) crearButton.getScene().getWindow();
+	    // do what you have to do
+	    stage.close();      	
 	}
 
 	private void cancelar() {
@@ -133,7 +183,7 @@ public class CreditoController {
 
 	private void initFields() {
 		montoCuotaField.clear();
-		gciaXDiaField.clear();		
+		gciaXDiaField.clear();	
 	}
 
 	private boolean validar() {
@@ -197,5 +247,10 @@ public class CreditoController {
 
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;		
-	}			
+	}
+
+	public void setCliente(ClientModel cliente) {
+		this.cliente = cliente;
+		initCliente();
+	}
 }

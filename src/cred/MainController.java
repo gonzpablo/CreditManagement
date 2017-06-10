@@ -83,19 +83,23 @@ public class MainController {
 	@FXML
 	private MenuItem clienteMenuGestionar;
 	
-	
+//	Lista de créditos	
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
 
 	private FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
 
 //	Lista de clientes	
-	private List<ClientModel> clientes;
+//	private List<ClientModel> clientes;
+	private ObservableList<ClientModel> clientes = FXCollections.observableArrayList();
+	
+	
 	
 	/**
 	 * Just add some sample data in the constructor.
 	 */
 	public MainController() {
 		initCreditos();
+		clientes.add(new ClientModel("aa","bb","cc","dd","ee"));
 	}	
 	
 	/**
@@ -189,9 +193,9 @@ public class MainController {
 		   try {
 	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Cliente.fxml"));
 	            GridPane page = (GridPane) loader.load();
-//	            PagoController controller = loader.<PagoController>getController();
+	            ClientController controller = loader.<ClientController>getController();
 
-//	            controller.setCredito(rowData, creditos);
+	            controller.setClientes(clientes);
 //	            controller.setMainController(this);            
 	            
 	            Stage stage = new Stage();
@@ -347,5 +351,9 @@ public class MainController {
     	creditos.add(cred);
 //    	table.setItems(getCreditos());
 // refresh??    	
-    }    
+    }
+
+	public ObservableList<ClientModel> getClientes() {
+		return clientes;
+	}            
 }

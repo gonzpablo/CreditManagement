@@ -52,10 +52,11 @@ public class ClientController {
 	@FXML
 	private TableColumn<ClientModel, String> clienteTelefonoColumn;
 	
-    ObservableList<ClientModel> clientes = FXCollections.observableArrayList();	
+//    ObservableList<ClientModel> clientes = FXCollections.observableArrayList();	
+	ObservableList<ClientModel> clientes;	
 	
 	public ClientController() {
-		clientes.add(new ClientModel("aa","bb","cc","dd","ee"));
+//		clientes.add(new ClientModel("aa","bb","cc","dd","ee"));
 	}
 	
 	@FXML
@@ -63,7 +64,7 @@ public class ClientController {
 
 		initColumns();		
 		
-		clientesTable.setItems(clientes);
+//		clientesTable.setItems(clientes);
 			
 		clienteGuardarButton.setOnAction((event) -> {
 		    guardarCliente();
@@ -144,5 +145,10 @@ public class ClientController {
 		clienteDireccionField.clear();
 		clienteDniField.clear();
 		clienteTelefonoField.clear();
+	}
+
+	public void setClientes(ObservableList<ClientModel> clientes) {
+		this.clientes = clientes;
+		clientesTable.setItems(clientes);
 	}	
 }
