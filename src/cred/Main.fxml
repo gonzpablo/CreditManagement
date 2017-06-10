@@ -107,18 +107,23 @@
          <items>
             <HBox>
                <children>
+                  <Label text="Totales del dia: ">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
                   <Label text="Cuota Pura" textAlignment="CENTER">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="cuotaPuraField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefWidth="80.0" scaleShape="false" />
-                  <Label text="Ganancia Día" textAlignment="CENTER">
+                  <TextField fx:id="cuotaPuraField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="120.0" scaleShape="false" />
+                  <Label text="Ganancia" textAlignment="CENTER">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="gciaDiaField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefWidth="80.0" scaleShape="false" />
+                  <TextField fx:id="gciaDiaField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="121.0" scaleShape="false" />
                </children>
             </HBox>
          </items>
