@@ -188,14 +188,14 @@ public class CreditoController {
 
 	private boolean validar() {
 		
-//		if (clienteField.getText().equals("")) {
-//			Alert alert = new Alert(AlertType.INFORMATION);
-//			alert.setTitle("Atención");
-//			alert.setHeaderText("Error");
-//			alert.setContentText("Por favor ingrese el cliente");
-//			alert.showAndWait();			
-//			return false;
-//		} 
+		if (clienteField.getText().equals("")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Atención");
+			alert.setHeaderText("Error");
+			alert.setContentText("Por favor ingrese el cliente");
+			alert.showAndWait();			
+			return false;
+		} 
 
 		if (montoCreditoField.getText().equals("")) {
 			Alert alert = new Alert(AlertType.INFORMATION);
