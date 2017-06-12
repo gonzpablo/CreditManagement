@@ -327,14 +327,6 @@ public class MainController {
 
     public ObservableList<CreditoModel> initCreditos() {
     	
-//    	for ( ClientModel client : clientes ) {
-//    		
-//    		for ( CreditoModel cred : client.getCreditos() ) {
-//    			creditos.add(cred);
-//    		}
-//    		
-//    	}
-    	
     	creditos.add(new CreditoModel("Patricia Aguirre", 29, "45", "3000", "Luis", "1"));
     	creditos.add(new CreditoModel("Matias Barbieri", 15, "45", "2000", "Miguel", "2"));
     	creditos.add(new CreditoModel("Carla Diaz", 29, "45", "3000", "Luis", "1"));
