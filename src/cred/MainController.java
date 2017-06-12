@@ -99,7 +99,11 @@ public class MainController {
 	 */
 	public MainController() {
 		initCreditos();
-		clientes.add(new ClientModel("aa","bb","cc","dd","ee"));
+//		String nombre, String apellido, String direccion, String telefono, String dni		
+		clientes.add(new ClientModel("Patricia","Aguirre","Belgrano 1547","4987-5780","21487141"));
+		clientes.add(new ClientModel("Matias","Barbieri","Cuzco 9371","4547-3456","87214774"));
+		clientes.add(new ClientModel("Carla","Diaz","Alsina 837","2454-3852","17874877"));
+		clientes.add(new ClientModel("Miguel","Carrera","Paraguay 897","3878-1877","25787369"));		
 	}	
 	
 	/**
@@ -297,11 +301,11 @@ public class MainController {
 	}
 	
     private void initComboRuta() {
-		rutaFilterCombo.setItems(FXCollections.observableArrayList("1","2","3","4"));
+		rutaFilterCombo.setItems(FXCollections.observableArrayList("1","2","3","4","5","6","7"));
 	}
 
     private void initComboCobrador() {
-		cobradorFilterCombo.setItems(FXCollections.observableArrayList("Luis","Miguel", "Ezequiel"));
+		cobradorFilterCombo.setItems(FXCollections.observableArrayList("Luis","Miguel","Ezequiel","Ricardo","Rafael","Emanuel"));
 	}
 
 	private void initColumns() {
@@ -331,10 +335,10 @@ public class MainController {
 //    		
 //    	}
     	
-    	creditos.add(new CreditoModel("Carlos", 29, "45", "3000", "Luis", "1"));
-    	creditos.add(new CreditoModel("Juan", 15, "45", "2000", "Miguel", "2"));
-    	creditos.add(new CreditoModel("Jorge", 29, "45", "3000", "Luis", "1"));
-    	creditos.add(new CreditoModel("Bernardo", 15, "45", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "45", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "45", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "45", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "45", "2000", "Ezequiel", "2"));
 
         return creditos;
     }

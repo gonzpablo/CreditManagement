@@ -156,11 +156,11 @@ public class CreditoController {
 	}
 
 	private void initComboCobrador() {
-		cobradorCombo.setItems(FXCollections.observableArrayList("Luis","Miguel","Ezequiel"));		
+		cobradorCombo.setItems(FXCollections.observableArrayList("Luis","Miguel","Ezequiel","Ricardo","Rafael","Emanuel"));		
 	}
 	
 	private void initComboRuta() {
-		rutaCombo.setItems(FXCollections.observableArrayList("1","2","3","4"));		
+		rutaCombo.setItems(FXCollections.observableArrayList("1","2","3","4","5","6","7"));		
 	}
 	
 	private void simular() {
