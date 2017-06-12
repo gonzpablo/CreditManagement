@@ -261,8 +261,8 @@ public class CreditoModel {
 	public boolean validarMontoAPagar(BigDecimal monto) {
 		boolean result = true;
 		BigDecimal montoTotal;
-		
-		montoTotal = montoCuotaAcumulado.add(monto);
+
+		montoTotal = montoCuotaAcumulado.add(monto).setScale(2, RoundingMode.HALF_UP);
 
 		if ( montoTotal.compareTo(this.getCostoTotalCredito()) == 1 )			
 			result = false;
