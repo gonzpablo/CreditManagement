@@ -21,7 +21,7 @@ public class CreditPayView extends CreditView implements EventHandler<ActionEven
 		Label lblCuotasPagas = new Label("Cuotas Pagas");
 	
 	//	Creates an integer spinner with 1 as min, 10 as max and 2 as initial value
-		fldCuotasPagas = new Spinner<>(1, ( super.credito.getCantDias() - super.credito.getCuotasPagas()), 1);
+		fldCuotasPagas = new Spinner<>(1, ( super.credito.getCantCuotas() - super.credito.getCuotasPagas()), 1);
 	
 	  	btnConfirmar = new Button("Confirmar");		
 	  	btnConfirmar.setOnAction(this);
@@ -34,7 +34,7 @@ public class CreditPayView extends CreditView implements EventHandler<ActionEven
 	
 		GridPane.setConstraints(btnConfirmar, 1, 8); // (c0, r0)					
 
-		if (super.credito.getCuotasPagas() >= super.credito.getCantDias())
+		if (super.credito.getCuotasPagas() >= super.credito.getCantCuotas())
 			fldCuotasPagas.setDisable(true);		
 		
 	}
@@ -66,7 +66,7 @@ public class CreditPayView extends CreditView implements EventHandler<ActionEven
 		this.credito = credito;
 		this.row = row;
 		this.fldCliente.setText(credito.getCliente());
-		this.fldCantDias.setText(Integer.toString(credito.getCantDias()));
+		this.fldCantDias.setText(Integer.toString(credito.getCantCuotas()));
 		this.fldMontoCred.setText(credito.getMontoCredito().toString());
 		this.fldMontoCuota.setText(credito.getMontoCuota().toString());
 		this.fldTasaInt.setText(credito.getTasaInt().toString());

@@ -95,7 +95,7 @@
             <TableColumn fx:id="saldoCapitalColumn" prefWidth="84.0" text="Saldo Capital" />
             <TableColumn fx:id="montoCreditoColumn" prefWidth="74.0" text="Monto Crédito" />
             <TableColumn fx:id="cuotasPagasColumn" prefWidth="140.0" text="Cuotas Pagas" />
-            <TableColumn fx:id="cantDiasColumn" prefWidth="145.0" text="Cantidad Días" />
+            <TableColumn fx:id="cantCuotasColumn" prefWidth="145.0" text="Cantidad Cuotas" />
             <TableColumn fx:id="cobradorColumn" prefWidth="98.0" text="Cobrador" />
             <TableColumn fx:id="rutaColumn" prefWidth="98.0" text="Ruta" />            
         </columns>

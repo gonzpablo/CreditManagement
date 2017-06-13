@@ -52,7 +52,7 @@ public class MainController {
 	@FXML	
 	private TableColumn<CreditoModel, Integer> cuotasPagasColumn;
 	@FXML	
-	private TableColumn<CreditoModel, Integer> cantDiasColumn;
+	private TableColumn<CreditoModel, Integer> cantCuotasColumn;
 	@FXML	
 	private TableColumn<CreditoModel, String> cobradorColumn;
 	@FXML	
@@ -320,7 +320,7 @@ public class MainController {
         saldoCapitalColumn.setCellValueFactory(new PropertyValueFactory<>("saldoCapital"));
         montoCreditoColumn.setCellValueFactory(new PropertyValueFactory<>("montoCredito"));               
         cuotasPagasColumn.setCellValueFactory(new PropertyValueFactory<>("cuotasPagas"));       
-        cantDiasColumn.setCellValueFactory(new PropertyValueFactory<>("cantDias"));        
+        cantCuotasColumn.setCellValueFactory(new PropertyValueFactory<>("cantCuotas"));        
         cobradorColumn.setCellValueFactory(new PropertyValueFactory<>("cobrador"));
         rutaColumn.setCellValueFactory(new PropertyValueFactory<>("ruta"));
 	}

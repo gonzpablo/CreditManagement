@@ -184,7 +184,7 @@ public class PagoController {
 		credito.setMontoCuota(this.credito.getValorCuotaInterno());
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 		
-		if (this.credito.getCuotasPagas() == this.credito.getCantDias())		// cantidad de dias deberia cambiar a cantidad cuotas totales y en otro campo la unidad, dias o semanas
+		if (this.credito.getCuotasPagas() == this.credito.getCantCuotas())		// cantidad de dias deberia cambiar a cantidad cuotas totales y en otro campo la unidad, dias o semanas
 			disableFields();
 	}
 

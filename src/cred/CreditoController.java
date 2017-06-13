@@ -32,7 +32,9 @@ public class CreditoController {
 	@FXML
 	private TextField montoCuotaField;
 	@FXML
-	private TextField gciaXDiaField;					
+	private TextField gciaXDiaField;
+	@FXML
+	private TextField montoTotalCreditoField;	
 	@FXML
 	private ComboBox<String> unidadCuotasCombo;	
 	@FXML
@@ -174,11 +176,12 @@ public class CreditoController {
 		}
 
 		BigDecimal cuotaCapital = CreditoModel.obtenerCuotaCapital(montoCreditoField.getText(), cantCuotasField.getText());		
-		BigDecimal montoTotalCredito = CreditoModel.obtenerMontoTotalCredito(montoCreditoField.getText(), tasaInteresField.getText());
-		BigDecimal montoCuota = CreditoModel.obtenerMontoCuota(montoTotalCredito, cantCuotasField.getText());
+		BigDecimal montoTotalCredito = CreditoModel.obtenerMontoTotalCredito(montoCreditoField.getText(), tasaInteresField.getText(), cantCuotasField.getText());
+		BigDecimal montoCuota = CreditoModel.obtenerMontoCuota(montoTotalCredito, Integer.valueOf(cantCuotasField.getText()));
 
 		montoCuotaField.setText(String.valueOf(montoCuota));
-		gciaXDiaField.setText(String.valueOf(montoCuota.subtract(cuotaCapital)));		
+		gciaXDiaField.setText(String.valueOf(montoCuota.subtract(cuotaCapital)));
+		montoTotalCreditoField.setText(String.valueOf(montoTotalCredito));
 	}	
 
 	private void initFields() {
