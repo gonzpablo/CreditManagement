@@ -36,14 +36,19 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Cobradores">
                <items>
-                  <MenuItem fx:id="clienteMenuGestionar2" mnemonicParsing="false" text="Gestionar Cobradores" />
+                  <MenuItem fx:id="cobradorMenuGestionar" mnemonicParsing="false" text="Gestionar Cobradores" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Rutas">
                <items>
-                  <MenuItem fx:id="clienteMenuGestionar21" mnemonicParsing="false" text="Gestionar Rutas" />
+                  <MenuItem fx:id="rutasMenuGestionar" mnemonicParsing="false" text="Gestionar Rutas" />
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Reportes">
+               <items>
+                  <MenuItem fx:id="reporteMenu" mnemonicParsing="false" text="Reporte ruta" />
+               </items>
+            </Menu>            
           <Menu mnemonicParsing="false" text="Ayuda">
             <items>
               <MenuItem mnemonicParsing="false" text="Acerca de" />

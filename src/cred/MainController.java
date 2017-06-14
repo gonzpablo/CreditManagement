@@ -82,6 +82,9 @@ public class MainController {
 	private MenuItem crearCreditoMenu;
 	@FXML
 	private MenuItem clienteMenuGestionar;
+	@FXML
+	private MenuItem reporteMenu;
+	
 	
 //	Lista de créditos	
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
@@ -121,6 +124,7 @@ public class MainController {
         fechaFilterField.setOnAction(e -> { calcPagos(); } );
         clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
         crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
+        reporteMenu.setOnAction( e -> { reporte(); } );
         
 		initColumns();
 		initComboCobrador();
@@ -168,6 +172,14 @@ public class MainController {
             });
             return row;
         });
+	}
+
+	private void reporte() {
+		try {
+			Reporte.reporteRuta(filteredItems);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void crearCredito() {
