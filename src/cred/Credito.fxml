@@ -47,7 +47,7 @@
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin></Label>
-      <Label text="Tasa Interés (%)" GridPane.rowIndex="4">
+      <Label text="Tasa Interés (%)" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin></Label>
@@ -63,7 +63,7 @@
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></TextField>
-      <TextField fx:id="tasaInteresField" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <TextField fx:id="tasaInteresField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="10">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding></TextField>
@@ -85,7 +85,7 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin></ComboBox>
-      <Label text="Monto Cuota" GridPane.rowIndex="10">
+      <Label text="Monto Cuota" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
@@ -95,7 +95,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
       </Label>
-      <TextField fx:id="montoCuotaField" disable="true" editable="false" opacity="0.5" GridPane.columnIndex="1" GridPane.rowIndex="10">
+      <TextField fx:id="montoCuotaField" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
