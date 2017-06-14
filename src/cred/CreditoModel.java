@@ -26,15 +26,15 @@ public class CreditoModel {
 	private BigDecimal saldoCapital;
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
-	public CreditoModel(String cliente, int cantCuotas, String tasaInt, String montoCredito, String cobrador, String ruta) {
+	public CreditoModel(String cliente, int cantCuotas, String montoCuota, String montoCredito, String cobrador, String ruta) {
 		
 		this.cliente = cliente;
 		this.cantCuotas = cantCuotas;
-		this.tasaInt = NumeroUtil.crearBigDecimal(tasaInt);
 		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
 		this.cobrador = cobrador;
 		this.ruta = ruta;
-		this.valorCuota = obtenerMontoCuota(obtenerMontoTotalCredito(montoCredito, tasaInt, String.valueOf(cantCuotas)), cantCuotas); //calcularValorCuota();
+		this.valorCuota = obtenerMontoCuota(obtenerMontoTotalCredito(montoCuota, String.valueOf(cantCuotas)), cantCuotas); //calcularValorCuota();
+//		this.tasaInt = NumeroUtil.crearBigDecimal(tasaInt);		
 		calcularMontoAcumulado();
 		calcularCuotasPagas();
 		calcularSaldoCapital();
@@ -48,18 +48,17 @@ public class CreditoModel {
 		return montoCredito.divide(BigDecimal.valueOf(cantCuotas), 2, RoundingMode.HALF_UP);
 	}
 
-	public static BigDecimal obtenerMontoTotalCredito(String montoCred, String tasaInt, String cantCuotas) {
+	public static BigDecimal obtenerMontoTotalCredito(String montoCuotaIn, String cantCuotasIn) {
 //		montoCredito: es el monto prestado (sin intereses)
-		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCred);		
-		BigDecimal tasaInteres = NumeroUtil.crearBigDecimal(tasaInt);
-
+//		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCred);		
+//		BigDecimal tasaInteres = NumeroUtil.crearBigDecimal(tasaInt);
+		BigDecimal montoCuota = NumeroUtil.crearBigDecimal(montoCuotaIn);
+		int cantCuotas = Integer.valueOf(cantCuotasIn);
+		
 //		Fórmula: montoCredito + (montoCredito * (tasaInteres/100/30) * cantCuotas)
 //		Como es tasa de interés mensual, se divide la tasa en 30 días y se aplica a la cantidad de cuotas
-
-//		Nota: Ver si hay que aplicar el setScale como estaba antes..
-		return montoCredito.add(montoCredito.multiply(tasaInteres).divide(BigDecimal.valueOf(100)).divide(BigDecimal.valueOf(30), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP).multiply(new BigDecimal(cantCuotas)));
-
-//		return montoCredito.add(montoCredito.multiply(tasaInteres).divide(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP));
+		return montoCuota.multiply(BigDecimal.valueOf(cantCuotas));
+//		return montoCredito.add(montoCredito.multiply(tasaInteres).divide(BigDecimal.valueOf(100)).divide(BigDecimal.valueOf(30), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP).multiply(new BigDecimal(cantCuotas)));
 	}
 
 	public static BigDecimal obtenerMontoCuota(BigDecimal montoTotalCredito, int cantCuotas) {
@@ -270,7 +269,7 @@ public class CreditoModel {
 
 		montoTotal = montoCuotaAcumulado.add(monto).setScale(2, RoundingMode.HALF_UP);
 
-		if ( montoTotal.compareTo(this.obtenerMontoTotalCredito(montoCredito.toString(), tasaInt.toString(), String.valueOf(cantCuotas))) == 1 )			
+		if ( montoTotal.compareTo(this.obtenerMontoTotalCredito(montoCuota.toString(), String.valueOf(cantCuotas))) == 1 )			
 			result = false;
 
 		return result;
@@ -285,5 +284,21 @@ public class CreditoModel {
 		calcularCuotasAPagarSegunMonto();
 		calcularSaldoCapital();
 		calcularCuotasPagas();		
+	}
+
+	public static BigDecimal obtenerTasaInteres(
+								BigDecimal montoCredito, BigDecimal montoTotalCredito, String cantCuotasIn) {	
+
+		int cantCuotas = Integer.valueOf(cantCuotasIn);
+		
+//		A = montoTotalCredito / montoCredito => Importe debido a intereses		
+//		B = A / cantCuotas => Interés diario
+//		C = Interés Diario * 30 => Tasa interés mensual		
+		
+		return montoTotalCredito.divide(montoCredito)
+								.subtract(BigDecimal.valueOf(1))
+								.multiply(BigDecimal.valueOf(100))
+								.divide(BigDecimal.valueOf(cantCuotas), 2, RoundingMode.HALF_UP)
+								.multiply(BigDecimal.valueOf(30));
 	}	
 }

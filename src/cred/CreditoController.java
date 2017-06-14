@@ -169,24 +169,33 @@ public class CreditoController {
 
 		if ( montoCreditoField.getText().length() == 0 ||
 			 cantCuotasField.getText().length() == 0 ||
-			 tasaInteresField.getText().length() == 0 ) {
+			 montoCuotaField.getText().length() == 0 ) {
 		
 			initFields();
 			return;
 		}
+		
+		BigDecimal montoCuota = new BigDecimal(montoCuotaField.getText());
+		
+		BigDecimal cuotaCapital = CreditoModel.obtenerCuotaCapital(
+									montoCreditoField.getText(), cantCuotasField.getText());		
+		BigDecimal montoTotalCredito = CreditoModel.obtenerMontoTotalCredito(
+									montoCuotaField.getText(), cantCuotasField.getText());
+		
+		BigDecimal tasaInteres = CreditoModel.obtenerTasaInteres(
+									montoCuota, montoTotalCredito, cantCuotasField.getText());
+//		BigDecimal montoCuota = CreditoModel.obtenerMontoCuota(montoTotalCredito, Integer.valueOf(cantCuotasField.getText()));
 
-		BigDecimal cuotaCapital = CreditoModel.obtenerCuotaCapital(montoCreditoField.getText(), cantCuotasField.getText());		
-		BigDecimal montoTotalCredito = CreditoModel.obtenerMontoTotalCredito(montoCreditoField.getText(), tasaInteresField.getText(), cantCuotasField.getText());
-		BigDecimal montoCuota = CreditoModel.obtenerMontoCuota(montoTotalCredito, Integer.valueOf(cantCuotasField.getText()));
-
-		montoCuotaField.setText(String.valueOf(montoCuota));
+//		montoCuotaField.setText(String.valueOf(montoCuota));
+//		tasaInteresField.setText(value);
 		gciaXDiaField.setText(String.valueOf(montoCuota.subtract(cuotaCapital)));
 		montoTotalCreditoField.setText(String.valueOf(montoTotalCredito));
 	}	
 
 	private void initFields() {
-		montoCuotaField.clear();
-		gciaXDiaField.clear();	
+		tasaInteresField.clear();		
+		gciaXDiaField.clear();
+		montoTotalCreditoField.clear();
 	}
 
 	private boolean validar() {
@@ -207,8 +216,17 @@ public class CreditoController {
 			alert.setContentText("Ingrese el monto del crédito");
 			alert.showAndWait();							
 			return false;
-		}						
-		
+		}
+
+		if (tasaInteresField.getText().equals("")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Atención");
+			alert.setHeaderText("Error");
+			alert.setContentText("Ingrese el monto de cada cuota");
+			alert.showAndWait();							
+			return false;
+		}
+
 		if (cantCuotasField.getText().equals("")) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Atención");
@@ -216,16 +234,8 @@ public class CreditoController {
 			alert.setContentText("Ingrese la cantidad de días");
 			alert.showAndWait();							
 			return false;
-		}		
-
-		if (tasaInteresField.getText().equals("")) {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Atención");
-			alert.setHeaderText("Error");
-			alert.setContentText("Ingrese la tasa de interés mensual");
-			alert.showAndWait();							
-			return false;
-		}				
+		}
+				
 		
 		if (cobradorCombo.getValue() == null) {
 			Alert alert = new Alert(AlertType.INFORMATION);
