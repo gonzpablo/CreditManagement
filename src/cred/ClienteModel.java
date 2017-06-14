@@ -2,7 +2,7 @@ package cred;
 
 import java.util.List;
 
-public class ClientModel {
+public class ClienteModel {
 
 	private String nombre;
 	private String apellido;
@@ -11,11 +11,11 @@ public class ClientModel {
 	private String dni;
 	private List<CreditoModel> creditos;
 
-	public ClientModel() {
+	public ClienteModel() {
 
 	}
 	
-	public ClientModel(String nombre, String apellido, String direccion, String telefono, String dni) {
+	public ClienteModel(String nombre, String apellido, String direccion, String telefono, String dni) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;

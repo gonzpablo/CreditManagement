@@ -21,19 +21,19 @@ public class ClienteSearchController {
 	private Button limpiarFiltrosButton;
 		
 	@FXML
-	private TableColumn<ClientModel, String> nombreColumn;
+	private TableColumn<ClienteModel, String> nombreColumn;
 	@FXML
-	private TableColumn<ClientModel, String> apellidoColumn;
+	private TableColumn<ClienteModel, String> apellidoColumn;
 	@FXML
-	private TableColumn<ClientModel, String> direccionColumn;
+	private TableColumn<ClienteModel, String> direccionColumn;
 	@FXML
-	private TableColumn<ClientModel, String> telefonoColumn;
+	private TableColumn<ClienteModel, String> telefonoColumn;
 	@FXML
-	private TableColumn<ClientModel, String> dniColumn;
+	private TableColumn<ClienteModel, String> dniColumn;
 	@FXML
-	private TableView<ClientModel> clientesTable;
+	private TableView<ClienteModel> clientesTable;
 	
-	private ObservableList<ClientModel> clientes; // = FXCollections.observableArrayList();	
+	private ObservableList<ClienteModel> clientes; // = FXCollections.observableArrayList();	
 
 	private CreditoController creditoController;
 		
@@ -49,11 +49,11 @@ public class ClienteSearchController {
 //		Doble-click        
         clientesTable.setRowFactory( tv -> {
 
-            TableRow<ClientModel> row = new TableRow<>();
+            TableRow<ClienteModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
 
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    ClientModel rowData = row.getItem();
+                    ClienteModel rowData = row.getItem();
 //                    System.out.println(rowData.getCliente());
 
                     setCliente(rowData, row);
@@ -64,7 +64,7 @@ public class ClienteSearchController {
 		
 	}
 
-	private void setCliente(ClientModel rowData, TableRow<ClientModel> row) {
+	private void setCliente(ClienteModel rowData, TableRow<ClienteModel> row) {
 		creditoController.setCliente(rowData);		
 	    // get a handle to the stage
 	    Stage stage = (Stage) row.getScene().getWindow();
@@ -80,7 +80,7 @@ public class ClienteSearchController {
 		dniColumn.setCellValueFactory(new PropertyValueFactory<>("dni"));
 	}
 
-	public void setClientes(ObservableList<ClientModel> clientes) {
+	public void setClientes(ObservableList<ClienteModel> clientes) {
 		this.clientes = clientes;
 		clientesTable.setItems(this.clientes);
 	}

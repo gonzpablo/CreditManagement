@@ -53,7 +53,7 @@ public class CreditoController {
 //
 //	private CreditoModel credito;
 //
-	private ClientModel cliente;
+	private ClienteModel cliente;
 	private MainController mainController;
 
 
@@ -252,7 +252,7 @@ public class CreditoController {
 		this.mainController = mainController;		
 	}
 
-	public void setCliente(ClientModel cliente) {
+	public void setCliente(ClienteModel cliente) {
 		this.cliente = cliente;
 		initCliente();
 	}

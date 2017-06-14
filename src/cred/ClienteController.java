@@ -19,7 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
-public class ClientController {
+public class ClienteController {
 
 	@FXML
 	private TextField clienteNombreField;
@@ -40,22 +40,22 @@ public class ClientController {
 	private Button clienteGuardarButton;
 
 	@FXML
-	private TableView<ClientModel> clientesTable;	
+	private TableView<ClienteModel> clientesTable;	
 	@FXML
-	private TableColumn<ClientModel, String> clienteNombreColumn;
+	private TableColumn<ClienteModel, String> clienteNombreColumn;
 	@FXML
-	private TableColumn<ClientModel, String> clienteApellidoColumn;
+	private TableColumn<ClienteModel, String> clienteApellidoColumn;
 	@FXML
-	private TableColumn<ClientModel, String> clienteDniColumn;
+	private TableColumn<ClienteModel, String> clienteDniColumn;
 	@FXML
-	private TableColumn<ClientModel, String> clienteDireccionColumn;
+	private TableColumn<ClienteModel, String> clienteDireccionColumn;
 	@FXML
-	private TableColumn<ClientModel, String> clienteTelefonoColumn;
+	private TableColumn<ClienteModel, String> clienteTelefonoColumn;
 	
 //    ObservableList<ClientModel> clientes = FXCollections.observableArrayList();	
-	ObservableList<ClientModel> clientes;	
+	ObservableList<ClienteModel> clientes;	
 	
-	public ClientController() {
+	public ClienteController() {
 //		clientes.add(new ClientModel("aa","bb","cc","dd","ee"));
 	}
 	
@@ -75,11 +75,11 @@ public class ClientController {
 //		Doble-click        
         clientesTable.setRowFactory( tv -> {
 
-            TableRow<ClientModel> row = new TableRow<>();
+            TableRow<ClienteModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
 
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    ClientModel rowData = row.getItem();
+                    ClienteModel rowData = row.getItem();
 //                    System.out.println(rowData.getCliente());
 
                     clienteView(rowData, row);
@@ -91,7 +91,7 @@ public class ClientController {
 		
 	}
 
-	private void clienteView(ClientModel rowData, TableRow<ClientModel> row) {
+	private void clienteView(ClienteModel rowData, TableRow<ClienteModel> row) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("ClienteCreditos.fxml"));
             GridPane page = (GridPane) loader.load();
@@ -117,17 +117,17 @@ public class ClientController {
 	}
 
 	private void guardarCliente() {
-    	addItemToList(new ClientModel(clienteNombreField.getText(), clienteApellidoField.getText(), 
+    	addItemToList(new ClienteModel(clienteNombreField.getText(), clienteApellidoField.getText(), 
 				  clienteDireccionField.getText(), clienteTelefonoField.getText(), 
 				  clienteDniField.getText()));
 	}
 
-    private void addItemToList(ClientModel cliente) {
+    private void addItemToList(ClienteModel cliente) {
     	clientes.add(cliente);
 //    	clientesTable.setItems(getClientes());
     }	
 
-	private ObservableList<ClientModel> getClientes() {
+	private ObservableList<ClienteModel> getClientes() {
 		return clientes;
 	}
 	
@@ -147,7 +147,7 @@ public class ClientController {
 		clienteTelefonoField.clear();
 	}
 
-	public void setClientes(ObservableList<ClientModel> clientes) {
+	public void setClientes(ObservableList<ClienteModel> clientes) {
 		this.clientes = clientes;
 		clientesTable.setItems(clientes);
 	}	

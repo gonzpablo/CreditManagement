@@ -77,7 +77,7 @@ public class ClienteCreditosController {
     	cantCuotasColumn.setCellValueFactory(new PropertyValueFactory<>("cantDias"));        
 	}
 	
-	public void setCliente(ClientModel cliente) {
+	public void setCliente(ClienteModel cliente) {
 		
 	}
 }

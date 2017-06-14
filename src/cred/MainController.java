@@ -93,7 +93,7 @@ public class MainController {
 
 //	Lista de clientes	
 //	private List<ClientModel> clientes;
-	private ObservableList<ClientModel> clientes = FXCollections.observableArrayList();
+	private ObservableList<ClienteModel> clientes = FXCollections.observableArrayList();
 	
 	
 	
@@ -103,10 +103,10 @@ public class MainController {
 	public MainController() {
 		initCreditos();
 //		String nombre, String apellido, String direccion, String telefono, String dni		
-		clientes.add(new ClientModel("Patricia","Aguirre","Belgrano 1547","4987-5780","21487141"));
-		clientes.add(new ClientModel("Matias","Barbieri","Cuzco 9371","4547-3456","87214774"));
-		clientes.add(new ClientModel("Carla","Diaz","Alsina 837","2454-3852","17874877"));
-		clientes.add(new ClientModel("Miguel","Carrera","Paraguay 897","3878-1877","25787369"));		
+		clientes.add(new ClienteModel("Patricia","Aguirre","Belgrano 1547","4987-5780","21487141"));
+		clientes.add(new ClienteModel("Matias","Barbieri","Cuzco 9371","4547-3456","87214774"));
+		clientes.add(new ClienteModel("Carla","Diaz","Alsina 837","2454-3852","17874877"));
+		clientes.add(new ClienteModel("Miguel","Carrera","Paraguay 897","3878-1877","25787369"));		
 	}	
 	
 	/**
@@ -209,7 +209,7 @@ public class MainController {
 		   try {
 	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Cliente.fxml"));
 	            GridPane page = (GridPane) loader.load();
-	            ClientController controller = loader.<ClientController>getController();
+	            ClienteController controller = loader.<ClienteController>getController();
 
 	            controller.setClientes(clientes);
 //	            controller.setMainController(this);            
@@ -361,7 +361,7 @@ public class MainController {
 // refresh??    	
     }
 
-	public ObservableList<ClientModel> getClientes() {
+	public ObservableList<ClienteModel> getClientes() {
 		return clientes;
 	}            
 }
