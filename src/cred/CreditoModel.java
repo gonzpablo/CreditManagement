@@ -269,7 +269,7 @@ public class CreditoModel {
 
 		montoTotal = montoCuotaAcumulado.add(monto).setScale(2, RoundingMode.HALF_UP);
 
-		if ( montoTotal.compareTo(this.obtenerMontoTotalCredito(montoCuota.toString(), String.valueOf(cantCuotas))) == 1 )			
+		if ( montoTotal.compareTo(this.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas))) == 1 )			
 			result = false;
 
 		return result;
@@ -287,15 +287,16 @@ public class CreditoModel {
 	}
 
 	public static BigDecimal obtenerTasaInteres(
-								BigDecimal montoCredito, BigDecimal montoTotalCredito, String cantCuotasIn) {	
+								String montoCreditoIn, BigDecimal montoTotalCredito, String cantCuotasIn) {	
 
 		int cantCuotas = Integer.valueOf(cantCuotasIn);
+		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCreditoIn);
 		
 //		A = montoTotalCredito / montoCredito => Importe debido a intereses		
 //		B = A / cantCuotas => Interés diario
 //		C = Interés Diario * 30 => Tasa interés mensual		
 		
-		return montoTotalCredito.divide(montoCredito)
+		return montoTotalCredito.divide(montoCredito, 2, RoundingMode.HALF_UP)
 								.subtract(BigDecimal.valueOf(1))
 								.multiply(BigDecimal.valueOf(100))
 								.divide(BigDecimal.valueOf(cantCuotas), 2, RoundingMode.HALF_UP)

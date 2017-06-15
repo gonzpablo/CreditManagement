@@ -72,7 +72,7 @@ public class CreditoController {
 			simular();
 		});		
 		
-		tasaInteresField.setOnKeyReleased( (event) -> {			
+		montoCuotaField.setOnKeyReleased( (event) -> {			
 			simular();
 		});
 		
@@ -131,10 +131,10 @@ public class CreditoController {
 		
 	  	if (!validar())
 	  		return;
-	  
-      	mainController.addItemToList(new CreditoModel(this.clienteField.getText(),
+
+	  	mainController.addItemToList(new CreditoModel(this.clienteField.getText(),
       											Integer.valueOf(this.cantCuotasField.getText()),
-      											this.tasaInteresField.getText(),
+      											montoCuotaField.getText(),
       											montoCreditoField.getText(),	      											
       											cobradorCombo.getValue(),
       											rutaCombo.getValue()));
@@ -183,11 +183,11 @@ public class CreditoController {
 									montoCuotaField.getText(), cantCuotasField.getText());
 		
 		BigDecimal tasaInteres = CreditoModel.obtenerTasaInteres(
-									montoCuota, montoTotalCredito, cantCuotasField.getText());
+									montoCreditoField.getText(), montoTotalCredito, cantCuotasField.getText());
 //		BigDecimal montoCuota = CreditoModel.obtenerMontoCuota(montoTotalCredito, Integer.valueOf(cantCuotasField.getText()));
 
 //		montoCuotaField.setText(String.valueOf(montoCuota));
-//		tasaInteresField.setText(value);
+		tasaInteresField.setText(tasaInteres.toString());
 		gciaXDiaField.setText(String.valueOf(montoCuota.subtract(cuotaCapital)));
 		montoTotalCreditoField.setText(String.valueOf(montoTotalCredito));
 	}	

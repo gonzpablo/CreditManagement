@@ -339,10 +339,10 @@ public class MainController {
 
     public ObservableList<CreditoModel> initCreditos() {
     	
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "45", "3000", "Luis", "1"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "45", "2000", "Miguel", "2"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "45", "3000", "Luis", "1"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "45", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
 
         return creditos;
     }
