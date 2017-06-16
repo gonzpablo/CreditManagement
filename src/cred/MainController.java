@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
@@ -64,6 +65,8 @@ public class MainController {
 	private ComboBox<String> rutaFilterCombo;
 	@FXML
 	private ComboBox<String> cobradorFilterCombo;
+	@FXML
+	private CheckBox cerradoFilterCheckBox;
 	@FXML
 	private DatePicker fechaFilterField;
 //  -------------------------------------------------------------------	
@@ -131,24 +134,36 @@ public class MainController {
 		initComboRuta();
 				
         ObjectProperty<Predicate<CreditoModel>> cobradorFilter = new SimpleObjectProperty<>();
-        ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();		
-	
-        cobradorFilter.bind(Bindings.createObjectBinding(() ->
-        credito -> cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(), 
-        cobradorFilterCombo.valueProperty()));				
+        ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();			
+        ObjectProperty<Predicate<CreditoModel>> cerradoFilter = new SimpleObjectProperty<>();
+        
+        cobradorFilter.bind(Bindings.createObjectBinding(() ->        
+        								credito -> cobradorFilterCombo.getValue() == null ||
+        								cobradorFilterCombo.getValue() == credito.getCobrador(),
+        								cobradorFilterCombo.valueProperty()));				
 		
         rutaFilter.bind(Bindings.createObjectBinding(() ->
-        credito -> rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(), 
-        rutaFilterCombo.valueProperty()));		
-		
+        								credito -> rutaFilterCombo.getValue() == null ||
+        								rutaFilterCombo.getValue() == credito.getRuta(),
+        								rutaFilterCombo.valueProperty()));		
+
+        cerradoFilter.bind(Bindings.createObjectBinding(() ->
+										credito -> cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
+												cerradoFilterCheckBox.visibleProperty()));	
+
+        
+        
 //        FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
         creditosTable.setItems(filteredItems);    
         
 //		Esto hace que el filtro sea acumulativo (de los dos filtros) (ver el .and)        
-        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(
-                () -> cobradorFilter.get().and(rutaFilter.get()), 
-                cobradorFilter, rutaFilter));
-
+//        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
+//        										cobradorFilter.get().and(
+//        												rutaFilter.get()), cobradorFilter, rutaFilter));
+        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
+												cobradorFilter.get().and(rutaFilter.get()), cobradorFilter, rutaFilter));
+        
+        
         calc();
         
         btnCleanFilters.setOnAction(e -> {
@@ -344,6 +359,99 @@ public class MainController {
     	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
     	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
 
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	
         return creditos;
     }
 

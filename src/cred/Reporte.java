@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import javafx.collections.ObservableList;
@@ -12,35 +13,51 @@ import javafx.collections.transformation.FilteredList;
 
 public class Reporte {
 
-	public static void reporteRuta(FilteredList<CreditoModel> creditos) throws IOException {
+	public static void reporteRuta(FilteredList<CreditoModel> creditos) throws IOException {		
 		
 	    PDDocument doc = new PDDocument();
-	    PDPage page = new PDPage();
-	    doc.addPage( page );
-	    PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-
-	    drawTable(page, contentStream, 700, 100, creditos);
-
-	    contentStream.close();
+	    
+	    drawTable(doc, 750, 50, creditos);
+	    
+//	    PDPage page2 = new PDPage();	    
+//
+//	    doc.addPage(page2);
+//	    PDPageContentStream contentStream2 = new PDPageContentStream(doc, page2);	    
+//		contentStream2.beginText();
+//		contentStream2.setFont( PDType1Font.HELVETICA.HELVETICA_BOLD , 9 );		
+//	    contentStream2.drawString("test");
+//	    contentStream2.endText();	    
+//	    contentStream2.close();
+	    
 	    doc.save("c:/temp/test_table.pdf" );
 	    doc.close();
 	}
 
-	public static void drawTable(PDPage page, PDPageContentStream contentStream,
-									float y, float margin,
+	public static void drawTable(PDDocument doc, float y, float margin,
 									ObservableList<CreditoModel> creditos) throws IOException {
 		
 
 		final int rows = creditos.size() + 1;  // +1 es para el heading
 		final int cols = 7;
 		final float rowHeight = 20f;
-		final float tableWidth = page.getCropBox().getWidth() - margin - margin;
+		final float tableWidth;
 		final float tableHeight = rowHeight * rows;
-		final float colWidth = tableWidth/(float)cols;
+		final float colWidth;
 		final float cellMargin=5f;
 
 		//draw the rows
 		float nexty = y ;
+		
+		
+	    PDPage page = crearPagina();		// crear página A4	    
+	    tableWidth = page.getCropBox().getWidth() - margin - margin;
+	    colWidth = tableWidth/(float)cols;
+	    
+	    doc.addPage( page );
+	    PDPageContentStream contentStream = new PDPageContentStream(doc, page);
+
+		contentStream.setNonStrokingColor(200, 200, 200); //gray background
+		contentStream.fillRect(margin, nexty-rowHeight, tableWidth, 20);		
 		
 		for (int i = 0; i <= rows; i++) {
 //			 * @param xStart The start x coordinate.
@@ -52,14 +69,36 @@ public class Reporte {
 //			public void drawLine(float xStart, float yStart, float xEnd, float yEnd) throws IOException
 			
 			contentStream.drawLine(margin, nexty, margin+tableWidth, nexty);
+
+//			contentStream.fillRect(margin, nexty, margin+tableWidth, nexty);
 			contentStream.moveTo(margin, nexty);
 			contentStream.lineTo(margin+tableWidth, nexty);
 //			contentStream.stroke();
 //			contentStream.addRect(10, 10, 10, 10);
 		
 			nexty-= rowHeight;
+			System.out.println(nexty);
+			
+			if ( nexty < 10 ) {
+				contentStream.close();
+			    page = crearPagina();		// crear página A4	    
+			    doc.addPage( page );
+			    contentStream = new PDPageContentStream(doc, page);
+
+				contentStream.setNonStrokingColor(200, 200, 200); //gray background
+				contentStream.fillRect(margin, nexty-rowHeight, tableWidth, 20);	
+				
+				nexty = y ;
+			}
+			
+//			-----------------------------------------------			
+			
+			
+			
 		}
 
+		contentStream.setNonStrokingColor(0, 0, 0); //black text
+		
 		//draw the columns
 		float nextx = margin;
 		for (int i = 0; i <= cols; i++) {
@@ -113,7 +152,11 @@ public class Reporte {
 			
 			texty-=rowHeight;
 			textx = margin+cellMargin;
+			
+			
 		}		
+		
+	    contentStream.close();
 	}
 
 	private static float imprimirDato(int tipoLinea, String dato, PDPageContentStream contentStream, float textx, float texty, float colWidth) throws IOException {
@@ -131,5 +174,9 @@ public class Reporte {
 //		textx += colWidth;
 		return colWidth;
 		
-	}	
+	}
+	
+	private static PDPage crearPagina() {
+		return new PDPage(PDRectangle.A4); 
+	}
 }

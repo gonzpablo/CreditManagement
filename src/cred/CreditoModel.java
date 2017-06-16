@@ -24,7 +24,9 @@ public class CreditoModel {
 	private String cobrador;
 	private String ruta;
 	private BigDecimal saldoCapital;
+	private boolean cerrado = false;	// todos los creditos nacen abiertos
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
+	
 	
 	public CreditoModel(String cliente, int cantCuotas, String montoCuota, String montoCredito, String cobrador, String ruta) {
 		
@@ -301,5 +303,13 @@ public class CreditoModel {
 								.multiply(BigDecimal.valueOf(100))
 								.divide(BigDecimal.valueOf(cantCuotas), 2, RoundingMode.HALF_UP)
 								.multiply(BigDecimal.valueOf(30));
+	}
+
+	public boolean isCerrado() {
+		return cerrado;
+	}
+
+	public void setCerrado(boolean cerrado) {
+		this.cerrado = cerrado;
 	}	
 }
