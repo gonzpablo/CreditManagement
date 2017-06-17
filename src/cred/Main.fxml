@@ -82,7 +82,7 @@
                      </padding>
                   </Label>
                   <DatePicker fx:id="fechaFilterField" prefWidth="110.0" />
-                  <CheckBox fx:id="cerradoFilter" contentDisplay="RIGHT" mnemonicParsing="false" text="Mostrar créditos cerrados">
+                  <CheckBox fx:id="cerradoFilterCheckBox" contentDisplay="RIGHT" mnemonicParsing="false" text="Mostrar créditos cerrados">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
