@@ -6,6 +6,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
+
 //http://www.opentaps.org/docs/index.php/How_to_Use_Java_BigDecimal:_A_Tutorial
 
 public class CreditoModel {
@@ -25,6 +29,8 @@ public class CreditoModel {
 	private String ruta;
 	private BigDecimal saldoCapital;
 	private boolean cerrado = false;	// todos los creditos nacen abiertos
+//	private SimpleBooleanProperty cerrado;
+
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
 	
@@ -305,11 +311,26 @@ public class CreditoModel {
 								.multiply(BigDecimal.valueOf(30));
 	}
 
+//	public boolean isCerrado() {
+//		return cerrado;
+//	}
 	public boolean isCerrado() {
 		return cerrado;
 	}
 
+//	public SimpleBooleanProperty getCerrado() {
+//		return cerrado;
+//	}
+	
 	public void setCerrado(boolean cerrado) {
 		this.cerrado = cerrado;
-	}	
+	}
+
+//	public void setCerrado(SimpleBooleanProperty cerrado) {
+//
+////		this.cerrado = cerrado;
+//		this.cerrado.setValue(cerrado.getValue());
+//	}
+	
+	
 }

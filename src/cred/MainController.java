@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -58,6 +61,8 @@ public class MainController {
 	private TableColumn<CreditoModel, String> cobradorColumn;
 	@FXML	
 	private TableColumn<CreditoModel, String> rutaColumn;
+	@FXML	
+	private TableColumn<CreditoModel, Boolean> cerradoColumn;	
 //  -------------------------------------------------------------------
 //  Filtros	
 //  -------------------------------------------------------------------	
@@ -87,7 +92,7 @@ public class MainController {
 	private MenuItem clienteMenuGestionar;
 	@FXML
 	private MenuItem reporteMenu;
-	
+
 	
 //	Lista de créditos	
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
@@ -123,7 +128,7 @@ public class MainController {
 	private void initialize() {
 
         rutaFilterCombo.setOnAction(e -> { 	calc();  });
-        cobradorFilterCombo.setOnAction(e -> { calc(); });
+        cobradorFilterCombo.setOnAction(e -> { calc(); });        
         fechaFilterField.setOnAction(e -> { calcPagos(); } );
         clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
         crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
@@ -132,16 +137,7 @@ public class MainController {
             rutaFilterCombo.setValue(null);
             cobradorFilterCombo.setValue(null);
             fechaFilterField.setValue(null);
-
-            
-
-//            System.out.println(cerradoFilterCheckBox.isSelected());
-//            
-//            System.out.println(cerradoFilterCheckBox.visibleProperty());
-
-            cerradoFilterCheckBox.setSelected(false);
-//            System.out.println(cerradoFilter.get());
-            
+            cerradoFilterCheckBox.setSelected(false);           
         });        
         
 		initColumns();
@@ -163,8 +159,8 @@ public class MainController {
         						rutaFilterCombo.valueProperty()));		
 
         cerradoFilter.bind(Bindings.createObjectBinding(() ->
-							credito ->
-								cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
+							credito -> 
+							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
 								cerradoFilterCheckBox.selectedProperty()));	        
 
         creditosTable.setItems(filteredItems);    
@@ -274,7 +270,12 @@ public class MainController {
     	
 		creditosTable.refresh();
 	}
-
+	
+	public void refrescar() {
+		creditosTable.refresh();
+		
+	}
+	
 	private void pago(CreditoModel rowData, TableRow<CreditoModel> row) {
 
         try {
@@ -282,7 +283,6 @@ public class MainController {
             GridPane page = (GridPane) loader.load();
             PagoController controller = loader.<PagoController>getController();
 
-//            controller.setCredito(rowData, creditos);
             controller.setCredito(rowData);            
             controller.setMainController(this);            
             
@@ -352,6 +352,14 @@ public class MainController {
         cantCuotasColumn.setCellValueFactory(new PropertyValueFactory<>("cantCuotas"));        
         cobradorColumn.setCellValueFactory(new PropertyValueFactory<>("cobrador"));
         rutaColumn.setCellValueFactory(new PropertyValueFactory<>("ruta"));
+//        cerradoColumn.setCellValueFactory(  new PropertyValueFactory<>("cerrado")  );
+//        cerradoColumn.setCellValueFactory( new PropertyValueFactory<CreditoModel, Boolean>("cerrado") );
+        cerradoColumn.setCellValueFactory( new PropertyValueFactory<>("cerrado") );
+        cerradoColumn.setCellFactory( tc -> new CheckBoxTableCell<>());
+        
+//        row.setCellValueFactory(c -> new SimpleBooleanProperty(c.getValue().getIsDefault()));
+//        row.setCellFactory(tc -> new CheckBoxTableCell<>());        
+        
 	}
 
     public ObservableList<CreditoModel> initCreditos() {
@@ -365,13 +373,7 @@ public class MainController {
     	credCerr = new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1");
     	credCerr.setCerrado(true);
     	creditos.add(credCerr);
-    	
-    	System.out.println(credCerr.isCerrado());
-    	
-    	for (CreditoModel cred: creditos ) {
-    		System.out.println(cred.isCerrado());
-    	}
-    	
+   
         return creditos;
     }
 

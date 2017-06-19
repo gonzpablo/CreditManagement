@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -154,12 +155,19 @@ public class PagoController {
 	private void ingresarPago() {
 		
 		if (!(credito.validarMontoAPagar(new BigDecimal(montoPagadoField.textProperty().getValue())))) {
+//			
+			credito.setCerrado(true);
+			credito.calcular();
+			this.mainController.refrescar();
+			
+			credito.calcular();
 			
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Error al ingresar pago");
 			alert.setContentText("El monto a pagar excede el monto total del crédito");
-			alert.showAndWait();									
+			alert.showAndWait();				
+
 			return;
 		}
 			
@@ -184,8 +192,10 @@ public class PagoController {
 		credito.setMontoCuota(this.credito.getValorCuotaInterno());
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 		
-		if (this.credito.getCuotasPagas() == this.credito.getCantCuotas())		// cantidad de dias deberia cambiar a cantidad cuotas totales y en otro campo la unidad, dias o semanas
+		if (this.credito.getCuotasPagas() == this.credito.getCantCuotas()) {
 			disableFields();
+//			this.credito.setCerrado(true);
+		}
 	}
 
 	public void setMainController(MainController mainController) {
