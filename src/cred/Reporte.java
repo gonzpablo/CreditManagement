@@ -275,7 +275,7 @@ public class Reporte {
 		
 		for ( ReporteField field : headerFields) {
 
-			imprimirTexto(contentStream, field.getName(), x, y);
+			imprimirTexto(contentStream, field.getName(), x+5, y);
 			contentStream.drawLine(x, starty+15, x, starty+15-rowHeight);
 			x+=field.getLength();	       
 			
@@ -299,28 +299,28 @@ public class Reporte {
 		
 		
 		for ( CreditoModel credito : creditos ) {
-			contentStream.drawLine(x, y+15, x, y-rowHeight);			
+			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
 			imprimirTexto(contentStream, credito.getCliente(), x, y);
 			x+=getLength("Cliente");			
-			contentStream.drawLine(x, y+15, x, y-rowHeight);
+			contentStream.drawLine(x, y+15, x, y+15-rowHeight);
 			imprimirTexto(contentStream, credito.getValorCuota().toString(), x+23, y);
 			x+=getLength("Valor Cuota");			
-			contentStream.drawLine(x, y+15, x, y-rowHeight);			
+			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
 			imprimirTexto(contentStream, credito.getMontoCredito().toString(), x+23, y);
 			x+=getLength("Monto Crédito");			
-			contentStream.drawLine(x, y+15, x, y-rowHeight);			
+			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
 			imprimirTexto(contentStream, String.valueOf(credito.getCuotasPagas()), x, y);
 			x+=getLength("CP");			
-			contentStream.drawLine(x, y+15, x, y-rowHeight);			
+			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
 			imprimirTexto(contentStream, String.valueOf(credito.getCantCuotas()), x, y);
 			x+=getLength("CC");			
-			contentStream.drawLine(x, y+15, x, y-rowHeight);			
+			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
 			imprimirTexto(contentStream, credito.getCobrador(), x, y);
 			x+=getLength("Cobrador");			
-			contentStream.drawLine(x, y+15, x, y-rowHeight);			
+			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
 			imprimirTexto(contentStream, credito.getRuta(), x, y);
 			x+=getLength("Ruta");
-			contentStream.drawLine(x, y+15, x, y-rowHeight);
+			contentStream.drawLine(x, y+15, x, y+15-rowHeight);
 			
 			contentStream.drawLine(startx, y-5, x, y-5);		
 			
