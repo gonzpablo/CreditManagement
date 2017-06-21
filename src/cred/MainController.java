@@ -17,6 +17,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -26,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
@@ -77,6 +79,8 @@ public class MainController {
 //  -------------------------------------------------------------------	
 	@FXML
 	private Button btnCleanFilters;
+	@FXML
+	private Button btnBorrarCreditos;
 
 //  -------------------------------------------------------------------
 //  Sumarizadores
@@ -132,7 +136,8 @@ public class MainController {
         fechaFilterField.setOnAction(e -> { calcPagos(); } );
         clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
         crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
-        reporteMenu.setOnAction( e -> { reporte(); } );        
+        reporteMenu.setOnAction( e -> { reporte(); } );
+		btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });
         btnCleanFilters.setOnAction(e -> {
             rutaFilterCombo.setValue(null);
             cobradorFilterCombo.setValue(null);
@@ -185,6 +190,24 @@ public class MainController {
             });
             return row;
         });
+	}
+
+	private void borrarCredito() {
+		CreditoModel credito = creditosTable.getSelectionModel().getSelectedItem();
+		
+		if (credito == null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Error al borrar un crédito");
+			alert.setContentText("Por favor seleccione un crédito a borrar");
+			alert.showAndWait();									
+			return;
+		}
+			
+		creditos.remove(credito);
+//		this.borrarPago(pago);
+		credito.calcular();
+		this.calcPagos();		
 	}
 
 	private void reporte() {
@@ -351,7 +374,8 @@ public class MainController {
         cuotasPagasColumn.setCellValueFactory(new PropertyValueFactory<>("cuotasPagas"));       
         cantCuotasColumn.setCellValueFactory(new PropertyValueFactory<>("cantCuotas"));        
         cobradorColumn.setCellValueFactory(new PropertyValueFactory<>("cobrador"));
-        rutaColumn.setCellValueFactory(new PropertyValueFactory<>("ruta"));       
+        rutaColumn.setCellValueFactory(new PropertyValueFactory<>("ruta"));
+        unidadColumn.setCellValueFactory(new PropertyValueFactory<>("unidad"));
 	}
 
     public ObservableList<CreditoModel> initCreditos() {

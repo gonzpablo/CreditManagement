@@ -10,8 +10,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 
-//http://www.opentaps.org/docs/index.php/How_to_Use_Java_BigDecimal:_A_Tutorial
-
 public class CreditoModel {
 
 	private String cliente;
@@ -30,7 +28,7 @@ public class CreditoModel {
 	private String unidad;
 	private BigDecimal saldoCapital;
 	private boolean cerrado = false;	// todos los creditos nacen abiertos
-//	private SimpleBooleanProperty cerrado;
+
 
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
@@ -44,7 +42,7 @@ public class CreditoModel {
 		this.ruta = ruta;
 		this.unidad = unidad;
 		this.valorCuota = obtenerMontoCuota(obtenerMontoTotalCredito(montoCuota, String.valueOf(cantCuotas)), cantCuotas); //calcularValorCuota();
-//		this.tasaInt = NumeroUtil.crearBigDecimal(tasaInt);		
+
 		calcularMontoAcumulado();
 		calcularCuotasPagas();
 		calcularSaldoCapital();
@@ -60,25 +58,18 @@ public class CreditoModel {
 
 	public static BigDecimal obtenerMontoTotalCredito(String montoCuotaIn, String cantCuotasIn) {
 //		montoCredito: es el monto prestado (sin intereses)
-//		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCred);		
-//		BigDecimal tasaInteres = NumeroUtil.crearBigDecimal(tasaInt);
 		BigDecimal montoCuota = NumeroUtil.crearBigDecimal(montoCuotaIn);
 		int cantCuotas = Integer.valueOf(cantCuotasIn);
 		
 //		Fórmula: montoCredito + (montoCredito * (tasaInteres/100/30) * cantCuotas)
 //		Como es tasa de interés mensual, se divide la tasa en 30 días y se aplica a la cantidad de cuotas
-		return montoCuota.multiply(BigDecimal.valueOf(cantCuotas));
-//		return montoCredito.add(montoCredito.multiply(tasaInteres).divide(BigDecimal.valueOf(100)).divide(BigDecimal.valueOf(30), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP).multiply(new BigDecimal(cantCuotas)));
+		return montoCuota.multiply(BigDecimal.valueOf(cantCuotas)).setScale(2, RoundingMode.HALF_UP);
 	}
 
 	public static BigDecimal obtenerMontoCuota(BigDecimal montoTotalCredito, int cantCuotas) {
 //		montoTotalCredito: Es el monto total a pagar, incluyendo los intereses
-		return montoTotalCredito.divide(BigDecimal.valueOf(Integer.valueOf(cantCuotas)), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
+		return montoTotalCredito.divide(BigDecimal.valueOf(Integer.valueOf(cantCuotas)), 2, RoundingMode.HALF_UP);
 	}
-
-//	private BigDecimal calcularValorCuota() {
-//		return getCostoTotalCredito().divide(BigDecimal.valueOf(cantDias), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
-//	}
 
 	public void calcularSaldoCapital() {
 		
@@ -264,15 +255,6 @@ public class CreditoModel {
 		return valorCuota.multiply(BigDecimal.valueOf(cantCuotas)).setScale(NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
 	}
 	
-//	private BigDecimal getCostoTotalCredito() {
-//		
-//		BigDecimal interes;
-//		
-//		interes = (tasaInt.divide(BigDecimal.valueOf(100), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP)).add(BigDecimal.valueOf(1));				
-//		
-//		return montoCredito.multiply(interes).setScale(NumeroUtil.EXCEL_MAX_DIGITS);
-//	}
-	
 	public boolean validarMontoAPagar(BigDecimal monto) {
 		boolean result = true;
 		BigDecimal montoTotal;
@@ -297,7 +279,7 @@ public class CreditoModel {
 	}
 
 	public static BigDecimal obtenerTasaInteres(
-								String montoCreditoIn, BigDecimal montoTotalCredito, String cantCuotasIn) {	
+								String montoCreditoIn, BigDecimal montoTotalCredito, String cantCuotasIn, String unidad) {	
 
 		int cantCuotas = Integer.valueOf(cantCuotasIn);
 		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCreditoIn);
@@ -306,33 +288,35 @@ public class CreditoModel {
 //		B = A / cantCuotas => Interés diario
 //		C = Interés Diario * 30 => Tasa interés mensual		
 		
-		return montoTotalCredito.divide(montoCredito, 2, RoundingMode.HALF_UP)
-								.subtract(BigDecimal.valueOf(1))
-								.multiply(BigDecimal.valueOf(100))
-								.divide(BigDecimal.valueOf(cantCuotas), 2, RoundingMode.HALF_UP)
-								.multiply(BigDecimal.valueOf(30));
+		if ( unidad.equals("Días") )
+		
+		return montoTotalCredito.divide(montoCredito, 15, RoundingMode.HALF_UP)
+				.subtract(BigDecimal.valueOf(1))
+				.multiply(BigDecimal.valueOf(100))
+				.divide(BigDecimal.valueOf(cantCuotas), 15, RoundingMode.HALF_UP)
+				.multiply(BigDecimal.valueOf(30)).setScale(2, RoundingMode.HALF_UP);
+		else // Semanas
+			return montoTotalCredito.divide(montoCredito, 15, RoundingMode.HALF_UP)
+					.subtract(BigDecimal.valueOf(1))
+					.multiply(BigDecimal.valueOf(100))
+					.divide(BigDecimal.valueOf(cantCuotas).multiply(BigDecimal.valueOf(7)), 15, RoundingMode.HALF_UP)
+					.multiply(BigDecimal.valueOf(30)).setScale(2, RoundingMode.HALF_UP);
+			
 	}
 
-//	public boolean isCerrado() {
-//		return cerrado;
-//	}
 	public boolean isCerrado() {
 		return cerrado;
 	}
 
-//	public SimpleBooleanProperty getCerrado() {
-//		return cerrado;
-//	}
-	
 	public void setCerrado(boolean cerrado) {
 		this.cerrado = cerrado;
 	}
 
-//	public void setCerrado(SimpleBooleanProperty cerrado) {
-//
-////		this.cerrado = cerrado;
-//		this.cerrado.setValue(cerrado.getValue());
-//	}
-	
-	
+	public String getUnidad() {
+		return unidad;
+	}
+
+	public void setUnidad(String unidad) {
+		this.unidad = unidad;
+	}	
 }

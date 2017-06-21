@@ -164,9 +164,12 @@ public class CreditoController {
 	
 	private void simular() {
 
-		if ( montoCreditoField.getText().length() == 0 ||
-			 cantCuotasField.getText().length() == 0 ||
-			 montoCuotaField.getText().length() == 0 ) {
+		if ( ( montoCreditoField.getText().length() == 0 || 
+			   cantCuotasField.getText().length() == 0 || 
+			   montoCuotaField.getText().length() == 0 )
+			|| ( Float.valueOf(montoCreditoField.getText()) <= 0 ) ||
+				( Integer.valueOf(cantCuotasField.getText()) <= 0 ) ||
+				( Float.valueOf(montoCuotaField.getText()) <= 0 ) ) {
 		
 			initFields();
 			return;
@@ -180,7 +183,7 @@ public class CreditoController {
 									montoCuotaField.getText(), cantCuotasField.getText());
 		
 		BigDecimal tasaInteres = CreditoModel.obtenerTasaInteres(
-									montoCreditoField.getText(), montoTotalCredito, cantCuotasField.getText());
+									montoCreditoField.getText(), montoTotalCredito, cantCuotasField.getText(), unidadCuotasCombo.getValue());
 //		BigDecimal montoCuota = CreditoModel.obtenerMontoCuota(montoTotalCredito, Integer.valueOf(cantCuotasField.getText()));
 
 //		montoCuotaField.setText(String.valueOf(montoCuota));

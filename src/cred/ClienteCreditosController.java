@@ -47,7 +47,7 @@ public class ClienteCreditosController {
     ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();	
 	
 	public ClienteCreditosController() {
-		creditos.add(new CreditoModel("Carlos", 29, "45", "3000", "Luis", "1"));
+//		creditos.add(new CreditoModel("Carlos", 29, "45", "3000", "Luis", "1"));
 	}
 	
 	@FXML
