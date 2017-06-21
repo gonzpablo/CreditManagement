@@ -48,12 +48,8 @@ public class CreditoController {
 	@FXML
 	private Button buscarButton;
 	
-	
-//	private PagoModel pago = new PagoModel();
-//
-//	private CreditoModel credito;
-//
 	private ClienteModel cliente;
+	
 	private MainController mainController;
 
 
@@ -134,6 +130,7 @@ public class CreditoController {
 
 	  	mainController.addItemToList(new CreditoModel(this.clienteField.getText(),
       											Integer.valueOf(this.cantCuotasField.getText()),
+      											unidadCuotasCombo.getValue(),
       											montoCuotaField.getText(),
       											montoCreditoField.getText(),	      											
       											cobradorCombo.getValue(),

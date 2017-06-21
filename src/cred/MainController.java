@@ -58,11 +58,11 @@ public class MainController {
 	@FXML	
 	private TableColumn<CreditoModel, Integer> cantCuotasColumn;
 	@FXML	
+	private TableColumn<CreditoModel, String> unidadColumn;
+	@FXML	
 	private TableColumn<CreditoModel, String> cobradorColumn;
 	@FXML	
-	private TableColumn<CreditoModel, String> rutaColumn;
-	@FXML	
-	private TableColumn<CreditoModel, Boolean> cerradoColumn;	
+	private TableColumn<CreditoModel, String> rutaColumn;	
 //  -------------------------------------------------------------------
 //  Filtros	
 //  -------------------------------------------------------------------	
@@ -351,26 +351,18 @@ public class MainController {
         cuotasPagasColumn.setCellValueFactory(new PropertyValueFactory<>("cuotasPagas"));       
         cantCuotasColumn.setCellValueFactory(new PropertyValueFactory<>("cantCuotas"));        
         cobradorColumn.setCellValueFactory(new PropertyValueFactory<>("cobrador"));
-        rutaColumn.setCellValueFactory(new PropertyValueFactory<>("ruta"));
-//        cerradoColumn.setCellValueFactory(  new PropertyValueFactory<>("cerrado")  );
-//        cerradoColumn.setCellValueFactory( new PropertyValueFactory<CreditoModel, Boolean>("cerrado") );
-        cerradoColumn.setCellValueFactory( new PropertyValueFactory<>("cerrado") );
-        cerradoColumn.setCellFactory( tc -> new CheckBoxTableCell<>());
-        
-//        row.setCellValueFactory(c -> new SimpleBooleanProperty(c.getValue().getIsDefault()));
-//        row.setCellFactory(tc -> new CheckBoxTableCell<>());        
-        
+        rutaColumn.setCellValueFactory(new PropertyValueFactory<>("ruta"));       
 	}
 
     public ObservableList<CreditoModel> initCreditos() {
     	
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "145", "2000", "Miguel", "2"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "145", "3000", "Luis", "1"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "145", "2000", "Ezequiel", "2"));
+    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "2"));
+    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "1"));
+    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "2"));
 
     	CreditoModel credCerr;
-    	credCerr = new CreditoModel("Patricia Aguirre", 29, "145", "3000", "Luis", "1");
+    	credCerr = new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "1");
     	credCerr.setCerrado(true);
     	creditos.add(credCerr);
    

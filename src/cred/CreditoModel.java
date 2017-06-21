@@ -27,6 +27,7 @@ public class CreditoModel {
 	private int cuotasPagas;
 	private String cobrador;
 	private String ruta;
+	private String unidad;
 	private BigDecimal saldoCapital;
 	private boolean cerrado = false;	// todos los creditos nacen abiertos
 //	private SimpleBooleanProperty cerrado;
@@ -34,13 +35,14 @@ public class CreditoModel {
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
 	
-	public CreditoModel(String cliente, int cantCuotas, String montoCuota, String montoCredito, String cobrador, String ruta) {
+	public CreditoModel(String cliente, int cantCuotas, String unidad, String montoCuota, String montoCredito, String cobrador, String ruta) {
 		
 		this.cliente = cliente;
 		this.cantCuotas = cantCuotas;
 		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
 		this.cobrador = cobrador;
 		this.ruta = ruta;
+		this.unidad = unidad;
 		this.valorCuota = obtenerMontoCuota(obtenerMontoTotalCredito(montoCuota, String.valueOf(cantCuotas)), cantCuotas); //calcularValorCuota();
 //		this.tasaInt = NumeroUtil.crearBigDecimal(tasaInt);		
 		calcularMontoAcumulado();
