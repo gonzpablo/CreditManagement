@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane maxHeight="400.0" maxWidth="330.0" prefHeight="400.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.PagoController">
+<GridPane maxHeight="458.0" maxWidth="330.0" prefHeight="458.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.PagoController">
    <columnConstraints>
       <ColumnConstraints maxWidth="155.0" minWidth="99.0" prefWidth="154.0" />
       <ColumnConstraints maxWidth="195.0" minWidth="10.0" prefWidth="156.0" />
@@ -17,6 +17,8 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints maxHeight="22.0" minHeight="10.0" prefHeight="11.0" />
+      <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="43.0" />
       <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="14.0" />
       <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="36.0" />
       <RowConstraints maxHeight="89.0" minHeight="10.0" prefHeight="27.0" />
@@ -52,7 +54,7 @@
          </padding>
       </TextField>
       <DatePicker fx:id="fechaPagoField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-      <TableView fx:id="pagosTable" prefHeight="142.0" prefWidth="390.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
+      <TableView fx:id="pagosTable" prefHeight="142.0" prefWidth="390.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="9">
         <columns>
           <TableColumn fx:id="fechaColumn" prefWidth="119.0" sortType="DESCENDING" text="Fecha Pago" />
           <TableColumn fx:id="montoPagoColumn" prefWidth="113.0" text="Monto Pagado" />
@@ -66,7 +68,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Label>
-      <Button fx:id="ingresarPagoButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="106.0" text="Ingresar Pago" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+      <Button fx:id="ingresarPagoButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="106.0" text="Ingresar Pago" GridPane.halignment="CENTER" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
@@ -77,7 +79,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="cancelarButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="104.0" text="Cancelar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+      <Button fx:id="cancelarButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="104.0" text="Cancelar" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -88,7 +90,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="borrarPagoButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="106.0" text="Borrar Pago" GridPane.columnIndex="1" GridPane.rowIndex="5">
+      <Button fx:id="borrarPagoButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="106.0" text="Borrar Pago" GridPane.columnIndex="1" GridPane.rowIndex="7">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -96,6 +98,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Button>
+      <CheckBox fx:id="cerrarCreditoCheckBox" mnemonicParsing="false" text="Cerrar crédito" GridPane.rowIndex="5" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

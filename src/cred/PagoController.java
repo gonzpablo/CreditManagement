@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,7 +28,10 @@ public class PagoController {
 	@FXML
 	private TextField cuotasPagadasField;		
 	@FXML
-	private DatePicker fechaPagoField;		
+	private DatePicker fechaPagoField;
+	@FXML
+	private CheckBox cerrarCreditoCheckBox;
+		
 	@FXML
 	private Button ingresarPagoButton;
 	@FXML
@@ -94,6 +98,8 @@ public class PagoController {
 		borrarPagoButton.setOnAction( (event) -> {
 			borrarPago();
 		});
+		
+		cerrarCreditoCheckBox.setOnAction( (event) -> { cerrarCredito(); } );
 	}
 
 	private void borrarPago() {
@@ -115,15 +121,15 @@ public class PagoController {
 		this.mainController.calcPagos();
 	}
 
-	private void disableFields() {
+	private void disableFields(Boolean value) {
 		
-		montoPagadoField.setDisable(true);		
-		cuotasPagadasField.setDisable(true);
-//		ingresarPagoButton.setVisible(false);
-		ingresarPagoButton.setDisable(true);		
-		fechaPagoField.setDisable(true);
+		montoPagadoField.setDisable(value);		
+		cuotasPagadasField.setDisable(value);
+		ingresarPagoButton.setDisable(value);
+		borrarPagoButton.setDisable(value);
+		fechaPagoField.setDisable(value);
 	}
-
+	
 	private void actualizarMontoPagadoField() {
 		montoPagadoField.setText(String.valueOf(credito.calcularMontoSegunCuota(Integer.valueOf(cuotasPagadasField.textProperty().getValue()))));		
 	}
@@ -150,6 +156,21 @@ public class PagoController {
 		credito.setMontoCuota(credito.getValorCuotaInterno());
 
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
+	}
+	
+	private void cerrarCredito() {
+		if (cerrarCreditoCheckBox.isSelected() == true) {
+			credito.setCerrado(true);
+			disableFields(true);
+		}
+		
+		else {
+			credito.setCerrado(false);
+			if (this.credito.getCuotasPagas() == this.credito.getCantCuotas())
+				disableFields(true);
+			else
+				disableFields(false);	
+		}
 	}
 	
 	private void ingresarPago() {
@@ -192,10 +213,19 @@ public class PagoController {
 		credito.setMontoCuota(this.credito.getValorCuotaInterno());
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 		
-		if (this.credito.getCuotasPagas() == this.credito.getCantCuotas()) {
-			disableFields();
+		if (this.credito.getCuotasPagas() == this.credito.getCantCuotas()) { 
+
+			disableFields(true);
+			cerrarCreditoCheckBox.setDisable(true);
 //			this.credito.setCerrado(true);
 		}
+	
+		if (this.credito.isCerrado() == true)  {
+			disableFields(true);
+		}
+		
+		if (this.credito.isCerrado() == true)
+			cerrarCreditoCheckBox.setSelected(true);;
 	}
 
 	public void setMainController(MainController mainController) {
