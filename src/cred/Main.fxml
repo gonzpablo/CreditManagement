@@ -52,11 +52,8 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Reportes">
                <items>
-                  <MenuItem fx:id="reporteMenu" mnemonicParsing="false" text="Reporte ruta" />
+                  <MenuItem fx:id="reporteMenu" mnemonicParsing="false" text="Emitir Reporte" />
                </items>
-               <items>
-                  <MenuItem fx:id="reporteMenuBeta" mnemonicParsing="false" text="Reporte ruta Beta" />
-               </items>               
             </Menu>            
           <Menu mnemonicParsing="false" text="Ayuda">
             <items>
