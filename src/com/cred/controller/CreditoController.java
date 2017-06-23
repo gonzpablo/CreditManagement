@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 
 import com.cred.model.ClienteModel;
 import com.cred.model.CreditoModel;
-import com.cred.view.Main;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -104,7 +103,7 @@ public class CreditoController {
 	private void buscarCliente() {
 		
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("ClienteSearch.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ClienteSearch.fxml"));
             VBox page = (VBox) loader.load();
             ClienteSearchController controller = loader.<ClienteSearchController>getController();
 

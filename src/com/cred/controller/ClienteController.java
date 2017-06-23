@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import com.cred.model.ClienteModel;
-import com.cred.view.Main;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -96,7 +95,7 @@ public class ClienteController {
 
 	private void clienteView(ClienteModel rowData, TableRow<ClienteModel> row) {
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("ClienteCreditos.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ClienteCreditos.fxml"));
             GridPane page = (GridPane) loader.load();
             ClienteCreditosController controller = loader.<ClienteCreditosController>getController();
 

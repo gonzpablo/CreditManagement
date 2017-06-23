@@ -10,7 +10,6 @@ import com.cred.model.ClienteModel;
 import com.cred.model.CreditoModel;
 import com.cred.model.NumeroUtil;
 import com.cred.model.Reporte;
-import com.cred.view.Main;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -249,7 +248,7 @@ public class MainController {
 
 	private void crearCredito() {
 		   try {
-	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Credito.fxml"));
+	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Credito.fxml"));
 	            GridPane page = (GridPane) loader.load();
 	            CreditoController controller = loader.<CreditoController>getController();
 
@@ -272,7 +271,7 @@ public class MainController {
 
 	private void gestClientes() {
 		   try {
-	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Cliente.fxml"));
+	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Cliente.fxml"));
 	            GridPane page = (GridPane) loader.load();
 	            ClienteController controller = loader.<ClienteController>getController();
 
@@ -331,7 +330,7 @@ public class MainController {
 	private void pago(CreditoModel rowData, TableRow<CreditoModel> row) {
 
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Pago.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Pago.fxml"));
             GridPane page = (GridPane) loader.load();
             PagoController controller = loader.<PagoController>getController();
 
