@@ -1,4 +1,4 @@
-package cred;
+package com.cred.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

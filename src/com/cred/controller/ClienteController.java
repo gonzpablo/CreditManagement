@@ -1,8 +1,11 @@
-package cred;
+package com.cred.controller;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.time.LocalDate;
+
+import com.cred.model.ClienteModel;
+import com.cred.view.Main;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

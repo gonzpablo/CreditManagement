@@ -1,10 +1,16 @@
-package cred;
+package com.cred.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.function.Predicate;
+
+import com.cred.model.ClienteModel;
+import com.cred.model.CreditoModel;
+import com.cred.model.NumeroUtil;
+import com.cred.model.Reporte;
+import com.cred.view.Main;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;

@@ -1,4 +1,4 @@
-package cred;
+package com.cred.model;
 
 import java.awt.Desktop;
 import java.io.File;

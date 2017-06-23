@@ -1,6 +1,8 @@
-package cred;
+package com.cred.controller;
 
 import java.time.LocalDate;
+
+import com.cred.model.ClienteModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

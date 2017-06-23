@@ -1,7 +1,11 @@
-package cred;
+package com.cred.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+
+import com.cred.model.ClienteModel;
+import com.cred.model.CreditoModel;
+import com.cred.view.Main;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;

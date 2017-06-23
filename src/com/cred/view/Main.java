@@ -1,4 +1,4 @@
-package cred;
+package com.cred.view;
 
 import java.io.IOException;
 

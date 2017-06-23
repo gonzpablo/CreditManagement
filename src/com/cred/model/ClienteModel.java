@@ -1,4 +1,4 @@
-package cred;
+package com.cred.model;
 
 import java.util.List;
 

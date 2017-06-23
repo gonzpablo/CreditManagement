@@ -1,8 +1,11 @@
-package cred;
+package com.cred.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import com.cred.model.CreditoModel;
+import com.cred.model.PagoModel;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;

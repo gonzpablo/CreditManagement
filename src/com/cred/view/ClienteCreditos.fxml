@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane maxHeight="500.0" maxWidth="500.0" prefHeight="453.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cred.ClienteCreditosController">
+<GridPane maxHeight="500.0" maxWidth="500.0" prefHeight="453.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.ClienteCreditosController">
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints minWidth="10.0" prefWidth="100.0" />

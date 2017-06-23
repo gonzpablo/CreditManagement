@@ -1,4 +1,4 @@
-package cred;
+package com.cred.model;
 
 public class ReporteField {
 

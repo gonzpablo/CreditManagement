@@ -1,4 +1,7 @@
-package cred;
+package com.cred.controller;
+
+import com.cred.model.ClienteModel;
+import com.cred.model.CreditoModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
