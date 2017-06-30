@@ -14,8 +14,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class PagoModel {
 
 //	private FloatProperty montoPago;
-	private BigDecimal montoPago; 
-	private IntegerProperty cuotasPagas;
+	private BigDecimal montoPago;
 	private LocalDate fecha;
 	private LocalTime hora;
 	
@@ -26,9 +25,6 @@ public class PagoModel {
 		LocalTime time1 = currentDateTime.toLocalTime();
 	    setFecha(date1);
 	    setHora(time1);
-//	    montoPago = new SimpleFloatProperty();
-//	    montoPago = new BigDecimal();
-	    cuotasPagas = new SimpleIntegerProperty();
 	}
 
 	public BigDecimal getMontoPago() {
