@@ -131,14 +131,24 @@ public class CreditoController {
 	  	if (!validar())
 	  		return;
 
-	  	mainController.addItemToList(new CreditoModel(this.clienteField.getText(),
-      											Integer.valueOf(this.cantCuotasField.getText()),
-      											unidadCuotasCombo.getValue(),
-      											montoCuotaField.getText(),
-      											montoCreditoField.getText(),	      											
-      											cobradorCombo.getValue(),
-      											rutaCombo.getValue()));
+//	  	mainController.addItemToList(new CreditoModel(this.clienteField.getText(),
+//      											Integer.valueOf(this.cantCuotasField.getText()),
+//      											unidadCuotasCombo.getValue(),
+//      											montoCuotaField.getText(),
+//      											montoCreditoField.getText(),	      											
+//      											cobradorCombo.getValue(),
+//      											rutaCombo.getValue()));
 
+//		public CreditoModel(int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
+//				int montoCredito, int idCobrador, int idRuta) {
+	  	mainController.addItemToList(new CreditoModel(1,
+					Integer.valueOf(this.cantCuotasField.getText()),
+					CreditoModel.obtenerIdUnidad(unidadCuotasCombo.getValue()),					
+					Integer.valueOf(montoCuotaField.getText()),
+					Integer.valueOf(montoCreditoField.getText()),	      											
+					1,
+					1));	  	
+	  	
 	    // get a handle to the stage
 	    Stage stage = (Stage) crearButton.getScene().getWindow();
 	    // do what you have to do

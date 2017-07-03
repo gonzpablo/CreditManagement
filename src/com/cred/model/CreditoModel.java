@@ -12,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 
 public class CreditoModel {
 
+	private int id;		// ID del crédito
 	private String cliente;
 	private int cantCuotas;
 	private BigDecimal tasaInt;
@@ -23,8 +24,10 @@ public class CreditoModel {
 	
 	private BigDecimal gciaXDia = new BigDecimal("0");
 	private int cuotasPagas;
-	private String cobrador;
-	private String ruta;
+//	private String cobrador;
+	private int idCobrador;
+//	private String ruta;
+	private int idRuta;
 	private String unidad;
 	private BigDecimal saldoCapital;
 	private boolean cerrado = false;	// todos los creditos nacen abiertos
@@ -33,21 +36,49 @@ public class CreditoModel {
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
 	
-	public CreditoModel(String cliente, int cantCuotas, String unidad, String montoCuota, String montoCredito, String cobrador, String ruta) {
-		
+//	public CreditoModel(String cliente, int cantCuotas, String unidad, String montoCuota, 
+//						String montoCredito, String cobrador, String ruta) {
+	
+	public CreditoModel(int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
+						int montoCredito, int idCobrador, int idRuta) {
+
 		this.cliente = cliente;
 		this.cantCuotas = cantCuotas;
-		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
-		this.cobrador = cobrador;
-		this.ruta = ruta;
-		this.unidad = unidad;
-		this.valorCuota = obtenerMontoCuota(obtenerMontoTotalCredito(montoCuota, String.valueOf(cantCuotas)), cantCuotas); //calcularValorCuota();
+
+//		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
+		this.montoCredito = BigDecimal.valueOf(montoCredito).divide(BigDecimal.valueOf(100));
+		
+		this.idCobrador = idCobrador;
+		this.idRuta = idRuta;
+		this.unidad = obtenerUnidad(idUnidad);
+		this.valorCuota = obtenerMontoCuota(
+				
+							obtenerMontoTotalCredito((BigDecimal.valueOf(montoCuota).divide(BigDecimal.valueOf(100))).toString(), String.valueOf(cantCuotas))
+							, cantCuotas); 
 
 		calcularMontoAcumulado();
 		calcularCuotasPagas();
 		calcularSaldoCapital();
 	}
 
+	public static String obtenerUnidad(int idUnidad) {
+		
+		switch (idUnidad) {
+			case 1: return "Días";
+			case 2: return "Semanas";		
+		}
+		
+		return null;
+	}
+
+	public static int obtenerIdUnidad(String unidad) {
+		switch (unidad) {
+			case "Días": return 1;
+			case "Semanas": return 2;
+		}
+		return 0;
+	}	
+	
 	public static BigDecimal obtenerCuotaCapital(String montoCred, String cantCuotas2) {
 //		montoCredito: es el monto prestado (sin intereses)
 		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCred);
@@ -175,12 +206,12 @@ public class CreditoModel {
 		this.cuotasPagas = cuotasPagas;
 	}
 
-	public String getCobrador() {
-		return cobrador;
+	public int getCobrador() {
+		return idCobrador;
 	}
 
-	public void setCobrador(String cobrador) {
-		this.cobrador = cobrador;
+	public void setCobrador(int idCobrador) {
+		this.idCobrador = idCobrador;
 	}
 
 	public BigDecimal getSaldoCapital() {
@@ -191,8 +222,8 @@ public class CreditoModel {
 		this.saldoCapital = saldoCapital;
 	}
 
-	public String getRuta() {
-		return ruta;
+	public int getRuta() {
+		return idRuta;
 	}
 	
 	public BigDecimal getValorCuota() {
@@ -215,8 +246,8 @@ public class CreditoModel {
 		this.montoCuotaAcumulado = montoCuotaAcumulado;
 	}
 
-	public void setRuta(String ruta) {
-		this.ruta = ruta;
+	public void setRuta(int idRuta) {
+		this.idRuta = idRuta;
 	}
 
 	public List<PagoModel> getListaPagos() {

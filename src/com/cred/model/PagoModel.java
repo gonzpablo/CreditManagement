@@ -19,8 +19,8 @@ public class PagoModel {
 	private LocalTime hora;
 	
 	public PagoModel() {
-		
-	    LocalDateTime currentDateTime = LocalDateTime.now();
+
+	    LocalDateTime currentDateTime = LocalDateTime.now();	    
 		LocalDate date1 = currentDateTime.toLocalDate();
 		LocalTime time1 = currentDateTime.toLocalTime();
 	    setFecha(date1);

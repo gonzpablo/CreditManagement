@@ -3,13 +3,20 @@ package com.cred.controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.cred.model.ClienteDAO;
 import com.cred.model.ClienteModel;
+import com.cred.model.CobradorDAO;
+import com.cred.model.CobradorModel;
+import com.cred.model.CreditoDAO;
 import com.cred.model.CreditoModel;
 import com.cred.model.NumeroUtil;
 import com.cred.model.Reporte;
+import com.cred.model.RutaDAO;
+import com.cred.model.RutaModel;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -111,14 +118,16 @@ public class MainController {
 //	Lista de clientes	
 //	private List<ClientModel> clientes;
 	private ObservableList<ClienteModel> clientes = FXCollections.observableArrayList();
-	
-	
+		
 	
 	/**
 	 * Just add some sample data in the constructor.
 	 */
 	public MainController() {
 		initCreditos();
+		initClientes();		
+		initCobradores();
+		initRutas();
 //		String nombre, String apellido, String direccion, String telefono, String dni		
 		clientes.add(new ClienteModel("Patricia","Aguirre","Belgrano 1547","4987-5780","21487141"));
 		clientes.add(new ClienteModel("Matias","Barbieri","Cuzco 9371","4547-3456","87214774"));
@@ -158,27 +167,27 @@ public class MainController {
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();			
         ObjectProperty<Predicate<CreditoModel>> cerradoFilter = new SimpleObjectProperty<>();
         
-        cobradorFilter.bind(Bindings.createObjectBinding(() ->        
-        						credito ->
-        							cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(),
-        							cobradorFilterCombo.valueProperty()));				
-		
-        rutaFilter.bind(Bindings.createObjectBinding(() ->
-        					credito -> 
-        						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
-        						rutaFilterCombo.valueProperty()));		
+//        cobradorFilter.bind(Bindings.createObjectBinding(() ->        
+//        						credito ->
+//        							cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(),
+//        							cobradorFilterCombo.valueProperty()));				
+//		
+//        rutaFilter.bind(Bindings.createObjectBinding(() ->
+//        					credito -> 
+//        						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
+//        						rutaFilterCombo.valueProperty()));		
 
-        cerradoFilter.bind(Bindings.createObjectBinding(() ->
-							credito -> 
-							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
-								cerradoFilterCheckBox.selectedProperty()));	        
+//        cerradoFilter.bind(Bindings.createObjectBinding(() ->
+//							credito -> 
+//							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
+//								cerradoFilterCheckBox.selectedProperty()));	        
 
-//        creditosTable.setItems(filteredItems);
+        creditosTable.setItems(filteredItems);
 //        clienteColumn.setSortable(true);
         
-        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
-				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
-       
+//        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
+//				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
+        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> cerradoFilter.get()));
                
         // 3. Wrap the FilteredList in a SortedList. 
         SortedList<CreditoModel> sortedData = new SortedList<>(filteredItems);
@@ -187,7 +196,9 @@ public class MainController {
         sortedData.comparatorProperty().bind(creditosTable.comparatorProperty());
 
         // 5. Add sorted (and filtered) data to the table.
-        creditosTable.setItems(sortedData);        
+        creditosTable.setItems(sortedData);
+        
+        
         
         
         calc();       
@@ -389,9 +400,7 @@ public class MainController {
 	}
 
 	private void initColumns() {
-		clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
-		
-		
+		clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));		
 		valorCuotaColumn.setCellValueFactory(new PropertyValueFactory<>("valorCuota"));
         montoCuotaColumn.setCellValueFactory(new PropertyValueFactory<>("montoCuota"));
         montoCuotaAcumuladoColumn.setCellValueFactory(new PropertyValueFactory<>("montoCuotaAcumulado"));               
@@ -407,87 +416,75 @@ public class MainController {
 
     public ObservableList<CreditoModel> initCreditos() {
     	
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "1"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "2"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "1"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "2"));
-
-    	CreditoModel credCerr;
-    	credCerr = new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "1");
-    	credCerr.setCerrado(true);
-    	creditos.add(credCerr);
-
+//    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "1"));
+//    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "2"));
+//    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "1"));
+//    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "2"));
+//
+//    	CreditoModel credCerr;
+//    	credCerr = new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "1");
+//    	credCerr.setCerrado(true);
+//    	creditos.add(credCerr);
+//    	ObservableList<CreditoModel> listaCred = FXCollections.observableArrayList();
     	
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "14", "300", "Luis", "6"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "1454", "20", "Miguel", "7"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145534", "3", "Luis", "8"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "1452", "20000", "Ezequiel", "9"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "300000", "Luis", "10"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "200", "Miguel", "11"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3", "Luis", "12"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "20", "Ezequiel", "13"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "300000000", "Luis", "14"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "15"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "16"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "17"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "18"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "19"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "20"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "21"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "22"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "23"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "24"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "25"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "26"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "27"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "28"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "29"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "30"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "31"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "32"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "33"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "34"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "35"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "36"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "37"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "38"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "39"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "40"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "41"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "42"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "43"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "44"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "45"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "46"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "47"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "48"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "49"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "50"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "51"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "52"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "53"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "54"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "55"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "56"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "57"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "58"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "59"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "60"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "61"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "62"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "63"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "64"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "65"));
-    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "66"));
-    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "67"));
-    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "68"));
-    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "69"));
+    	try {
+			creditos = CreditoDAO.buscarCreditos();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     	
-    	
-    	
-        return creditos;
+//    	creditos = listaCred;
+//    	return listaCred;
+    	return creditos;
     }
 
+    public ObservableList<ClienteModel> initClientes() {
+    	
+    	ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();;    	
+    	
+    	try {
+			listaClientes = ClienteDAO.buscarClientes();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	return listaClientes;
+    }
+    
+    public ObservableList<RutaModel> initRutas() {
+    	
+    	ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();    	
+    	
+    	try {
+			listaRutas = RutaDAO.buscarRutas();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	return listaRutas;
+    }    
+    
+    public ObservableList<CobradorModel> initCobradores() {
+    	
+    	ObservableList<CobradorModel> listaCobradores = FXCollections.observableArrayList();    	
+    	
+    	try {
+			listaCobradores = CobradorDAO.buscarCobradores();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	return listaCobradores;
+    }        
+    
     public ObservableList<CreditoModel> getCreditos() {
         return creditos;
     }

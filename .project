@@ -14,4 +14,16 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>database/dbCred</name>
+			<type>1</type>
+			<location>E:/workspace/cred/database/dbCred</location>
+		</link>
+		<link>
+			<name>database/dbCred.txt</name>
+			<type>1</type>
+			<location>E:/workspace/cred/database/dbCred.txt</location>
+		</link>
+	</linkedResources>
 </projectDescription>
