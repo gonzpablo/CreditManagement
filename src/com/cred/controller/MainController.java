@@ -177,12 +177,12 @@ public class MainController {
 //        						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
 //        						rutaFilterCombo.valueProperty()));		
 
-//        cerradoFilter.bind(Bindings.createObjectBinding(() ->
-//							credito -> 
-//							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
-//								cerradoFilterCheckBox.selectedProperty()));	        
+        cerradoFilter.bind(Bindings.createObjectBinding(() ->
+							credito -> 
+							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
+								cerradoFilterCheckBox.selectedProperty()));	        
 
-        creditosTable.setItems(filteredItems);
+//        creditosTable.setItems(filteredItems);
 //        clienteColumn.setSortable(true);
         
 //        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
@@ -196,10 +196,7 @@ public class MainController {
         sortedData.comparatorProperty().bind(creditosTable.comparatorProperty());
 
         // 5. Add sorted (and filtered) data to the table.
-        creditosTable.setItems(sortedData);
-        
-        
-        
+        creditosTable.setItems(sortedData);              
         
         calc();       
 
