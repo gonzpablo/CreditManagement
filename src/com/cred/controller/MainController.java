@@ -250,8 +250,6 @@ public class MainController {
 		}
 	}
 
-
-
 	private void reporte() {
 
 	    // get a handle to the stage
@@ -262,13 +260,10 @@ public class MainController {
 		
 		Reporte rep = new Reporte(stage);
 		try {
-			
 			rep.reporteRutaBeta(filteredItems);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		
 	}
 
 	private void borrarCredito() {
@@ -290,49 +285,49 @@ public class MainController {
 	}
 
 	private void crearCredito() {
-		   try {
-	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Credito.fxml"));
-	            GridPane page = (GridPane) loader.load();
-	            CreditoController controller = loader.<CreditoController>getController();
+	   try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Credito.fxml"));
+            GridPane page = (GridPane) loader.load();
+            CreditoController controller = loader.<CreditoController>getController();
 
-	            controller.setMainController(this);            
-	            
-	            Stage stage = new Stage();
-	            stage.initModality(Modality.APPLICATION_MODAL);
-	            stage.setTitle("Crear Crédito");
-	          
-	            Scene scene = new Scene(page);
+            controller.setMainController(this);            
+            
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Crear Crédito");
+          
+            Scene scene = new Scene(page);
 
-	            stage.setScene(scene);
-	            stage.setResizable(false);
-	            stage.show();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
 
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 	private void gestClientes() {
-		   try {
-	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Cliente.fxml"));
-	            GridPane page = (GridPane) loader.load();
-	            ClienteController controller = loader.<ClienteController>getController();
+	   try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Cliente.fxml"));
+            GridPane page = (GridPane) loader.load();
+            ClienteController controller = loader.<ClienteController>getController();
 
-	            controller.setClientes(listaClientes);
+            controller.setClientes(listaClientes);
 //	            controller.setMainController(this);            
-	            
-	            Stage stage = new Stage();
-	            stage.initModality(Modality.APPLICATION_MODAL);
-	            stage.setTitle("Gestionar Clientes");
-	          
-	            Scene scene = new Scene(page);
+            
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Gestionar Clientes");
+          
+            Scene scene = new Scene(page);
 
-	            stage.setScene(scene);
-	            stage.show();
-	            
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }		
+            stage.setScene(scene);
+            stage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }		
 	}
 
 	public void calcPagos() {
