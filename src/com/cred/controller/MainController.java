@@ -177,17 +177,17 @@ public class MainController {
 //        						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
 //        						rutaFilterCombo.valueProperty()));		
 
-        cerradoFilter.bind(Bindings.createObjectBinding(() ->
-							credito -> 
-							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
-								cerradoFilterCheckBox.selectedProperty()));	        
+//        cerradoFilter.bind(Bindings.createObjectBinding(() ->
+//							credito -> 
+//							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
+//								cerradoFilterCheckBox.selectedProperty()));	        
 
 //        creditosTable.setItems(filteredItems);
 //        clienteColumn.setSortable(true);
         
 //        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
 //				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
-        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> cerradoFilter.get()));
+//        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> cerradoFilter.get()));
                
         // 3. Wrap the FilteredList in a SortedList. 
         SortedList<CreditoModel> sortedData = new SortedList<>(filteredItems);
