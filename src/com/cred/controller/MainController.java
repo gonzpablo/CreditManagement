@@ -176,25 +176,29 @@ public class MainController {
         					credito -> 
         						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
         						rutaFilterCombo.valueProperty()));		
+//
+//        cerradoFilter.bind(Bindings.createObjectBinding(() ->
+//							credito -> 
+//							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
+//								cerradoFilterCheckBox.selectedProperty()));	        
+//
+//       
+//        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
+//				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
 
-        cerradoFilter.bind(Bindings.createObjectBinding(() ->
-							credito -> 
-							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
-								cerradoFilterCheckBox.selectedProperty()));	        
-
-//        creditosTable.setItems(filteredItems);
-//        clienteColumn.setSortable(true);
+//        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
+//        				cobradorFilter.get().and(rutaFilter.get()), cobradorFilter, rutaFilter));        
         
-        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
-				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
-//        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> cerradoFilter.get()));
-               
         // 3. Wrap the FilteredList in a SortedList. 
         SortedList<CreditoModel> sortedData = new SortedList<>(filteredItems);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
         sortedData.comparatorProperty().bind(creditosTable.comparatorProperty());
 
+        for ( CreditoModel cred : filteredItems) {
+        	System.out.println(cred.getCobrador());
+        }
+        
         // 5. Add sorted (and filtered) data to the table.
         creditosTable.setItems(sortedData);
 //        creditosTable.setItems(creditos);
