@@ -62,6 +62,10 @@ public class CreditoModel {
 		calcularSaldoCapital();
 	}
 
+	public void CreditoModelFromDB() {
+		
+	}
+	
 	public static String obtenerUnidad(int idUnidad) {
 		
 		switch (idUnidad) {
