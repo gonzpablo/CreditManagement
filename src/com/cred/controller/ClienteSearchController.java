@@ -35,13 +35,12 @@ public class ClienteSearchController {
 	@FXML
 	private TableView<ClienteModel> clientesTable;
 	
-	private ObservableList<ClienteModel> clientes; // = FXCollections.observableArrayList();	
-
 	private CreditoController creditoController;
 		
-
-	public ClienteSearchController() {
-		
+	private ObservableList<ClienteModel> clientes;
+	
+	
+	public ClienteSearchController() {		
 	}
 	
 	@FXML

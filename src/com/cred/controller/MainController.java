@@ -48,6 +48,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 public class MainController {
 
@@ -84,9 +85,11 @@ public class MainController {
 //  Filtros	
 //  -------------------------------------------------------------------	
 	@FXML
-	private ComboBox<String> rutaFilterCombo;
+//	private ComboBox<String> rutaFilterCombo;
+	private ComboBox<RutaModel> rutaFilterCombo;
 	@FXML
-	private ComboBox<String> cobradorFilterCombo;
+//	private ComboBox<String> cobradorFilterCombo;
+	private ComboBox<CobradorModel> cobradorFilterCombo;	
 	@FXML
 	private CheckBox cerradoFilterCheckBox;
 	@FXML
@@ -146,7 +149,33 @@ public class MainController {
 	private void initialize() {
 
         rutaFilterCombo.setOnAction(e -> { 	calc();  });
+        
+        rutaFilterCombo.setConverter(new StringConverter<RutaModel>() {
+            @Override
+            public String toString(RutaModel object) {
+                return object.getDescripcion();
+            }
+
+            @Override
+            public RutaModel fromString(String string) {
+                return null;
+            }
+        });
+        
         cobradorFilterCombo.setOnAction(e -> { calc(); });        
+        
+        cobradorFilterCombo.setConverter(new StringConverter<CobradorModel>() {
+            @Override
+            public String toString(CobradorModel object) {
+                return object.getNombre();
+            }
+
+            @Override
+            public CobradorModel fromString(String string) {
+                return null;
+            }
+        });
+        
         fechaFilterField.setOnAction(e -> { calcPagos(); } );
         clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
         crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
@@ -167,24 +196,14 @@ public class MainController {
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();			
         ObjectProperty<Predicate<CreditoModel>> cerradoFilter = new SimpleObjectProperty<>();
         
-//        cobradorFilter.bind(Bindings.createObjectBinding(() ->        
-//        						credito ->
-//        							cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(),
-//        							cobradorFilterCombo.valueProperty()));				
-
         cobradorFilter.bind(Bindings.createObjectBinding(() ->        
 		credito ->
-			cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue().equals(credito.getCobrador()),
-			cobradorFilterCombo.valueProperty()));				        
+			cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue().getId() == credito.getIdCobrador(),
+			cobradorFilterCombo.valueProperty()));              
         
-//        rutaFilter.bind(Bindings.createObjectBinding(() ->
-//        					credito -> 
-//        						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
-//        						rutaFilterCombo.valueProperty()));		
-
         rutaFilter.bind(Bindings.createObjectBinding(() ->
 		credito -> 
-			rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue().equals(credito.getRuta()),
+			rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue().getId() == credito.getIdRuta(),
 			rutaFilterCombo.valueProperty()));		
         
         
@@ -195,20 +214,12 @@ public class MainController {
 
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
 				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
-
-//        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
-//				cobradorFilter.get().and(rutaFilter.get()), cobradorFilter, rutaFilter));
-        
         
         // 3. Wrap the FilteredList in a SortedList. 
         SortedList<CreditoModel> sortedData = new SortedList<>(filteredItems);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
         sortedData.comparatorProperty().bind(creditosTable.comparatorProperty());
-
-        for ( CreditoModel cred : filteredItems) {
-        	System.out.println(cred.getCobrador());
-        }
         
         // 5. Add sorted (and filtered) data to the table.
         creditosTable.setItems(sortedData);
@@ -435,20 +446,26 @@ public class MainController {
 	}
 	
     private void initComboRuta() {
-		rutaFilterCombo.setItems(FXCollections.observableArrayList("1","2","3","4","5","6","7"));
+    	
+//    	ObservableList<String> rutas = FXCollections.observableArrayList();
+//    	
+//    	for ( RutaModel ruta : listaRutas )
+//    		rutas.add(ruta.getDescripcion());
+//    	
+//		rutaFilterCombo.setItems(rutas);
+		rutaFilterCombo.setItems(listaRutas);
 	}
 
     private void initComboCobrador() {
     	    	
-//		cobradorFilterCombo.setItems(FXCollections.observableArrayList("Jorge", "Luis","Miguel","Ezequiel","Ricardo","Rafael","Emanuel"));
-		cobradorFilterCombo.setItems(FXCollections.observableArrayList(1,2,3,4));
-
-		for ( CobradorModel cobrador: listaCobradores ) {
-
-		}
-
-		cobradorFilterCombo.setItems		
-		
+//    	ObservableList<String> cobradores = FXCollections.observableArrayList();
+//
+//		for ( CobradorModel cobrador: listaCobradores )
+//			cobradores.add(cobrador.getNombre());
+//
+//		cobradorFilterCombo.setItems(cobradores);		
+    	
+    	cobradorFilterCombo.setItems(listaCobradores);
 	}
 
 	private void initColumns() {
@@ -547,11 +564,21 @@ public class MainController {
     
     public void addItemToList(CreditoModel cred) {
     	creditos.add(cred);
-//    	table.setItems(getCreditos());
-// refresh??    	
     }
 
 	public ObservableList<ClienteModel> getClientes() {
 		return listaClientes;
-	}            
+	}
+
+	public ObservableList<ClienteModel> getListaClientes() {
+		return listaClientes;
+	}
+
+	public ObservableList<RutaModel> getListaRutas() {
+		return listaRutas;
+	}
+
+	public ObservableList<CobradorModel> getListaCobradores() {
+		return listaCobradores;
+	}
 }

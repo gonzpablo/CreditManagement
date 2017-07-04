@@ -13,7 +13,7 @@ public class CobradorDAO {
 
     public static ObservableList<CobradorModel> buscarCobradores() throws SQLException, ClassNotFoundException {
         //Declare a SELECT statement
-        String selectStmt = "SELECT * FROM cobradores";
+        String selectStmt = "SELECT rowid, * FROM cobradores";
  
         //Execute SELECT statement
         try {
@@ -42,7 +42,7 @@ public class CobradorDAO {
 	        	
             CobradorModel cobrador = new CobradorModel();
             		
-            cobrador.setId(rs.getInt("ID"));
+            cobrador.setId(rs.getInt("ROWID"));
             cobrador.setNombre(rs.getString("NOMBRE"));
             cobrador.setApellido(rs.getString("APELLIDO"));
             

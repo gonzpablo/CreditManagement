@@ -12,7 +12,7 @@ public class ClienteDAO {
 
 	public static ObservableList<ClienteModel> buscarClientes() throws SQLException, ClassNotFoundException {
 		
-		String selectStmt = "SELECT * FROM clientes";
+		String selectStmt = "SELECT rowid, * FROM clientes";
 		
 		
 		//Execute SELECT statement
@@ -42,7 +42,7 @@ public class ClienteDAO {
 	        	
             ClienteModel cliente = new ClienteModel();
            
-            cliente.setId(rs.getInt("ID"));
+            cliente.setId(rs.getInt("ROWID"));
             cliente.setNombre(rs.getString("NOMBRE"));
             cliente.setApellido(rs.getString("APELLIDO"));
             cliente.setDireccion(rs.getString("DIRECCION"));

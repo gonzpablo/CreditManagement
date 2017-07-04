@@ -13,7 +13,7 @@ public class RutaDAO {
 	
     public static ObservableList<RutaModel> buscarRutas() throws SQLException, ClassNotFoundException {
         //Declare a SELECT statement
-        String selectStmt = "SELECT * FROM rutas";
+        String selectStmt = "SELECT rowid, * FROM rutas";
  
         //Execute SELECT statement
         try {
@@ -42,7 +42,7 @@ public class RutaDAO {
 	        	
             RutaModel ruta = new RutaModel();
             		
-            ruta.setId(rs.getInt("ID"));
+            ruta.setId(rs.getInt("ROWID"));
             ruta.setDescripcion(rs.getString("DESCRIPCION"));
             
             //Agregar crédito a lista de créditos

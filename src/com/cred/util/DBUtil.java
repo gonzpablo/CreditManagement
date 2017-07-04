@@ -6,15 +6,12 @@ import java.sql.*;
 
 public class DBUtil {
     //Declare JDBC Driver
-//    private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String JDBC_DRIVER = "org.sqlite.JDBC";
     //Connection
     private static Connection conn = null;
 
     //Connection String
-    //String connStr = "jdbc:oracle:thin:Username/Password@IP:Port/SID";
     //Username=HR, Password=HR, IP=localhost, IP=1521, SID=xe
-//    private static final String connStr = "jdbc:oracle:thin:HR/HR@localhost:1521/xe";
     private static final String connStr = "jdbc:sqlite:dbCred.db";
 
     //Connect to DB
@@ -23,7 +20,7 @@ public class DBUtil {
         try {
             Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException e) {
-//            System.out.println("Where is your Oracle JDBC Driver?");
+            System.out.println("Error con Clase JDBC_DRIVER");
             e.printStackTrace();
             throw e;
         }

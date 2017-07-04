@@ -2,9 +2,13 @@ package com.cred.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 import com.cred.model.ClienteModel;
+import com.cred.model.CobradorModel;
+import com.cred.model.CreditoDAO;
 import com.cred.model.CreditoModel;
+import com.cred.model.RutaModel;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -19,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 public class CreditoController {
 
@@ -41,9 +46,9 @@ public class CreditoController {
 	@FXML
 	private ComboBox<String> unidadCuotasCombo;	
 	@FXML
-	private ComboBox<String> cobradorCombo;
+	private ComboBox<CobradorModel> cobradorCombo;
 	@FXML
-	private ComboBox<String> rutaCombo;			
+	private ComboBox<RutaModel> rutaCombo;			
 	@FXML
 	private Button crearButton;
 	@FXML
@@ -57,39 +62,44 @@ public class CreditoController {
 
 
 	public CreditoController() {
-
 	}
 
 	@FXML
 	private void initialize() {
 		
-		initComboCobrador();
 		initComboUnidadCuotas();
-		initComboRuta();
 		
-		montoCreditoField.setOnKeyReleased( (event) -> {			
-			simular();
-		});		
+		montoCreditoField.setOnKeyReleased( (event) -> { simular(); });		
+		montoCuotaField.setOnKeyReleased( (event) -> { simular(); });
+		cantCuotasField.setOnKeyReleased( (event) -> { simular(); });		
+
+		crearButton.setOnAction( (event) -> { crear(); });
+		cancelarButton.setOnAction( (event) -> { cancelar(); });
+		buscarButton.setOnAction( (event) -> { buscarCliente(); });
 		
-		montoCuotaField.setOnKeyReleased( (event) -> {			
-			simular();
-		});
-		
-		cantCuotasField.setOnKeyReleased( (event) -> {			
-			simular();
-		});		
-			
-		crearButton.setOnAction( (event) -> { 
-			crear();
-		});
-		
-		cancelarButton.setOnAction( (event) -> { 
-			cancelar();
-		});
-		
-		buscarButton.setOnAction( (event) -> {
-			buscarCliente();
-		});
+        rutaCombo.setConverter(new StringConverter<RutaModel>() {
+            @Override
+            public String toString(RutaModel object) {
+                return object.getDescripcion();
+            }
+
+            @Override
+            public RutaModel fromString(String string) {
+                return null;
+            }
+        });
+        
+        cobradorCombo.setConverter(new StringConverter<CobradorModel>() {
+            @Override
+            public String toString(CobradorModel object) {
+                return object.getNombre();
+            }
+
+            @Override
+            public CobradorModel fromString(String string) {
+                return null;
+            }
+        });		
 		
 	}
 
@@ -141,13 +151,29 @@ public class CreditoController {
 
 //		public CreditoModel(int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
 //				int montoCredito, int idCobrador, int idRuta) {
-	  	mainController.addItemToList(new CreditoModel(1,
-					Integer.valueOf(this.cantCuotasField.getText()),
-					CreditoModel.obtenerIdUnidad(unidadCuotasCombo.getValue()),					
-					Integer.valueOf(montoCuotaField.getText()),
-					Integer.valueOf(montoCreditoField.getText()),	      											
-					1,
-					1));	  	
+	  	
+	  	CreditoModel nuevoCredito = new CreditoModel(
+	  													this.cliente.getId(),
+	  													Integer.valueOf(cantCuotasField.getText()),
+	  													CreditoModel.obtenerIdUnidad(unidadCuotasCombo.getValue()),					
+	  													Integer.valueOf(montoCuotaField.getText()),
+	  													Integer.valueOf(montoCreditoField.getText()),	      											
+	  													cobradorCombo.getValue().getId(),
+	  													rutaCombo.getValue().getId());	  	
+	  	
+	  	nuevoCredito.setCliente(cliente);
+	  	nuevoCredito.setCobrador(cobradorCombo.getValue());
+	  	nuevoCredito.setRuta(rutaCombo.getValue());
+	  	
+	  	try {
+			CreditoDAO.agregarCredito(nuevoCredito);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	  	
+	  	mainController.addItemToList(nuevoCredito);
 	  	
 	    // get a handle to the stage
 	    Stage stage = (Stage) crearButton.getScene().getWindow();
@@ -167,12 +193,13 @@ public class CreditoController {
 		unidadCuotasCombo.setValue("Días");
 	}
 
-	private void initComboCobrador() {
-		cobradorCombo.setItems(FXCollections.observableArrayList("Luis","Miguel","Ezequiel","Ricardo","Rafael","Emanuel"));		
+	private void initComboCobrador() {		
+		cobradorCombo.setItems(mainController.getListaCobradores());
 	}
 	
 	private void initComboRuta() {
-		rutaCombo.setItems(FXCollections.observableArrayList("1","2","3","4","5","6","7"));		
+//		rutaCombo.setItems(FXCollections.observableArrayList("1","2","3","4","5","6","7"));
+		rutaCombo.setItems(mainController.getListaRutas());
 	}
 	
 	private void simular() {
@@ -273,6 +300,10 @@ public class CreditoController {
 
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;		
+		
+//		Se hace acá porque se necesitan los datos del Main Controller		
+		initComboCobrador();
+		initComboRuta();		
 	}
 
 	public void setCliente(ClienteModel cliente) {

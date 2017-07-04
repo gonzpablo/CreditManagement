@@ -1,5 +1,6 @@
 package com.cred.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,7 +13,7 @@ public class CreditoDAO {
 
 	public static ObservableList<CreditoModel> buscarCreditos() throws SQLException, ClassNotFoundException {
 	
-		String selectStmt = "SELECT * FROM creditos";
+		String selectStmt = "SELECT rowid, * FROM creditos";
 		
 		
 		//Execute SELECT statement
@@ -31,6 +32,32 @@ public class CreditoDAO {
             throw e;
         }		
 	}
+	
+	 public static void agregarCredito(CreditoModel credito) throws SQLException, ClassNotFoundException {
+
+	    String insertStmt =
+	            "BEGIN;\n" +
+	                    "INSERT INTO creditos\n" +
+	                    "(IDCLIENTE, IDCOBRADOR, IDRUTA, MONTOTOTAL, MONTOCUOTA, CANTCUOTAS, UNIDAD)\n" +
+	                    "VALUES\n" +
+	                    "(" + credito.getClienteRef().getId() + "," + 
+	                    	  credito.getCobradorRef().getId() + "," +
+	                    	  credito.getRutaRef().getId() + "," +	                    	  
+	                    	  credito.getMontoCredito().multiply(BigDecimal.valueOf(100)) + "," +	                    	  
+	                    	  credito.getValorCuota().multiply(BigDecimal.valueOf(100)) + "," +
+							  credito.getCantCuotas() + "," +							  
+							  CreditoModel.obtenerIdUnidad(credito.getUnidad()) + " );\n" +	                    
+	                    "COMMIT;";	    
+	    
+	    	System.out.println(insertStmt);
+
+	    try {
+	        DBUtil.dbExecuteUpdate(insertStmt);
+	    } catch (SQLException e) {
+	        System.out.print("Error en INSERT Creditos: " + e);
+	        throw e;
+	    }
+	}	
 	
 	private static ObservableList<CreditoModel> getListaCreditos(ResultSet rs) throws SQLException, ClassNotFoundException {
         //Declare a observable List which comprises of Employee objects
@@ -55,5 +82,5 @@ public class CreditoDAO {
         }
 
         return listaCreditos;
-    }	
+    }		
 }
