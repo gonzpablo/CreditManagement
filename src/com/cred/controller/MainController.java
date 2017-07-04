@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import com.cred.model.ClienteDAO;
@@ -112,29 +114,58 @@ public class MainController {
 	
 //	Lista de créditos	
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
-
 	private FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
 
-//	Lista de clientes	
-//	private List<ClientModel> clientes;
-	private ObservableList<ClienteModel> clientes = FXCollections.observableArrayList();
-		
+	private ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();
+	private ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();	
+	private ObservableList<CobradorModel> listaCobradores = FXCollections.observableArrayList();	
 	
-	/**
-	 * Just add some sample data in the constructor.
-	 */
+	private Map<Integer, ClienteModel> hashClientes = new HashMap<Integer, ClienteModel>(); 
+	private Map<Integer, RutaModel> hashRutas = new HashMap<Integer, RutaModel>();
+	private Map<Integer, CobradorModel> hashCobradores = new HashMap<Integer, CobradorModel>();
+	
+
 	public MainController() {
-		initCreditos();
-		initClientes();		
-		initCobradores();
+		initClientes();
 		initRutas();
-//		String nombre, String apellido, String direccion, String telefono, String dni		
-		clientes.add(new ClienteModel("Patricia","Aguirre","Belgrano 1547","4987-5780","21487141"));
-		clientes.add(new ClienteModel("Matias","Barbieri","Cuzco 9371","4547-3456","87214774"));
-		clientes.add(new ClienteModel("Carla","Diaz","Alsina 837","2454-3852","17874877"));
-		clientes.add(new ClienteModel("Miguel","Carrera","Paraguay 897","3878-1877","25787369"));		
+		initCobradores();
+		initCreditos();
+		
+		completarCreditos();
 	}	
+		
+	private void hashClientes() {
+
+		for (ClienteModel cliente : listaClientes)			
+			hashClientes.put(cliente.getId(), cliente);		
+	}
+
+	private void hashRutas() {
+		
+		for (RutaModel ruta : listaRutas)
+			hashRutas.put(ruta.getId(), ruta);
+	}
+
+	private void hashCobradores() {
+		
+		for (CobradorModel cobrador : listaCobradores )
+			hashCobradores.put(cobrador.getId(), cobrador);
+	}
 	
+	private void completarCreditos() {
+
+		for ( CreditoModel credito : creditos ) {
+
+			//	Referencia al Cliente
+			credito.setCliente(hashClientes.get(credito.getIdCliente()));
+			//	Referencia al Cobrador			
+			credito.setCobrador(hashCobradores.get(credito.getIdCobrador()));
+			//	Referencia a la Ruta
+			credito.setRuta(hashRutas.get(credito.getIdRuta()));
+			
+		}
+	}
+
 	/**
 	 * Initializes the controller class. This method is automatically called
 	 * after the fxml file has been loaded.
@@ -167,26 +198,26 @@ public class MainController {
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();			
         ObjectProperty<Predicate<CreditoModel>> cerradoFilter = new SimpleObjectProperty<>();
         
-//        cobradorFilter.bind(Bindings.createObjectBinding(() ->        
-//        						credito ->
-//        							cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(),
-//        							cobradorFilterCombo.valueProperty()));				
-//		
-//        rutaFilter.bind(Bindings.createObjectBinding(() ->
-//        					credito -> 
-//        						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
-//        						rutaFilterCombo.valueProperty()));		
+        cobradorFilter.bind(Bindings.createObjectBinding(() ->        
+        						credito ->
+        							cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(),
+        							cobradorFilterCombo.valueProperty()));				
+		
+        rutaFilter.bind(Bindings.createObjectBinding(() ->
+        					credito -> 
+        						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
+        						rutaFilterCombo.valueProperty()));		
 
-//        cerradoFilter.bind(Bindings.createObjectBinding(() ->
-//							credito -> 
-//							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
-//								cerradoFilterCheckBox.selectedProperty()));	        
+        cerradoFilter.bind(Bindings.createObjectBinding(() ->
+							credito -> 
+							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
+								cerradoFilterCheckBox.selectedProperty()));	        
 
 //        creditosTable.setItems(filteredItems);
 //        clienteColumn.setSortable(true);
         
-//        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
-//				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
+        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
+				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
 //        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> cerradoFilter.get()));
                
         // 3. Wrap the FilteredList in a SortedList. 
@@ -196,7 +227,8 @@ public class MainController {
         sortedData.comparatorProperty().bind(creditosTable.comparatorProperty());
 
         // 5. Add sorted (and filtered) data to the table.
-        creditosTable.setItems(sortedData);              
+        creditosTable.setItems(sortedData);
+//        creditosTable.setItems(creditos);
         
         calc();       
 
@@ -283,7 +315,7 @@ public class MainController {
 	            GridPane page = (GridPane) loader.load();
 	            ClienteController controller = loader.<ClienteController>getController();
 
-	            controller.setClientes(clientes);
+	            controller.setClientes(listaClientes);
 //	            controller.setMainController(this);            
 	            
 	            Stage stage = new Stage();
@@ -439,8 +471,6 @@ public class MainController {
 
     public ObservableList<ClienteModel> initClientes() {
     	
-    	ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();;    	
-    	
     	try {
 			listaClientes = ClienteDAO.buscarClientes();
 		} catch (ClassNotFoundException e) {
@@ -449,12 +479,12 @@ public class MainController {
 			e.printStackTrace();
 		}
     	
+    	hashClientes();
+    	
     	return listaClientes;
     }
     
-    public ObservableList<RutaModel> initRutas() {
-    	
-    	ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();    	
+    public ObservableList<RutaModel> initRutas() {    	
     	
     	try {
 			listaRutas = RutaDAO.buscarRutas();
@@ -464,12 +494,12 @@ public class MainController {
 			e.printStackTrace();
 		}
     	
+    	hashRutas();
+    	
     	return listaRutas;
     }    
     
-    public ObservableList<CobradorModel> initCobradores() {
-    	
-    	ObservableList<CobradorModel> listaCobradores = FXCollections.observableArrayList();    	
+    public ObservableList<CobradorModel> initCobradores() {    	
     	
     	try {
 			listaCobradores = CobradorDAO.buscarCobradores();
@@ -478,6 +508,8 @@ public class MainController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+    	
+    	hashCobradores();
     	
     	return listaCobradores;
     }        
@@ -497,6 +529,6 @@ public class MainController {
     }
 
 	public ObservableList<ClienteModel> getClientes() {
-		return clientes;
+		return listaClientes;
 	}            
 }

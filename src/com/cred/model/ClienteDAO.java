@@ -41,7 +41,8 @@ public class ClienteDAO {
 //					String montoCredito, String cobrador, String ruta) {
 	        	
             ClienteModel cliente = new ClienteModel();
-            
+           
+            cliente.setId(rs.getInt("ID"));
             cliente.setNombre(rs.getString("NOMBRE"));
             cliente.setApellido(rs.getString("APELLIDO"));
             cliente.setDireccion(rs.getString("DIRECCION"));

@@ -48,7 +48,7 @@ public class CreditoDAO {
             										rs.getInt("IDCOBRADOR"),
             										rs.getInt("IDRUTA"));
             
-            System.out.println(rs.getInt("MONTOTOTAL"));
+//            System.out.println(rs.getInt("MONTOTOTAL"));
             
             //Agregar crédito a lista de créditos
             listaCreditos.add(credito);

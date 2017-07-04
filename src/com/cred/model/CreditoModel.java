@@ -13,28 +13,29 @@ import javafx.beans.value.ObservableValue;
 public class CreditoModel {
 
 	private int id;		// ID del crédito
-	private String cliente;
 	private int cantCuotas;
 	private BigDecimal tasaInt;
-	
 	private BigDecimal montoCredito;
 	private BigDecimal valorCuota; // Monto credito * interes / cant. dias
 	private BigDecimal montoCuota = new BigDecimal("0"); // Monto pagado un día determinado
-	private BigDecimal montoCuotaAcumulado;
-	
+	private BigDecimal montoCuotaAcumulado;	
 	private BigDecimal gciaXDia = new BigDecimal("0");
 	private int cuotasPagas;
-//	private String cobrador;
-	private int idCobrador;
-//	private String ruta;
-	private int idRuta;
 	private String unidad;
 	private BigDecimal saldoCapital;
-	private boolean cerrado = false;	// todos los creditos nacen abiertos
-
-
-	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
+	private boolean cerrado = false;	// todos los creditos nacen abiertos	
 	
+//	Id's Referencias	
+	private int idCliente;
+	private int idCobrador;
+	private int idRuta;
+
+//  Referencias objetos	
+	private ClienteModel cliente;
+	private CobradorModel cobrador;	
+	private RutaModel ruta;
+	
+	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
 //	public CreditoModel(String cliente, int cantCuotas, String unidad, String montoCuota, 
 //						String montoCredito, String cobrador, String ruta) {
@@ -191,12 +192,12 @@ public class CreditoModel {
 	}
 
 	public String getCliente() {
-		return cliente;
+		return this.cliente.getNombre();
 	}
-
-	public void setCliente(String cliente) {
-		this.cliente = cliente;
-	}
+//
+//	public void setCliente(String cliente) {
+//		this.cliente = cliente;
+//	}
 
 	public int getCuotasPagas() {
 		return cuotasPagas;
@@ -206,7 +207,7 @@ public class CreditoModel {
 		this.cuotasPagas = cuotasPagas;
 	}
 
-	public int getCobrador() {
+	public int getIdCobrador() {
 		return idCobrador;
 	}
 
@@ -222,7 +223,7 @@ public class CreditoModel {
 		this.saldoCapital = saldoCapital;
 	}
 
-	public int getRuta() {
+	public int getIdRuta() {
 		return idRuta;
 	}
 	
@@ -349,5 +350,73 @@ public class CreditoModel {
 
 	public void setUnidad(String unidad) {
 		this.unidad = unidad;
-	}	
+	}
+
+	public ClienteModel getClienteRef() {
+		return cliente;
+	}
+
+	public void setCliente(ClienteModel cliente) {
+		this.cliente = cliente;
+	}
+
+	public void setCobrador(CobradorModel cobrador) {
+		this.cobrador = cobrador;
+	}
+
+	public void setRuta(RutaModel ruta) {
+		this.ruta = ruta;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getCobrador() {		
+		return this.cobrador.getNombre();		
+	}
+
+	public CobradorModel getCobradorRef() {
+		return this.cobrador;
+	}
+	
+	public RutaModel getRutaRef() {
+		return ruta;
+	}
+
+	public String getRuta() {
+		return this.ruta.getDescripcion();
+	}
+	
+	public void setTasaInt(BigDecimal tasaInt) {
+		this.tasaInt = tasaInt;
+	}
+
+	public void setMontoCredito(BigDecimal montoCredito) {
+		this.montoCredito = montoCredito;
+	}
+
+	public void setIdCobrador(int idCobrador) {
+		this.idCobrador = idCobrador;
+	}
+
+	public void setIdRuta(int idRuta) {
+		this.idRuta = idRuta;
+	}
+
+	public void setListaPagos(List<PagoModel> listaPagos) {
+		this.listaPagos = listaPagos;
+	}
+
+	public int getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
 }

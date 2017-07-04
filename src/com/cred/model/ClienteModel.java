@@ -4,6 +4,7 @@ import java.util.List;
 
 public class ClienteModel {
 
+	private int id;
 	private String nombre;
 	private String apellido;
 	private String direccion;
@@ -70,5 +71,13 @@ public class ClienteModel {
 
 	public void setCreditos(List<CreditoModel> creditos) {
 		this.creditos = creditos;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;		
 	}
 }
