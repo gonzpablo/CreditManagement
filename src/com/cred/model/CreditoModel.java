@@ -37,16 +37,29 @@ public class CreditoModel {
 	
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
-//	public CreditoModel(String cliente, int cantCuotas, String unidad, String montoCuota, 
-//						String montoCredito, String cobrador, String ruta) {
+	public CreditoModel(ClienteModel cliente, int cantCuotas, String unidad, String montoCuota,
+						String montoCredito, CobradorModel cobrador, RutaModel ruta) {
+		
+		this.cantCuotas = cantCuotas;
+		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
+		this.unidad = unidad;
+		this.valorCuota = obtenerMontoCuota(obtenerMontoTotalCredito(montoCuota, String.valueOf(cantCuotas)), cantCuotas);
+		
+		this.cliente = cliente;		
+		this.cobrador = cobrador;		
+		this.ruta = ruta;
+		
+		calcularMontoAcumulado();
+		calcularCuotasPagas();
+		calcularSaldoCapital();
+	}	
 	
+//	CreditoModel (De BD):	
 	public CreditoModel(int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
 						int montoCredito, int idCobrador, int idRuta) {
 
-		this.cliente = cliente;
+		this.idCliente = idCliente;
 		this.cantCuotas = cantCuotas;
-
-//		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
 		this.montoCredito = BigDecimal.valueOf(montoCredito).divide(BigDecimal.valueOf(100));
 		this.idCliente = idCliente;
 		this.idCobrador = idCobrador;

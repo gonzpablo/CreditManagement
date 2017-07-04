@@ -64,8 +64,6 @@ public class CreditoDAO {
         ObservableList<CreditoModel> listaCreditos = FXCollections.observableArrayList();
  
         while (rs.next()) {
-//        	public CreditoModel(String cliente, int cantCuotas, String unidad, String montoCuota, 
-//					String montoCredito, String cobrador, String ruta) {
 	        	
             CreditoModel credito = new CreditoModel(rs.getInt("IDCLIENTE"), 
             										rs.getInt("CANTCUOTAS"),
@@ -74,8 +72,6 @@ public class CreditoDAO {
             										rs.getInt("MONTOTOTAL"),
             										rs.getInt("IDCOBRADOR"),
             										rs.getInt("IDRUTA"));
-            
-//            System.out.println(rs.getInt("MONTOTOTAL"));
             
             //Agregar crédito a lista de créditos
             listaCreditos.add(credito);
