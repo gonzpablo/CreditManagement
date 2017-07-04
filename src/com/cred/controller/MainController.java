@@ -114,7 +114,7 @@ public class MainController {
 	
 //	Lista de créditos	
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
-	private FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);
+	private FilteredList<CreditoModel> filteredItems; 
 
 	private ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();
 	private ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();	
@@ -167,27 +167,38 @@ public class MainController {
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();			
         ObjectProperty<Predicate<CreditoModel>> cerradoFilter = new SimpleObjectProperty<>();
         
+//        cobradorFilter.bind(Bindings.createObjectBinding(() ->        
+//        						credito ->
+//        							cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(),
+//        							cobradorFilterCombo.valueProperty()));				
+
         cobradorFilter.bind(Bindings.createObjectBinding(() ->        
-        						credito ->
-        							cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobrador(),
-        							cobradorFilterCombo.valueProperty()));				
-		
+		credito ->
+			cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue().equals(credito.getCobrador()),
+			cobradorFilterCombo.valueProperty()));				        
+        
+//        rutaFilter.bind(Bindings.createObjectBinding(() ->
+//        					credito -> 
+//        						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
+//        						rutaFilterCombo.valueProperty()));		
+
         rutaFilter.bind(Bindings.createObjectBinding(() ->
-        					credito -> 
-        						rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRuta(),
-        						rutaFilterCombo.valueProperty()));		
-//
-//        cerradoFilter.bind(Bindings.createObjectBinding(() ->
-//							credito -> 
-//							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
-//								cerradoFilterCheckBox.selectedProperty()));	        
-//
-//       
-//        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
-//				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
+		credito -> 
+			rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue().equals(credito.getRuta()),
+			rutaFilterCombo.valueProperty()));		
+        
+        
+        cerradoFilter.bind(Bindings.createObjectBinding(() ->
+							credito -> 
+							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
+								cerradoFilterCheckBox.selectedProperty()));	        
+
+        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
+				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
 
 //        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
-//        				cobradorFilter.get().and(rutaFilter.get()), cobradorFilter, rutaFilter));        
+//				cobradorFilter.get().and(rutaFilter.get()), cobradorFilter, rutaFilter));
+        
         
         // 3. Wrap the FilteredList in a SortedList. 
         SortedList<CreditoModel> sortedData = new SortedList<>(filteredItems);
@@ -201,7 +212,6 @@ public class MainController {
         
         // 5. Add sorted (and filtered) data to the table.
         creditosTable.setItems(sortedData);
-//        creditosTable.setItems(creditos);
         
         calc();       
 
@@ -252,6 +262,8 @@ public class MainController {
 			credito.setRuta(hashRutas.get(credito.getIdRuta()));
 			
 		}
+		
+		 filteredItems = new FilteredList<>(creditos, p -> true);
 	}
 
 	private void reporte() {
@@ -427,7 +439,16 @@ public class MainController {
 	}
 
     private void initComboCobrador() {
-		cobradorFilterCombo.setItems(FXCollections.observableArrayList("Luis","Miguel","Ezequiel","Ricardo","Rafael","Emanuel"));
+    	    	
+//		cobradorFilterCombo.setItems(FXCollections.observableArrayList("Jorge", "Luis","Miguel","Ezequiel","Ricardo","Rafael","Emanuel"));
+		cobradorFilterCombo.setItems(FXCollections.observableArrayList(1,2,3,4));
+
+		for ( CobradorModel cobrador: listaCobradores ) {
+
+		}
+
+		cobradorFilterCombo.setItems		
+		
 	}
 
 	private void initColumns() {

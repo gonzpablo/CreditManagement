@@ -53,7 +53,7 @@ public class CreditoDAO {
             //Agregar crédito a lista de créditos
             listaCreditos.add(credito);
         }
-        //return empList (ObservableList of Employees)
+
         return listaCreditos;
     }	
 }
