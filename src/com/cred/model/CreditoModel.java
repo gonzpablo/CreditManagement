@@ -48,7 +48,7 @@ public class CreditoModel {
 
 //		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
 		this.montoCredito = BigDecimal.valueOf(montoCredito).divide(BigDecimal.valueOf(100));
-		
+		this.idCliente = idCliente;
 		this.idCobrador = idCobrador;
 		this.idRuta = idRuta;
 		this.unidad = obtenerUnidad(idUnidad);

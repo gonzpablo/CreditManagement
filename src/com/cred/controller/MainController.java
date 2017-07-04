@@ -125,47 +125,16 @@ public class MainController {
 	private Map<Integer, CobradorModel> hashCobradores = new HashMap<Integer, CobradorModel>();
 	
 
-	public MainController() {
+	public MainController() {	
 		initClientes();
 		initRutas();
 		initCobradores();
 		initCreditos();
 		
+//		Completar en los créditos, las referencias a clientes, cobradores y rutas		
 		completarCreditos();
 	}	
 		
-	private void hashClientes() {
-
-		for (ClienteModel cliente : listaClientes)			
-			hashClientes.put(cliente.getId(), cliente);		
-	}
-
-	private void hashRutas() {
-		
-		for (RutaModel ruta : listaRutas)
-			hashRutas.put(ruta.getId(), ruta);
-	}
-
-	private void hashCobradores() {
-		
-		for (CobradorModel cobrador : listaCobradores )
-			hashCobradores.put(cobrador.getId(), cobrador);
-	}
-	
-	private void completarCreditos() {
-
-		for ( CreditoModel credito : creditos ) {
-
-			//	Referencia al Cliente
-			credito.setCliente(hashClientes.get(credito.getIdCliente()));
-			//	Referencia al Cobrador			
-			credito.setCobrador(hashCobradores.get(credito.getIdCobrador()));
-			//	Referencia a la Ruta
-			credito.setRuta(hashRutas.get(credito.getIdRuta()));
-			
-		}
-	}
-
 	/**
 	 * Initializes the controller class. This method is automatically called
 	 * after the fxml file has been loaded.
@@ -247,7 +216,41 @@ public class MainController {
             });
             return row;
         });
+	}	
+	
+	private void hashClientes() {
+
+		for (ClienteModel cliente : listaClientes)			
+			hashClientes.put(cliente.getId(), cliente);		
 	}
+
+	private void hashRutas() {
+		
+		for (RutaModel ruta : listaRutas)
+			hashRutas.put(ruta.getId(), ruta);
+	}
+
+	private void hashCobradores() {
+		
+		for (CobradorModel cobrador : listaCobradores )
+			hashCobradores.put(cobrador.getId(), cobrador);
+	}
+	
+	private void completarCreditos() {
+
+		for ( CreditoModel credito : creditos ) {
+
+			//	Referencia al Cliente
+			credito.setCliente(hashClientes.get(credito.getIdCliente()));
+			//	Referencia al Cobrador			
+			credito.setCobrador(hashCobradores.get(credito.getIdCobrador()));
+			//	Referencia a la Ruta
+			credito.setRuta(hashRutas.get(credito.getIdRuta()));
+			
+		}
+	}
+
+
 
 	private void reporte() {
 

@@ -44,7 +44,7 @@ public class CobradorDAO {
             		
             cobrador.setId(rs.getInt("ID"));
             cobrador.setNombre(rs.getString("NOMBRE"));
-            cobrador.setNombre(rs.getString("APELLIDO"));
+            cobrador.setApellido(rs.getString("APELLIDO"));
             
             //Agregar crédito a lista de créditos
             listaCobradores.add(cobrador);
