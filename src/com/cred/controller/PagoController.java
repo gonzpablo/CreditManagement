@@ -6,11 +6,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.Temporal;
-import java.util.Date;
-
-import com.cred.model.CreditoModel;
-import com.cred.model.PagoDAO;
-import com.cred.model.PagoModel;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -29,6 +24,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import com.cred.model.CreditoModel;
+import com.cred.model.PagoDAO;
+import com.cred.model.PagoModel;
+
 public class PagoController {
 
 	@FXML
@@ -41,17 +40,14 @@ public class PagoController {
 	private DatePicker fechaPagoField;
 	@FXML
 	private CheckBox cerrarCreditoCheckBox;
-		
 	@FXML
 	private Button ingresarPagoButton;
 	@FXML
 	private Button cancelarButton;
 	@FXML
 	private Button borrarPagoButton;
-	
 	@FXML
 	private TableColumn<PagoModel, LocalDate> fechaColumn;
-//	private TableColumn<PagoModel, Date> fechaColumn;
 	@FXML	
     private TableColumn<PagoModel, Float> montoPagoColumn;	
 	@FXML
@@ -75,11 +71,6 @@ public class PagoController {
 	    LocalDate localDate = LocalDate.parse(dateString, formatter);
 	    return localDate;
 	}
-
-	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
-	 */
 
 	@FXML
 	private void initialize() {
@@ -156,7 +147,6 @@ public class PagoController {
 	};	
 	
 	private void initColumns() {
-//		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));	
 		fechaColumn.setCellValueFactory(cellData -> cellData.getValue().getFecha());
 		
         montoPagoColumn.setCellValueFactory(new PropertyValueFactory<>("montoPago"));
@@ -209,7 +199,7 @@ public class PagoController {
 	private void ingresarPago() {
 		
 		if (!(credito.validarMontoAPagar(new BigDecimal(montoPagadoField.textProperty().getValue())))) {
-//			
+
 			credito.setCerrado(true);
 			credito.calcular();
 			this.mainController.refrescar();
@@ -231,9 +221,9 @@ public class PagoController {
 
 		pagos.add(this.pago);
 		
-		System.out.println(this.pago.getMontoPago());
-		System.out.println(this.pago.getMontoPagoInterno());
-		System.out.println(this.pago.getFecha());
+//		System.out.println(this.pago.getMontoPago());
+//		System.out.println(this.pago.getMontoPagoInterno());
+//		System.out.println(this.pago.getFecha());
 		
 		try {
 			PagoDAO.agregarPago(credito.getId(), this.pago);
@@ -249,7 +239,6 @@ public class PagoController {
 		this.mainController.calcPagos();
 	}
 
-//	public void setCredito(CreditoModel credito, ObservableList<CreditoModel> creditosTab) {
 	public void setCredito(CreditoModel credito) {		
 		this.credito = credito;
 		clienteField.setText(this.credito.getCliente());
@@ -260,10 +249,8 @@ public class PagoController {
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 		
 		if (this.credito.getCuotasPagas() == this.credito.getCantCuotas()) { 
-
 			disableFields(true);
 			cerrarCreditoCheckBox.setDisable(true);
-//			this.credito.setCerrado(true);
 		}
 	
 		if (this.credito.isCerrado() == true)

@@ -405,10 +405,10 @@ public class Reporte {
 			imprimirTexto(contentStream, String.valueOf(credito.getCantCuotas()), x+5, y, textWidth);
 			x+=getLength("CC");			
 			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
-//			imprimirTexto(contentStream, credito.getCobrador(), x+5, y, textWidth);
+			imprimirTexto(contentStream, credito.getCobrador(), x+5, y, textWidth);
 			x+=getLength("Cobrador");			
 			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
-//			imprimirTexto(contentStream, credito.getRuta(), x+5, y, textWidth);
+			imprimirTexto(contentStream, credito.getRuta(), x+5, y, textWidth);
 			x+=getLength("Ruta");
 			contentStream.drawLine(x, y+15, x, y+15-rowHeight);
 			

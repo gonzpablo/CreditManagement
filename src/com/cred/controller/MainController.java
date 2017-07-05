@@ -83,10 +83,8 @@ public class MainController {
 //  Filtros	
 //  -------------------------------------------------------------------	
 	@FXML
-//	private ComboBox<String> rutaFilterCombo;
 	private ComboBox<RutaModel> rutaFilterCombo;
 	@FXML
-//	private ComboBox<String> cobradorFilterCombo;
 	private ComboBox<CobradorModel> cobradorFilterCombo;	
 	@FXML
 	private CheckBox cerradoFilterCheckBox;
@@ -283,7 +281,7 @@ public class MainController {
 //	    Stage stage = (Stage) btnCleanFilters.getScene().getWindow();
 		Stage stage = new Stage();
 	    // do what you have to do
-	    stage.close();		
+//	    stage.close();		
 		
 		Reporte rep = new Reporte(stage);
 		try {
@@ -306,7 +304,6 @@ public class MainController {
 		}
 			
 		creditos.remove(credito);
-//		this.borrarPago(pago);
 		credito.calcular();
 		this.calcPagos();		
 	}
@@ -340,8 +337,7 @@ public class MainController {
             GridPane page = (GridPane) loader.load();
             ClienteController controller = loader.<ClienteController>getController();
 
-            controller.setClientes(listaClientes);
-//	            controller.setMainController(this);            
+            controller.setClientes(listaClientes);  
             
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -359,30 +355,16 @@ public class MainController {
 
 	public void calcPagos() {
 			
-//		float sumaCuotaPura = 0,
-//			  sumaGciaXDia = 0;
 		BigDecimal sumaCuotaPura = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP),
 					sumaGciaXDia = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
 		
-//		System.out.println("calcPago()");		
 			for ( CreditoModel cred : filteredItems ) {
-
-
-//				sumaCuotaPura+=cred.getMontoCuota(fechaFilterField.getValue());
 				sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota(fechaFilterField.getValue()));
-//				System.out.println(cred.getMontoCuota(fechaFilterField.getValue()));
-//				sumaGciaXDia+=cred.getGciaXDia(fechaFilterField.getValue());
 				sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia(fechaFilterField.getValue()));
 			}
 
-//		sumaCuotaPura.setScale(2, RoundingMode.HALF_UP);
-//		sumaGciaXDia.setScale(2, RoundingMode.HALF_UP);
-//		System.out.println(sumaGciaXDia);
-//		System.out.println(sumaCuotaPura);
     	cuotaPuraField.setText(String.valueOf(sumaCuotaPura.setScale(2, RoundingMode.HALF_UP)));
     	gciaDiaField.setText(String.valueOf(sumaGciaXDia.setScale(2, RoundingMode.HALF_UP)));				
-//    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
-//    	gciaDiaField.setText(String.valueOf(sumaGciaXDia));
     	
 		creditosTable.refresh();
 	}
@@ -418,23 +400,11 @@ public class MainController {
 
 	private void calc() {
 
-//		float sumaCuotaPura = 0,
-//				  sumaGciaXDia = 0;
-			
 		BigDecimal sumaCuotaPura = NumeroUtil.crearBigDecimal("0").setScale(2, RoundingMode.HALF_UP),
 				sumaGciaXDia = NumeroUtil.crearBigDecimal("0").setScale(2, RoundingMode.HALF_UP);
-		
-//		for ( CreditoModel cred : filteredItems ) {
-////			sumaCuotaPura+=cred.getMontoCuota(fechaFilterField.getValue());
-//			sumaCuotaPura.add(cred.getMontoCuota(fechaFilterField.getValue()));
-//			
-////			sumaGciaXDia+=cred.getGciaXDia(fechaFilterField.getValue());
-//			sumaGciaXDia.add(cred.getGciaXDia(fechaFilterField.getValue()));	
 
 		for ( CreditoModel cred : filteredItems ) {			
-//			sumaCuotaPura+=cred.getMontoCuota();
 			sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota());
-//			sumaGciaXDia+=cred.getGciaXDia();
 			sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia());
         }		
 		

@@ -358,7 +358,6 @@ public class CreditoModel {
 					.multiply(BigDecimal.valueOf(100))
 					.divide(BigDecimal.valueOf(cantCuotas).multiply(BigDecimal.valueOf(7)), 15, RoundingMode.HALF_UP)
 					.multiply(BigDecimal.valueOf(30)).setScale(2, RoundingMode.HALF_UP);
-			
 	}
 
 	public boolean isCerrado() {
