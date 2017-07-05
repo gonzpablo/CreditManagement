@@ -37,9 +37,24 @@ public class PagoDAO {
 
 	public static ObservableList<PagoModel> buscarPagos() throws SQLException, ClassNotFoundException {
 
-		String selectStmt = "SELECT rowid, idcredito, montoPago, date(fecha, 'unixepoch') as fecha from pagos;";
+//		String selectStmt = "SELECT rowid, idcredito, montoPago, date(fecha, 'unixepoch') as fecha from pagos;";
 
-
+		String selectStmt = "SELECT p.rowid as rowid, " +
+									"p.idcredito as idcredito, " +
+									"p.montoPago as montoPago, " +
+									"date(p.fecha, 'unixepoch') as fecha " +
+							"FROM pagos as p " +
+									"inner join creditos as c " +
+									"on p.idCredito = c.rowid " +
+							"WHERE c.cerrado = 0;";
+							
+		
+//		SELECT p.rowid as rowid, p.idcredito as idcredito, p.montoPago as montoPago, date(p.fecha, 'unixepoch') as fecha
+//		from pagos as p
+//		inner join creditos as c
+//		on p.idCredito = c.rowid
+//		where c.cerrado = 0;		
+		
 		try {
 			//Get ResultSet from dbExecuteQuery method
 			ResultSet rsPagos = DBUtil.dbExecuteQuery(selectStmt);

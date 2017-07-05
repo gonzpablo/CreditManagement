@@ -13,7 +13,7 @@ public class CreditoDAO {
 
 	public static ObservableList<CreditoModel> buscarCreditos() throws SQLException, ClassNotFoundException {
 	
-		String selectStmt = "SELECT rowid, * FROM creditos";
+		String selectStmt = "SELECT rowid, * FROM creditos WHERE cerrado = 0";
 		
         try {
             //Get ResultSet from dbExecuteQuery method
@@ -44,7 +44,8 @@ public class CreditoDAO {
 	                    	  credito.getMontoCredito().multiply(BigDecimal.valueOf(100)) + "," +	                    	  
 	                    	  credito.getValorCuota().multiply(BigDecimal.valueOf(100)) + "," +
 							  credito.getCantCuotas() + "," +							  
-							  CreditoModel.obtenerIdUnidad(credito.getUnidad()) + " );\n" +	                    
+							  CreditoModel.obtenerIdUnidad(credito.getUnidad()) + 
+							  0 + " );\n" +	                    
 	                    "COMMIT;";	    
 	    
 	    	System.out.println(insertStmt);
