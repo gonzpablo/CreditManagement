@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.Temporal;
+import java.util.Date;
 
 import com.cred.model.CreditoModel;
 import com.cred.model.PagoDAO;
 import com.cred.model.PagoModel;
 
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,11 +21,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class PagoController {
 
@@ -46,6 +51,7 @@ public class PagoController {
 	
 	@FXML
 	private TableColumn<PagoModel, LocalDate> fechaColumn;
+//	private TableColumn<PagoModel, Date> fechaColumn;
 	@FXML	
     private TableColumn<PagoModel, Float> montoPagoColumn;	
 	@FXML
@@ -64,7 +70,7 @@ public class PagoController {
 
 	}
 
-	public static final LocalDate LOCAL_DATE (String dateString){
+	public static final LocalDate LOCAL_DATE (String dateString) {
 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	    LocalDate localDate = LocalDate.parse(dateString, formatter);
 	    return localDate;
@@ -80,7 +86,7 @@ public class PagoController {
 
 		initColumns();		
 		
-		fechaPagoField.setValue(pago.getFecha());
+		fechaPagoField.setValue(pago.getFecha().getValue());
 		
 		pagosTable.setItems(pagos);
 
@@ -150,10 +156,32 @@ public class PagoController {
 	};	
 	
 	private void initColumns() {
-		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));		
-        montoPagoColumn.setCellValueFactory(new PropertyValueFactory<>("montoPago"));	
+//		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));	
+		fechaColumn.setCellValueFactory(cellData -> cellData.getValue().getFecha());
+		
+        montoPagoColumn.setCellValueFactory(new PropertyValueFactory<>("montoPago"));
+        
+        DateTimeFormatter format = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+        fechaColumn.setCellFactory (getDateCell(format));        
 	}
 
+	public static <ROW,T extends Temporal> Callback<TableColumn<ROW, T>, TableCell<ROW, T>> getDateCell (DateTimeFormatter format) {		
+		  return column -> {
+		    return new TableCell<ROW, T> () {
+		      @Override
+		      protected void updateItem (T item, boolean empty) {
+		        super.updateItem (item, empty);
+		        if (item == null || empty) {
+		          setText (null);
+		        }
+		        else {
+		          setText (format.format (item));
+		        }
+		      }
+		    };
+		  };
+		}
+	
 	private void initFields() {
 
 		montoPagadoField.clear();
@@ -198,7 +226,7 @@ public class PagoController {
 		}
 			
 		this.pago.setMontoPago(montoPagadoField.getText());
-		this.pago.setFecha(fechaPagoField.getValue());
+		this.pago.setFecha(new SimpleObjectProperty<LocalDate>(fechaPagoField.getValue()));
 		this.credito.agregarPago(this.pago);
 
 		pagos.add(this.pago);
@@ -238,9 +266,8 @@ public class PagoController {
 //			this.credito.setCerrado(true);
 		}
 	
-		if (this.credito.isCerrado() == true)  {
+		if (this.credito.isCerrado() == true)
 			disableFields(true);
-		}
 		
 		if (this.credito.isCerrado() == true)
 			cerrarCreditoCheckBox.setSelected(true);;

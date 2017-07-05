@@ -27,11 +27,11 @@ public class NumeroUtil {
 	 * https://support.microsoft.com/en-us/kb/269370
 	 */	
 	
-	private static double fixFloatingPointPrecision(double value) {
-	    BigDecimal original = new BigDecimal(value);
-	    BigDecimal fixed = new BigDecimal(original.unscaledValue(), original.precision())
-	            .setScale(EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
-	    int newScale = original.scale() - original.precision() + EXCEL_MAX_DIGITS;
-	    return new BigDecimal(fixed.unscaledValue(), newScale).doubleValue();
-	}	
+//	private static double fixFloatingPointPrecision(double value) {
+//	    BigDecimal original = new BigDecimal(value);
+//	    BigDecimal fixed = new BigDecimal(original.unscaledValue(), original.precision())
+//	            .setScale(EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
+//	    int newScale = original.scale() - original.precision() + EXCEL_MAX_DIGITS;
+//	    return new BigDecimal(fixed.unscaledValue(), newScale).doubleValue();
+//	}	
 }

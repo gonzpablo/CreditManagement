@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -23,9 +22,7 @@ import com.cred.model.RutaDAO;
 import com.cred.model.RutaModel;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,7 +42,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -129,7 +125,6 @@ public class MainController {
 	private Map<Integer, ClienteModel> hashClientes = new HashMap<Integer, ClienteModel>(); 
 	private Map<Integer, RutaModel> hashRutas = new HashMap<Integer, RutaModel>();
 	private Map<Integer, CobradorModel> hashCobradores = new HashMap<Integer, CobradorModel>();
-	private Map<Integer, PagoModel> hashPagos = new HashMap<Integer, PagoModel>();
 	private Map<Integer, CreditoModel> hashCreditos = new HashMap<Integer, CreditoModel>();
 	
 
@@ -394,7 +389,6 @@ public class MainController {
 	
 	public void refrescar() {
 		creditosTable.refresh();
-		
 	}
 	
 	private void pago(CreditoModel rowData, TableRow<CreditoModel> row) {
@@ -497,19 +491,21 @@ public class MainController {
     	
     	try {
 			listaPagos = PagoDAO.buscarPagos();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
     	
     	for ( PagoModel pago : listaPagos ) {
-    		CreditoModel credito;
-    		System.out.println(pago.getIdCredito());
+    		CreditoModel credito;    		
     		credito = hashCreditos.get(pago.getIdCredito());
-      		if (credito == null)
+
+    		if (credito == null)
       			continue;
+    		
     		credito.agregarPago(pago);
+    		credito.calcularMontoAcumulado();
+    		credito.calcularCuotasPagas();
+    		credito.calcularSaldoCapital();
     	}
     	
     	return listaPagos;
@@ -517,13 +513,11 @@ public class MainController {
   
 	public ObservableList<ClienteModel> initClientes() {
     	
-    	try {
+		try {
 			listaClientes = ClienteDAO.buscarClientes();
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		}		
     	
     	hashClientes();
     	
@@ -534,9 +528,7 @@ public class MainController {
     	
     	try {
 			listaRutas = RutaDAO.buscarRutas();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
     	
@@ -549,9 +541,7 @@ public class MainController {
     	
     	try {
 			listaCobradores = CobradorDAO.buscarCobradores();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
     	

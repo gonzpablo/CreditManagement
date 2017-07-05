@@ -6,9 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 
 public class CreditoModel {
 
@@ -18,11 +15,11 @@ public class CreditoModel {
 	private BigDecimal montoCredito;
 	private BigDecimal valorCuota; // Monto credito * interes / cant. dias
 	private BigDecimal montoCuota = new BigDecimal("0"); // Monto pagado un día determinado
-	private BigDecimal montoCuotaAcumulado;	
+	private BigDecimal montoCuotaAcumulado = new BigDecimal("0");	
 	private BigDecimal gciaXDia = new BigDecimal("0");
 	private int cuotasPagas;
 	private String unidad;
-	private BigDecimal saldoCapital;
+	private BigDecimal saldoCapital = new BigDecimal("0");;
 	private boolean cerrado = false;	// todos los creditos nacen abiertos	
 	
 //	Id's Referencias	
@@ -50,9 +47,9 @@ public class CreditoModel {
 		this.cobrador = cobrador;		
 		this.ruta = ruta;
 		
-		calcularMontoAcumulado();
-		calcularCuotasPagas();
-		calcularSaldoCapital();
+//		calcularMontoAcumulado();
+//		calcularCuotasPagas();
+//		calcularSaldoCapital();
 	}	
 	
 //	CreditoModel (De BD):	
@@ -75,9 +72,9 @@ public class CreditoModel {
 	)
 							, cantCuotas); 
 
-		calcularMontoAcumulado();
-		calcularCuotasPagas();
-		calcularSaldoCapital();
+//		calcularMontoAcumulado();
+//		calcularCuotasPagas();
+//		calcularSaldoCapital();
 	}
 
 	public void CreditoModelFromDB() {
@@ -172,7 +169,7 @@ public class CreditoModel {
 		BigDecimal montoCuotaPura = NumeroUtil.crearBigDecimal("0");
 		
 		for ( PagoModel pago: listaPagos )
-			if ( pago.getFecha().equals(fechaFiltro) )
+			if ( pago.getFecha().getValue().equals(fechaFiltro) )
 				montoCuotaPura = montoCuotaPura.add(pago.getMontoPagoInterno());				
 			
 		this.setMontoCuota(montoCuotaPura);
@@ -200,7 +197,7 @@ public class CreditoModel {
 								this.getCantCuotas()), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);		
 		
 		for ( PagoModel pago: listaPagos )
-			if ( pago.getFecha().equals(fechaFiltro) ) {
+			if ( pago.getFecha().getValue().equals(fechaFiltro) ) {
 				montoPagado = montoPagado.add(pago.getMontoPagoInterno());
 				cant+=1;
 			}
@@ -321,7 +318,7 @@ public class CreditoModel {
 		montoTotal = montoCuotaAcumulado.add(monto).setScale(2, RoundingMode.HALF_UP);
 
 		if ( montoTotal.compareTo(
-				this.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas))) == 1 )			
+				CreditoModel.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas))) == 1 )			
 			result = false;
 
 		return result;

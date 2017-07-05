@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import com.cred.util.DBUtil;
+
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,68 +16,64 @@ public class PagoDAO {
 	public static void agregarPago(int idCredito, PagoModel pago) throws SQLException, ClassNotFoundException {
 
 		String insertStmt =
-		        "BEGIN;\n" +
-		                "INSERT INTO pagos\n" +
-		                "(IDCREDITO, MONTOPAGO, FECHA)\n" +
-		                "VALUES\n" +
-		                "(" + idCredito + "," + 
-		                	  pago.getMontoPago().multiply(BigDecimal.valueOf(100)) + "," +
-		                		                	  
-		                	" (SELECT strftime('%s','" + pago.getFecha() + "')));\n" +  
-		                	  
-		                "COMMIT;";	    
-		
+				"BEGIN;\n" +
+					"INSERT INTO pagos\n" +
+					"(IDCREDITO, MONTOPAGO, FECHA)\n" +
+					"VALUES\n" +
+					"(" + idCredito + "," + 
+					pago.getMontoPago().multiply(BigDecimal.valueOf(100)) + "," +
+					" (SELECT strftime('%s','" + pago.getFecha().getValue() + "')));\n" +  
+				"COMMIT;";
+
 		System.out.println(insertStmt);
-		
+
 		try {
-		    DBUtil.dbExecuteUpdate(insertStmt);
+			DBUtil.dbExecuteUpdate(insertStmt);
 		} catch (SQLException e) {
 			System.out.print("Error en INSERT Pago: " + e);
-	        throw e;
-	    }
+			throw e;
+		}
 	}
-	
+
 	public static ObservableList<PagoModel> buscarPagos() throws SQLException, ClassNotFoundException {
-		
+
 		String selectStmt = "SELECT rowid, idcredito, montoPago, date(fecha, 'unixepoch') as fecha from pagos;";
-//		String selectStmt = "SELECT rowid, * FROM pagos";
-		
-        try {
-            //Get ResultSet from dbExecuteQuery method
-            ResultSet rsPagos = DBUtil.dbExecuteQuery(selectStmt);
+
+
+		try {
+			//Get ResultSet from dbExecuteQuery method
+			ResultSet rsPagos = DBUtil.dbExecuteQuery(selectStmt);
  
-            //Send ResultSet to the getEmployeeList method and get employee object
-            ObservableList<PagoModel> listaPagos = getListaPagos(rsPagos);
+			//Send ResultSet to the getEmployeeList method and get employee object
+			ObservableList<PagoModel> listaPagos = getListaPagos(rsPagos);
  
-            //Return employee object
-            return listaPagos;
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has failed: " + e);
-            //Return exception
-            throw e;
-        }		
+			//Return employee object
+			return listaPagos;
+		} catch (SQLException e) {
+			System.out.println("SQL select operation has failed: " + e);
+			//Return exception
+			throw e;
+		}
 	}
-	
+
 	private static ObservableList<PagoModel> getListaPagos(ResultSet rs) throws SQLException, ClassNotFoundException {
 
-        ObservableList<PagoModel> listaPagos = FXCollections.observableArrayList();
-        
-        while (rs.next()) {
-	        	
-            PagoModel pago = new PagoModel();
-            
-            pago.setId(rs.getInt("ROWID"));
-            pago.setIdCredito(rs.getInt("IDCREDITO"));
-            pago.setMontoPagoNumeric(BigDecimal.valueOf(rs.getInt("MONTOPAGO")).multiply(BigDecimal.valueOf(100)));
+		ObservableList<PagoModel> listaPagos = FXCollections.observableArrayList();
 
-    	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    	    LocalDate localDate = LocalDate.parse(rs.getString("FECHA"), formatter);            
-            
-            pago.setFecha(localDate);
+		while (rs.next()) {
+			PagoModel pago = new PagoModel();
 
-            listaPagos.add(pago);
-        }
-        return listaPagos;
-    }			
-	
+			pago.setId(rs.getInt("ROWID"));
+			pago.setIdCredito(rs.getInt("IDCREDITO"));
+			pago.setMontoPagoNumeric(BigDecimal.valueOf(rs.getInt("MONTOPAGO")).divide(BigDecimal.valueOf(100)));
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate localDate = LocalDate.parse(rs.getString("FECHA"), formatter);
+
+			pago.setFecha(new SimpleObjectProperty<LocalDate>(localDate));
+
+			listaPagos.add(pago);
+		}
+		return listaPagos;
+	}
 }

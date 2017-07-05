@@ -1,9 +1,6 @@
 package com.cred.controller;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.time.LocalDate;
-
 import com.cred.model.ClienteModel;
 
 import javafx.scene.Scene;
@@ -16,7 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -129,9 +125,9 @@ public class ClienteController {
 //    	clientesTable.setItems(getClientes());
     }	
 
-	private ObservableList<ClienteModel> getClientes() {
-		return clientes;
-	}
+//	private ObservableList<ClienteModel> getClientes() {
+//		return clientes;
+//	}
 	
 	private void initColumns() {
 		clienteNombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));		

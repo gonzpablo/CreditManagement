@@ -1,10 +1,6 @@
 package com.cred.util;
 
-import com.cred.model.CreditoModel;
 import com.sun.rowset.CachedRowSetImpl;
-
-import javafx.collections.ObservableList;
-
 import java.sql.*;
 
 public class DBUtil {

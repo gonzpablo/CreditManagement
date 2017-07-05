@@ -6,10 +6,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class PagoModel {
 
@@ -17,16 +15,24 @@ public class PagoModel {
 	private int id;
 	private int idCredito;
 	private BigDecimal montoPago;
-	private LocalDate fecha;
-	private LocalTime hora;
+//	private LocalDate fecha;
+	private SimpleObjectProperty<LocalDate> fecha;	
+//	private LocalTime hora;
+//	private StringProperty fechaStr;
+//	private DateProperty fechaNew;
+	
+//	private SimpleObjectProperty<LocalDate> fechaNew = new SimpleObjectProperty<LocalDate>( LocalDate.now() );//LocalDate date  = LocalDate.now();
 	
 	public PagoModel() {
 
-	    LocalDateTime currentDateTime = LocalDateTime.now();	    
-		LocalDate date1 = currentDateTime.toLocalDate();
-		LocalTime time1 = currentDateTime.toLocalTime();
-	    setFecha(date1);
-	    setHora(time1);
+	    LocalDateTime fechaHoraActual = LocalDateTime.now();	    
+//		LocalDate fecha = fechaHoraActual.toLocalDate();
+	    SimpleObjectProperty<LocalDate> fecha = new SimpleObjectProperty<LocalDate>( fechaHoraActual.toLocalDate() );
+//		LocalTime hora = fechaHoraActual.toLocalTime();
+	    setFecha(fecha);
+//	    setHora(hora);
+	    
+//	    fechaNew = new SimpleObjectProperty<LocalDate>( LocalDateTime.now().toLocalDate() );
 	}
 
 	public BigDecimal getMontoPago() {
@@ -47,21 +53,21 @@ public class PagoModel {
 		this.montoPago = montoPago;
 	}
 	
-	public LocalDate getFecha() {
-		return fecha;
-	}
+//	public LocalDate getFecha() {
+//		return fecha;
+//	}
+//
+//	public void setFecha(LocalDate fecha) {
+//		this.fecha = fecha;
+//	}
 
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
-
-	public LocalTime getHora() {
-		return hora;
-	}
-
-	public void setHora(LocalTime hora) {
-		this.hora = hora;
-	}
+//	public LocalTime getHora() {
+//		return hora;
+//	}
+//
+//	public void setHora(LocalTime hora) {
+//		this.hora = hora;
+//	}
 
 	public int getIdCredito() {
 		return idCredito;
@@ -81,5 +87,13 @@ public class PagoModel {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public SimpleObjectProperty<LocalDate> getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(SimpleObjectProperty<LocalDate> fecha) {
+		this.fecha = fecha;
 	}
 }
