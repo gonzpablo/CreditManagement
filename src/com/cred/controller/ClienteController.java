@@ -1,6 +1,9 @@
 package com.cred.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import com.cred.model.ClienteDAO;
 import com.cred.model.ClienteModel;
 
 import javafx.scene.Scene;
@@ -54,15 +57,12 @@ public class ClienteController {
 	ObservableList<ClienteModel> clientes;	
 	
 	public ClienteController() {
-//		clientes.add(new ClientModel("aa","bb","cc","dd","ee"));
 	}
 	
 	@FXML
 	private void initialize() {
 
 		initColumns();		
-		
-//		clientesTable.setItems(clientes);
 			
 		clienteGuardarButton.setOnAction((event) -> {
 		    guardarCliente();
@@ -115,9 +115,18 @@ public class ClienteController {
 	}
 
 	private void guardarCliente() {
-    	addItemToList(new ClienteModel(clienteNombreField.getText(), clienteApellidoField.getText(), 
+		ClienteModel cliente = new ClienteModel(
+				  clienteNombreField.getText(), clienteApellidoField.getText(), 
 				  clienteDireccionField.getText(), clienteTelefonoField.getText(), 
-				  clienteDniField.getText()));
+				  clienteDniField.getText()); 
+		
+    	addItemToList(cliente);
+    	
+    	try {
+			ClienteDAO.agregarCliente(cliente);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}    	
 	}
 
     private void addItemToList(ClienteModel cliente) {

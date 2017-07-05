@@ -1,5 +1,6 @@
 package com.cred.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -54,5 +55,29 @@ public class ClienteDAO {
         }
         //return empList (ObservableList of Employees)
         return listaClientes;
-    }		
+    }
+	
+	public static void agregarCliente(ClienteModel cliente) throws SQLException, ClassNotFoundException {
+
+		String insertStmt =
+				"BEGIN;\n" +
+					"INSERT INTO clientes\n" +
+					"(NOMBRE, APELLIDO, DNI, DIRECCION, TELEFONO)\n" +
+					"VALUES\n" +
+					"('" + cliente.getNombre() + "'," + 
+						"'" + cliente.getApellido() + "'," + 
+						"'" + cliente.getDni() + "'," +
+						"'" + cliente.getDireccion() + "'," +
+						"'" + cliente.getTelefono() + "');" + 				
+				"COMMIT;";
+
+		System.out.println(insertStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(insertStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en INSERT Cliente: " + e);
+			throw e;
+		}
+	}			
 }
