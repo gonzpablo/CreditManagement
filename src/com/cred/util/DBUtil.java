@@ -1,6 +1,9 @@
 package com.cred.util;
 
+import com.cred.model.CreditoModel;
 import com.sun.rowset.CachedRowSetImpl;
+
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 
@@ -24,9 +27,7 @@ public class DBUtil {
             e.printStackTrace();
             throw e;
         }
-
-        System.out.println("Sqlite JDBC Driver Registered!");
-        
+       
         //Establish the SQlite Connection using Connection String
         try {
             conn = DriverManager.getConnection(connStr);
@@ -111,5 +112,25 @@ public class DBUtil {
             //Close connection
             dbDisconnect();
         }
+    }
+    
+    public static int getLastRowId() throws SQLException, ClassNotFoundException {
+ 
+    	int rowId = 0;
+		String selectStmt = "BEGIN TRANSACTION; select last_insert_rowid(); END TRANSACTION;";
+		
+        try {
+            ResultSet rs = DBUtil.dbExecuteQuery(selectStmt);
+ 
+            while (rs.next())	        	
+                rowId = rs.getInt("LAST_INSERT_ROWID()");
+
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has failed: " + e);
+            //Return exception
+            throw e;
+        }		
+    	    	
+        return rowId;
     }
 }

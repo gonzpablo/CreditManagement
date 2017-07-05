@@ -15,8 +15,6 @@ public class CreditoDAO {
 	
 		String selectStmt = "SELECT rowid, * FROM creditos";
 		
-		
-		//Execute SELECT statement
         try {
             //Get ResultSet from dbExecuteQuery method
             ResultSet rsCreditos = DBUtil.dbExecuteQuery(selectStmt);
@@ -65,7 +63,8 @@ public class CreditoDAO {
  
         while (rs.next()) {
 	        	
-            CreditoModel credito = new CreditoModel(rs.getInt("IDCLIENTE"), 
+            CreditoModel credito = new CreditoModel(rs.getInt("ROWID"),
+            									    rs.getInt("IDCLIENTE"), 
             										rs.getInt("CANTCUOTAS"),
             										rs.getInt("UNIDAD"),
             										rs.getInt("MONTOCUOTA"),

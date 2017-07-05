@@ -9,6 +9,7 @@ import com.cred.model.CobradorModel;
 import com.cred.model.CreditoDAO;
 import com.cred.model.CreditoModel;
 import com.cred.model.RutaModel;
+import com.cred.util.DBUtil;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -152,14 +153,17 @@ public class CreditoController {
 //		public CreditoModel(int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
 //				int montoCredito, int idCobrador, int idRuta) {
 	  	
+	  	
+//		public CreditoModel(ClienteModel cliente, int cantCuotas, String unidad, String montoCuota,
+//				String montoCredito, CobradorModel cobrador, RutaModel ruta)	  	
 	  	CreditoModel nuevoCredito = new CreditoModel(
-	  													this.cliente.getId(),
+	  													this.cliente,
 	  													Integer.valueOf(cantCuotasField.getText()),
-	  													CreditoModel.obtenerIdUnidad(unidadCuotasCombo.getValue()),					
-	  													Integer.valueOf(montoCuotaField.getText()),
-	  													Integer.valueOf(montoCreditoField.getText()),	      											
-	  													cobradorCombo.getValue().getId(),
-	  													rutaCombo.getValue().getId());	  	
+	  													unidadCuotasCombo.getValue(),					
+	  													montoCuotaField.getText(),
+	  													montoCreditoField.getText(),	      											
+	  													cobradorCombo.getValue(),
+	  													rutaCombo.getValue());	  	
 	  	
 	  	nuevoCredito.setCliente(cliente);
 	  	nuevoCredito.setCobrador(cobradorCombo.getValue());
@@ -167,6 +171,8 @@ public class CreditoController {
 	  	
 	  	try {
 			CreditoDAO.agregarCredito(nuevoCredito);
+//			Obtener Id asignado al crédito por la base de datos						
+			nuevoCredito.setId(DBUtil.getLastRowId());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

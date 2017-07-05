@@ -1,10 +1,12 @@
 package com.cred.controller;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import com.cred.model.CreditoModel;
+import com.cred.model.PagoDAO;
 import com.cred.model.PagoModel;
 
 import javafx.beans.property.SimpleBooleanProperty;
@@ -200,6 +202,19 @@ public class PagoController {
 		this.credito.agregarPago(this.pago);
 
 		pagos.add(this.pago);
+		
+		System.out.println(this.pago.getMontoPago());
+		System.out.println(this.pago.getMontoPagoInterno());
+		System.out.println(this.pago.getFecha());
+		
+		try {
+			PagoDAO.agregarPago(credito.getId(), this.pago);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		this.pago = new PagoModel();
 		initFields();
 		credito.calcular();

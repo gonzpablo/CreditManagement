@@ -16,6 +16,8 @@ import com.cred.model.CobradorModel;
 import com.cred.model.CreditoDAO;
 import com.cred.model.CreditoModel;
 import com.cred.model.NumeroUtil;
+import com.cred.model.PagoDAO;
+import com.cred.model.PagoModel;
 import com.cred.model.Reporte;
 import com.cred.model.RutaDAO;
 import com.cred.model.RutaModel;
@@ -122,10 +124,13 @@ public class MainController {
 	private ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();
 	private ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();	
 	private ObservableList<CobradorModel> listaCobradores = FXCollections.observableArrayList();	
+	private ObservableList<PagoModel> listaPagos = FXCollections.observableArrayList();
 	
 	private Map<Integer, ClienteModel> hashClientes = new HashMap<Integer, ClienteModel>(); 
 	private Map<Integer, RutaModel> hashRutas = new HashMap<Integer, RutaModel>();
 	private Map<Integer, CobradorModel> hashCobradores = new HashMap<Integer, CobradorModel>();
+	private Map<Integer, PagoModel> hashPagos = new HashMap<Integer, PagoModel>();
+	private Map<Integer, CreditoModel> hashCreditos = new HashMap<Integer, CreditoModel>();
 	
 
 	public MainController() {	
@@ -133,6 +138,7 @@ public class MainController {
 		initRutas();
 		initCobradores();
 		initCreditos();
+		initPagos();		
 		
 //		Completar en los créditos, las referencias a clientes, cobradores y rutas		
 		completarCreditos();
@@ -270,11 +276,10 @@ public class MainController {
 			//	Referencia al Cobrador			
 			credito.setCobrador(hashCobradores.get(credito.getIdCobrador()));
 			//	Referencia a la Ruta
-			credito.setRuta(hashRutas.get(credito.getIdRuta()));
-			
+			credito.setRuta(hashRutas.get(credito.getIdRuta()));			
 		}
 		
-		 filteredItems = new FilteredList<>(creditos, p -> true);
+		filteredItems = new FilteredList<>(creditos, p -> true);
 	}
 
 	private void reporte() {
@@ -446,25 +451,10 @@ public class MainController {
 	}
 	
     private void initComboRuta() {
-    	
-//    	ObservableList<String> rutas = FXCollections.observableArrayList();
-//    	
-//    	for ( RutaModel ruta : listaRutas )
-//    		rutas.add(ruta.getDescripcion());
-//    	
-//		rutaFilterCombo.setItems(rutas);
 		rutaFilterCombo.setItems(listaRutas);
 	}
 
     private void initComboCobrador() {
-    	    	
-//    	ObservableList<String> cobradores = FXCollections.observableArrayList();
-//
-//		for ( CobradorModel cobrador: listaCobradores )
-//			cobradores.add(cobrador.getNombre());
-//
-//		cobradorFilterCombo.setItems(cobradores);		
-    	
     	cobradorFilterCombo.setItems(listaCobradores);
 	}
 
@@ -485,31 +475,47 @@ public class MainController {
 
     public ObservableList<CreditoModel> initCreditos() {
     	
-//    	creditos.add(new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "1"));
-//    	creditos.add(new CreditoModel("Matias Barbieri", 15, "Días", "145", "2000", "Miguel", "2"));
-//    	creditos.add(new CreditoModel("Carla Diaz", 29, "Semanas", "145", "3000", "Luis", "1"));
-//    	creditos.add(new CreditoModel("Miguel Carrera", 15, "Días", "145", "2000", "Ezequiel", "2"));
-//
-//    	CreditoModel credCerr;
-//    	credCerr = new CreditoModel("Patricia Aguirre", 29, "Días", "145", "3000", "Luis", "1");
-//    	credCerr.setCerrado(true);
-//    	creditos.add(credCerr);
-//    	ObservableList<CreditoModel> listaCred = FXCollections.observableArrayList();
-    	
     	try {
 			creditos = CreditoDAO.buscarCreditos();
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+    	    	
+    	hashCreditos();
+    	
+    	return creditos;
+    }
+
+    private void hashCreditos() {
+    	
+    	for ( CreditoModel credito : creditos )
+    		hashCreditos.put(credito.getId(), credito);
+  			
+	}
+
+	public ObservableList<PagoModel> initPagos() {
+    	
+    	try {
+			listaPagos = PagoDAO.buscarPagos();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
     	
-//    	creditos = listaCred;
-//    	return listaCred;
-    	return creditos;
-    }
-
-    public ObservableList<ClienteModel> initClientes() {
+    	for ( PagoModel pago : listaPagos ) {
+    		CreditoModel credito;
+    		System.out.println(pago.getIdCredito());
+    		credito = hashCreditos.get(pago.getIdCredito());
+      		if (credito == null)
+      			continue;
+    		credito.agregarPago(pago);
+    	}
+    	
+    	return listaPagos;
+    }    
+  
+	public ObservableList<ClienteModel> initClientes() {
     	
     	try {
 			listaClientes = ClienteDAO.buscarClientes();
