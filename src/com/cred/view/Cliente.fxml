@@ -9,7 +9,8 @@
 <GridPane maxHeight="500.0" maxWidth="500.0" prefHeight="453.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.ClienteController">
    <columnConstraints>
       <ColumnConstraints />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="330.0" />
+      <ColumnConstraints maxWidth="95.0" minWidth="10.0" prefWidth="91.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
@@ -22,16 +23,22 @@
    </rowConstraints>
    <children>
       <Label text="Nombre" />
-      <TextField fx:id="clienteNombreField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+      <TextField fx:id="clienteNombreField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" />
       <Label text="Apellido" GridPane.rowIndex="1" />
       <Label text="DNI" GridPane.rowIndex="2" />
       <Label text="Dirección" GridPane.rowIndex="3" />
       <Label text="Teléfono" GridPane.rowIndex="4" />
-      <TextField fx:id="clienteApellidoField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField fx:id="clienteDniField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="clienteDireccionField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <TextField fx:id="clienteTelefonoField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <Button fx:id="clienteGuardarButton" mnemonicParsing="false" text="Guardar" GridPane.rowIndex="5" />
+      <TextField fx:id="clienteApellidoField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+      <TextField fx:id="clienteDniField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
+      <TextField fx:id="clienteDireccionField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+      <TextField fx:id="clienteTelefonoField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
+      <Button fx:id="clienteNuevoButton" mnemonicParsing="false" text="Nuevo Cliente" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+      <Button fx:id="clienteBorrarButton" mnemonicParsing="false" text="Borrar" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="clienteGuardarButton" mnemonicParsing="false" text="Guardar" GridPane.rowIndex="5" />      
       <TableView fx:id="clientesTable" maxHeight="-Infinity" prefHeight="400.0" prefWidth="480.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
         <columns>
           <TableColumn fx:id="clienteNombreColumn" prefWidth="75.0" text="Nombre" />

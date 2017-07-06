@@ -79,5 +79,28 @@ public class ClienteDAO {
 			System.out.print("Error en INSERT Cliente: " + e);
 			throw e;
 		}
-	}			
+	}
+	
+	public static void modificarCliente(ClienteModel cliente) throws SQLException, ClassNotFoundException {
+
+		String updateStmt =
+				"BEGIN;\n" +
+					"UPDATE clientes \n" +
+					"set NOMBRE = '" + cliente.getNombre() + "', " +
+						"APELLIDO = '" + cliente.getApellido() + "', " +
+						"DNI = '" + cliente.getDni() + "', " +
+						"DIRECCION = '" + cliente.getDireccion() + "', " +
+						"TELEFONO = '" + cliente.getTelefono() + "' " +
+						"WHERE rowid = " + cliente.getId() + ";\n" +
+				"COMMIT;";
+
+		System.out.println(updateStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(updateStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en UPDATE Cliente: " + e);
+			throw e;
+		}
+	}		
 }

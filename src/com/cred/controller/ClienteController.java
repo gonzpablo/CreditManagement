@@ -39,7 +39,11 @@ public class ClienteController {
 
 	@FXML
 	private Button clienteGuardarButton;
-
+	@FXML
+	private Button clienteNuevoButton;
+	@FXML
+	private Button clienteBorrarButton;		
+	
 	@FXML
 	private TableView<ClienteModel> clientesTable;	
 	@FXML
@@ -52,52 +56,101 @@ public class ClienteController {
 	private TableColumn<ClienteModel, String> clienteDireccionColumn;
 	@FXML
 	private TableColumn<ClienteModel, String> clienteTelefonoColumn;
+		
+	private ObservableList<ClienteModel> clientes;
 	
-//    ObservableList<ClientModel> clientes = FXCollections.observableArrayList();	
-	ObservableList<ClienteModel> clientes;	
+//	Referencia al cliente que se está editando (Nuevo o modificación)
+	private ClienteModel cliente = null;
 	
-	public ClienteController() {
-	}
+	
+	public ClienteController() {}
 	
 	@FXML
 	private void initialize() {
 
 		initColumns();		
 			
-		clienteGuardarButton.setOnAction((event) -> {
+		clienteGuardarButton.setOnAction( event -> {
 		    guardarCliente();
 		    initFields();
+        	grisarCampos(true);
 		});		
 		
+		clienteNuevoButton.setOnAction( event -> { 
+			nuevoCliente();
+
+		});
+		
+		clienteBorrarButton.setOnAction( event -> { borrarCliente(); });
 		
 //		Doble-click        
         clientesTable.setRowFactory( tv -> {
 
             TableRow<ClienteModel> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
+            
+            row.setOnMouseClicked( event -> {
 
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    ClienteModel rowData = row.getItem();
-//                    System.out.println(rowData.getCliente());
+            	if (event.getClickCount() > 2 )
+            		return;
 
-                    clienteView(rowData, row);
-                }
+                if (row.isEmpty())
+                	return;
+
+                ClienteModel rowData = row.getItem();
+
+                switch (event.getClickCount()) {
+
+	                case 1:
+	                	grisarCampos(true);	                	
+	                	cargarCliente(rowData);
+	                	break;
+	                case 2:
+//	                	clienteView(rowData);
+	                	grisarCampos(false);
+	                	cargarCliente(rowData);
+	                	break;
+                }                       
             });
             return row;
         });		
-		
+	}
+
+	private void nuevoCliente() {
+		grisarCampos(false);
+		initFields();
+		this.cliente = null;		
+	}
+
+	private void borrarCliente() {
+		// TODO Auto-generated method stub
 		
 	}
 
-	private void clienteView(ClienteModel rowData, TableRow<ClienteModel> row) {
+	private void cargarCliente(ClienteModel cliente) {
+		
+		this.cliente = cliente;
+		clienteNombreField.setText(cliente.getNombre());		
+		clienteApellidoField.setText(cliente.getApellido());
+		clienteDniField.setText(cliente.getDni());
+		clienteDireccionField.setText(cliente.getDireccion());
+		clienteTelefonoField.setText(cliente.getTelefono());
+	}
+
+	private void grisarCampos(Boolean value) {
+		clienteNombreField.setDisable(value);		
+		clienteApellidoField.setDisable(value);
+		clienteDniField.setDisable(value);
+		clienteDireccionField.setDisable(value);
+		clienteTelefonoField.setDisable(value);		
+	}	
+	
+	private void clienteView(ClienteModel rowData) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ClienteCreditos.fxml"));
             GridPane page = (GridPane) loader.load();
             ClienteCreditosController controller = loader.<ClienteCreditosController>getController();
 
-//            controller.setCredito(rowData, creditos);
-            controller.setCliente(rowData);
-//            controller.setMainController(this);            
+            controller.setCliente(rowData);       
             
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -115,18 +168,36 @@ public class ClienteController {
 	}
 
 	private void guardarCliente() {
-		ClienteModel cliente = new ClienteModel(
-				  clienteNombreField.getText(), clienteApellidoField.getText(), 
-				  clienteDireccionField.getText(), clienteTelefonoField.getText(), 
-				  clienteDniField.getText()); 
 		
-    	addItemToList(cliente);
-    	
-    	try {
-			ClienteDAO.agregarCliente(cliente);
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}    	
+		if (this.cliente == null) {
+			ClienteModel clienteNew = new ClienteModel(
+					  clienteNombreField.getText(), clienteApellidoField.getText(), 
+					  clienteDireccionField.getText(), clienteTelefonoField.getText(), 
+					  clienteDniField.getText()); 
+		
+			addItemToList(clienteNew);
+			
+	    	try {
+				ClienteDAO.agregarCliente(clienteNew);
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}    	
+			
+		} else {
+			try {
+				
+				this.cliente.setNombre(clienteNombreField.getText());
+				this.cliente.setApellido(clienteApellidoField.getText());
+				this.cliente.setDireccion(clienteDireccionField.getText());
+				this.cliente.setTelefono(clienteTelefonoField.getText());
+				this.cliente.setDni(clienteDniField.getText());
+				
+				ClienteDAO.modificarCliente(cliente);			
+				
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}			
+		}  	
 	}
 
     private void addItemToList(ClienteModel cliente) {
