@@ -137,16 +137,11 @@ public class MainController {
 		completarCreditos();
 	}	
 		
-	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
-	 * 
-	 * Initializes the table columns and sets up sorting and filtering.
-	 */
-	
 	@FXML
 	private void initialize() {
 
+		cerradoFilterCheckBox.setOnAction( e -> { buscarCredCerrados(); });
+		
         rutaFilterCombo.setOnAction(e -> { 	calc();  });
         
         rutaFilterCombo.setConverter(new StringConverter<RutaModel>() {
@@ -242,6 +237,23 @@ public class MainController {
         });
 	}	
 	
+	private void buscarCredCerrados() {
+
+		try {
+//			creditos = CreditoDAO.buscarCreditos(1);
+			creditos.addAll(CreditoDAO.buscarCreditos(1));
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+    	hashCreditos();
+    	
+//		Completar en los créditos, las referencias a clientes, cobradores y rutas		
+		completarCreditos();    	
+//		filteredItems = new FilteredList<>(creditos, p -> true);
+//		creditosTable.refresh();
+	}
+
 	private void hashClientes() {
 
 		for (ClienteModel cliente : listaClientes)			
@@ -441,7 +453,7 @@ public class MainController {
     public ObservableList<CreditoModel> initCreditos() {
     	
     	try {
-			creditos = CreditoDAO.buscarCreditos();
+			creditos = CreditoDAO.buscarCreditos(0);
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		}

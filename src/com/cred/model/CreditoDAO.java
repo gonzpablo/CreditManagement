@@ -11,9 +11,9 @@ import com.cred.util.DBUtil;
 
 public class CreditoDAO {
 
-	public static ObservableList<CreditoModel> buscarCreditos() throws SQLException, ClassNotFoundException {
+	public static ObservableList<CreditoModel> buscarCreditos(int cerrado) throws SQLException, ClassNotFoundException {
 	
-		String selectStmt = "SELECT rowid, * FROM creditos WHERE cerrado = 0";
+		String selectStmt = "SELECT rowid, * FROM creditos WHERE cerrado = " + cerrado + ";";
 		
         try {
             //Get ResultSet from dbExecuteQuery method
@@ -106,7 +106,8 @@ public class CreditoDAO {
             										rs.getInt("MONTOCUOTA"),
             										rs.getInt("MONTOTOTAL"),
             										rs.getInt("IDCOBRADOR"),
-            										rs.getInt("IDRUTA"));
+            										rs.getInt("IDRUTA"),
+            										rs.getInt("CERRADO"));
             
             //Agregar crédito a lista de créditos
             listaCreditos.add(credito);

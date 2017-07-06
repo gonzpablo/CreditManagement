@@ -47,7 +47,7 @@ public class CreditoModel {
 		this.cliente = cliente;		
 		this.cobrador = cobrador;		
 		this.ruta = ruta;
-		
+		this.cerrado = false;
 //		calcularMontoAcumulado();
 //		calcularCuotasPagas();
 //		calcularSaldoCapital();
@@ -55,7 +55,7 @@ public class CreditoModel {
 	
 //	CreditoModel (De BD):	
 	public CreditoModel(int id, int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
-						int montoCredito, int idCobrador, int idRuta) {
+						int montoCredito, int idCobrador, int idRuta, int cerrado) {
 
 		this.id = id;
 		this.idCliente = idCliente;
@@ -72,7 +72,11 @@ public class CreditoModel {
 	(BigDecimal.valueOf(montoCuota).divide(BigDecimal.valueOf(100))).toString(), String.valueOf(cantCuotas)
 	)
 							, cantCuotas); 
-
+		if (cerrado == 0)
+			this.cerrado = false;
+		else 
+			this.cerrado = true;
+		
 //		calcularMontoAcumulado();
 //		calcularCuotasPagas();
 //		calcularSaldoCapital();
