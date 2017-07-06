@@ -119,6 +119,7 @@ public class PagoController {
 			
 		pagos.remove(pago);
 		credito.borrarPago(pago);
+		pago.borrarPago();
 		credito.calcular();
 		this.mainController.calcPagos();
 	}
@@ -182,18 +183,21 @@ public class PagoController {
 	}
 	
 	private void cerrarCredito() {
-		if (cerrarCreditoCheckBox.isSelected() == true) {
-			credito.setCerrado(true);
-			disableFields(true);
-		}
-		
-		else {
-			credito.setCerrado(false);
-			if (this.credito.getCuotasPagas() == this.credito.getCantCuotas())
-				disableFields(true);
-			else
-				disableFields(false);	
-		}
+
+		credito.setCerrado(cerrarCreditoCheckBox.isSelected());
+		disableFields(cerrarCreditoCheckBox.isSelected());
+		credito.cerrar();
+//		if (cerrarCreditoCheckBox.isSelected() == true) {
+//			credito.setCerrado(true);
+//			disableFields(true);
+//		} else {
+//			credito.setCerrado(false);
+//			
+//			if (this.credito.getCuotasPagas() == this.credito.getCantCuotas())
+//				disableFields(true);
+//			else
+//				disableFields(false);	
+//		}				
 	}
 	
 	private void ingresarPago() {

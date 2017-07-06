@@ -305,6 +305,7 @@ public class MainController {
 			
 		creditos.remove(credito);
 		credito.calcular();
+		credito.borrarCredito();
 		this.calcPagos();		
 	}
 

@@ -58,6 +58,41 @@ public class CreditoDAO {
 	    }
 	}	
 	
+	 public static void borrarCredito(CreditoModel credito) throws SQLException, ClassNotFoundException {
+
+//		Borrar el crédito		 
+		String deleteStmt =
+		        "BEGIN;\n" +
+		                "DELETE FROM creditos\n" +
+		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
+		                "COMMIT;";	    
+		
+			System.out.println(deleteStmt);
+		
+		try {
+		    DBUtil.dbExecuteUpdate(deleteStmt);
+		} catch (SQLException e) {
+		    System.out.print("Error en Delete Creditos: " + e);
+		    throw e;
+		}
+		
+//		Borrar los pagos asociados
+		deleteStmt =
+		        "BEGIN;\n" +
+		                "DELETE FROM pagos\n" +
+		                "WHERE idCredito = " + credito.getId() + ";\n" +	                    
+		                "COMMIT;";	   
+
+		System.out.println(deleteStmt);
+		
+		try {
+		    DBUtil.dbExecuteUpdate(deleteStmt);
+		} catch (SQLException e) {
+		    System.out.print("Error en Delete pagos al borrar Creditos: " + e);
+		    throw e;
+		}		
+	}		 
+	 
 	private static ObservableList<CreditoModel> getListaCreditos(ResultSet rs) throws SQLException, ClassNotFoundException {
         //Declare a observable List which comprises of Employee objects
         ObservableList<CreditoModel> listaCreditos = FXCollections.observableArrayList();
@@ -78,5 +113,25 @@ public class CreditoDAO {
         }
 
         return listaCreditos;
-    }		
+    }
+
+	public static void cerrarCredito(CreditoModel credito) throws SQLException, ClassNotFoundException {
+
+//		Cerrar un crédito		 
+		String updateStmt =
+		        "BEGIN;\n" +
+		                "UPDATE creditos \n" +
+		        		"SET cerrado = 1 \n" +
+		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
+		                "COMMIT;";	    
+		
+			System.out.println(updateStmt);
+		
+		try {
+		    DBUtil.dbExecuteUpdate(updateStmt);
+		} catch (SQLException e) {
+		    System.out.print("Error en Delete Creditos: " + e);
+		    throw e;
+		}	
+	}		
 }

@@ -2,11 +2,10 @@ package com.cred.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
-import javafx.beans.property.StringProperty;
 import javafx.beans.property.*;
 
 public class PagoModel {
@@ -71,5 +70,13 @@ public class PagoModel {
 
 	public void setFecha(SimpleObjectProperty<LocalDate> fecha) {
 		this.fecha = fecha;
+	}
+
+	public void borrarPago() {
+		try {
+			PagoDAO.borrarPago(this);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

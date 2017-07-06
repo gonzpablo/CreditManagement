@@ -2,6 +2,7 @@ package com.cred.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -442,5 +443,21 @@ public class CreditoModel {
 
 	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
+	}
+
+	public void borrarCredito() {
+		try {
+			CreditoDAO.borrarCredito(this);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cerrar() {
+		try {
+			CreditoDAO.cerrarCredito(this);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}		
 	}
 }

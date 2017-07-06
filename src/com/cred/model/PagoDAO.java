@@ -35,6 +35,24 @@ public class PagoDAO {
 		}
 	}
 
+	public static void borrarPago(PagoModel pago) throws SQLException, ClassNotFoundException {
+
+		String deleteStmt =
+				"BEGIN;\n" +
+					"DELETE FROM pagos\n" +
+					"WHERE rowid = " + pago.getId() + ";\n" +  
+				"COMMIT;";
+
+		System.out.println(deleteStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(deleteStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en Delete Pago: " + e);
+			throw e;
+		}
+	}
+	
 	public static ObservableList<PagoModel> buscarPagos() throws SQLException, ClassNotFoundException {
 
 //		String selectStmt = "SELECT rowid, idcredito, montoPago, date(fecha, 'unixepoch') as fecha from pagos;";
