@@ -1,13 +1,10 @@
 package com.cred.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.cred.util.DBUtil;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import com.cred.util.DBUtil;
 
 public class ClienteDAO {
 
@@ -15,31 +12,23 @@ public class ClienteDAO {
 		
 		String selectStmt = "SELECT rowid, * FROM clientes";
 		
-		
-		//Execute SELECT statement
         try {
-            //Get ResultSet from dbExecuteQuery method
             ResultSet rsClientes = DBUtil.dbExecuteQuery(selectStmt);
  
-            //Send ResultSet to the getEmployeeList method and get employee object
             ObservableList<ClienteModel> listaClientes = getListaClientes(rsClientes);
  
-            //Return employee object
             return listaClientes;
         } catch (SQLException e) {
             System.out.println("SQL select operation has failed: " + e);
-            //Return exception
             throw e;
         }		
 	}
 	
 	private static ObservableList<ClienteModel> getListaClientes(ResultSet rs) throws SQLException, ClassNotFoundException {
-        //Declare a observable List which comprises of Employee objects
+
         ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();
  
         while (rs.next()) {
-//        	public CreditoModel(String cliente, int cantCuotas, String unidad, String montoCuota, 
-//					String montoCredito, String cobrador, String ruta) {
 	        	
             ClienteModel cliente = new ClienteModel();
            
@@ -53,7 +42,6 @@ public class ClienteDAO {
             //Agregar crédito a lista de créditos
             listaClientes.add(cliente);
         }
-        //return empList (ObservableList of Employees)
         return listaClientes;
     }
 	
@@ -102,5 +90,22 @@ public class ClienteDAO {
 			System.out.print("Error en UPDATE Cliente: " + e);
 			throw e;
 		}
+	}
+
+	public static void borrarCliente(ClienteModel cliente) throws SQLException, ClassNotFoundException {
+		String deleteStmt =
+				"BEGIN;\n" +
+					"DELETE FROM clientes \n" +
+					"WHERE rowid = " + cliente.getId() + ";\n" +
+				"COMMIT;";
+
+		System.out.println(deleteStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(deleteStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en DELETE Cliente: " + e);
+			throw e;
+		}					
 	}		
 }

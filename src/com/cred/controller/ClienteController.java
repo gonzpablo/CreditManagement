@@ -5,13 +5,17 @@ import java.sql.SQLException;
 
 import com.cred.model.ClienteDAO;
 import com.cred.model.ClienteModel;
+import com.cred.model.CreditoModel;
+import com.cred.util.DBUtil;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -69,7 +73,7 @@ public class ClienteController {
 	private void initialize() {
 
 		initColumns();		
-			
+
 		clienteGuardarButton.setOnAction( event -> {
 		    guardarCliente();
 		    initFields();
@@ -78,7 +82,6 @@ public class ClienteController {
 		
 		clienteNuevoButton.setOnAction( event -> { 
 			nuevoCliente();
-
 		});
 		
 		clienteBorrarButton.setOnAction( event -> { borrarCliente(); });
@@ -96,12 +99,14 @@ public class ClienteController {
                 if (row.isEmpty())
                 	return;
 
+                clienteBorrarButton.setDisable(false);
+                
                 ClienteModel rowData = row.getItem();
 
                 switch (event.getClickCount()) {
 
 	                case 1:
-	                	grisarCampos(true);	                	
+	                	grisarCampos(true);
 	                	cargarCliente(rowData);
 	                	break;
 	                case 2:
@@ -112,18 +117,19 @@ public class ClienteController {
                 }                       
             });
             return row;
-        });		
+        });
+        
+        if (clientesTable.getSelectionModel().getSelectedItem() == null)
+        	clienteBorrarButton.setDisable(true);
+//        	else
+//        		clienteBorrarButton.setDisable(false);	
+        
 	}
 
 	private void nuevoCliente() {
 		grisarCampos(false);
 		initFields();
 		this.cliente = null;		
-	}
-
-	private void borrarCliente() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	private void cargarCliente(ClienteModel cliente) {
@@ -142,29 +148,31 @@ public class ClienteController {
 		clienteDniField.setDisable(value);
 		clienteDireccionField.setDisable(value);
 		clienteTelefonoField.setDisable(value);		
+		
+		clienteGuardarButton.setDisable(value);
 	}	
 	
 	private void clienteView(ClienteModel rowData) {
-        try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ClienteCreditos.fxml"));
-            GridPane page = (GridPane) loader.load();
-            ClienteCreditosController controller = loader.<ClienteCreditosController>getController();
-
-            controller.setCliente(rowData);       
-            
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Creditos de Cliente");
-          
-            Scene scene = new Scene(page);
-
-            stage.setScene(scene);
-            stage.show();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }		
 		
+		try {
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ClienteCreditos.fxml"));
+			GridPane page = (GridPane) loader.load();
+			ClienteCreditosController controller = loader.<ClienteCreditosController>getController();
+
+			controller.setCliente(rowData);       
+
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Creditos de Cliente");
+
+			Scene scene = new Scene(page);
+
+			stage.setScene(scene);
+			stage.show();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void guardarCliente() {
@@ -174,14 +182,15 @@ public class ClienteController {
 					  clienteNombreField.getText(), clienteApellidoField.getText(), 
 					  clienteDireccionField.getText(), clienteTelefonoField.getText(), 
 					  clienteDniField.getText()); 
-		
-			addItemToList(clienteNew);
 			
 	    	try {
 				ClienteDAO.agregarCliente(clienteNew);
+				clienteNew.setId(DBUtil.getLastRowId("clientes"));
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}    	
+			
+			addItemToList(clienteNew);
 			
 		} else {
 			try {
@@ -193,7 +202,7 @@ public class ClienteController {
 				this.cliente.setDni(clienteDniField.getText());
 				
 				ClienteDAO.modificarCliente(cliente);			
-				
+				this.cliente = null;
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}			
@@ -202,12 +211,7 @@ public class ClienteController {
 
     private void addItemToList(ClienteModel cliente) {
     	clientes.add(cliente);
-//    	clientesTable.setItems(getClientes());
     }	
-
-//	private ObservableList<ClienteModel> getClientes() {
-//		return clientes;
-//	}
 	
 	private void initColumns() {
 		clienteNombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));		
@@ -228,5 +232,57 @@ public class ClienteController {
 	public void setClientes(ObservableList<ClienteModel> clientes) {
 		this.clientes = clientes;
 		clientesTable.setItems(clientes);
-	}	
+	}
+	
+	private void borrarCliente() {
+		ClienteModel cliente = clientesTable.getSelectionModel().getSelectedItem();
+	
+		if (cliente == null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Error al borrar un cliente");
+			alert.setContentText("Por favor seleccione un cliente a borrar");
+			alert.showAndWait();									
+			return;
+		}
+			
+		if (cliente.tieneCreditos()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Error al borrar un cliente");
+			alert.setContentText("Por favor elimine los creditos del cliente");
+			alert.showAndWait();									
+			return;
+		}
+		
+		clientes.remove(cliente);
+//		credito.calcular();
+		cliente.borrar();
+		initFields();		
+		
+//        TableRow<ClienteModel> row = new TableRow<>();
+//        
+//        row.setOnMouseClicked( event -> {
+//
+//        	if (event.getClickCount() > 2 )
+//        		return;
+//
+//            if (row.isEmpty())
+//            	return;
+//
+//            clienteBorrarButton.setDisable(false);
+//            
+//            ClienteModel rowData = row.getItem();
+//
+//            switch (event.getClickCount()) {
+//
+//                case 1:
+//                	grisarCampos(true);
+		cliente = clientesTable.getSelectionModel().getSelectedItem();
+		if (cliente == null)
+			return;
+                	cargarCliente(cliente);
+//                	break;		
+		
+	}
 }

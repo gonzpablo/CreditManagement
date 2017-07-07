@@ -358,6 +358,7 @@ public class MainController {
           
             Scene scene = new Scene(page);
 
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
             

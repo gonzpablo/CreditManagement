@@ -110,17 +110,20 @@ public class DBUtil {
         }
     }
     
-    public static int getLastRowId() throws SQLException, ClassNotFoundException {
+    public static int getLastRowId(String table) throws SQLException, ClassNotFoundException {
  
     	int rowId = 0;
-		String selectStmt = "BEGIN TRANSACTION; select last_insert_rowid(); END TRANSACTION;";
-		
+		String selectStmt = "SELECT MAX(rowid) as lastId \n" +
+							"FROM " + table + ";\n"; 
+
         try {
             ResultSet rs = DBUtil.dbExecuteQuery(selectStmt);
  
             while (rs.next())	        	
-                rowId = rs.getInt("LAST_INSERT_ROWID()");
+                rowId = rs.getInt("lastId");
 
+            System.out.println(rowId);
+            
         } catch (SQLException e) {
             System.out.println("SQL select operation has failed: " + e);
             //Return exception

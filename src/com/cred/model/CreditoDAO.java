@@ -134,5 +134,26 @@ public class CreditoDAO {
 		    System.out.print("Error en Delete Creditos: " + e);
 		    throw e;
 		}	
+	}
+
+	public static boolean buscarCreditoCliente(ClienteModel cliente) throws ClassNotFoundException, SQLException {
+
+		boolean tieneCreditos = false;
+		String selectStmt = "SELECT rowid FROM creditos WHERE idCliente = " + cliente.getId() + ";";
+		
+        try {
+            ResultSet rsCreditos = DBUtil.dbExecuteQuery(selectStmt);
+            
+            if (rsCreditos.next())
+            
+	            if (rsCreditos.getInt("ROWID") > 0)
+	            	tieneCreditos = true;
+
+            
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has failed: " + e);
+            throw e;
+        }		
+        return tieneCreditos;
 	}		
 }

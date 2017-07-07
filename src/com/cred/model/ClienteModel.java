@@ -1,28 +1,27 @@
 package com.cred.model;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class ClienteModel {
 
-	private int id;
-//	private String nombre;
-//	private String apellido;
-//	private String direccion;
-//	private String telefono;
-//	private String dni;
-	private List<CreditoModel> creditos;
-	
+	private final IntegerProperty id;	
 	private final StringProperty nombre;
 	private final StringProperty apellido;
 	private final StringProperty direccion;
 	private final StringProperty telefono;
 	private final StringProperty dni; 
 	
+	private List<CreditoModel> creditos;
+	
 	
 	public ClienteModel() {
+		id = new SimpleIntegerProperty();
 		nombre = new SimpleStringProperty();
 		apellido = new SimpleStringProperty();
 		direccion = new SimpleStringProperty();
@@ -32,6 +31,7 @@ public class ClienteModel {
 	
 	public ClienteModel(String nombre, String apellido, String direccion, String telefono, String dni) {
 		super();
+		this.id = new SimpleIntegerProperty();
 		this.nombre = new SimpleStringProperty(nombre);
 		this.apellido = new SimpleStringProperty(apellido);
 		this.direccion = new SimpleStringProperty(direccion);
@@ -83,17 +83,25 @@ public class ClienteModel {
 		return creditos;
 	}
 
+	public void setId(int id) {
+		this.id.set(id);	
+	}
+	
+	public int getId() {
+		return id.get();
+	}
+	
 	public void setCreditos(List<CreditoModel> creditos) {
 		this.creditos = creditos;
 	}
 	
-	public int getId() {
-		return id;
-	}
+//	public int getId() {
+//		return id;
+//	}
 
-	public void setId(int id) {
-		this.id = id;		
-	}
+//	public void setId(int id) {
+//		this.id = id;		
+//	}
 
 	public String getNombre() {
 		return nombre.get();
@@ -153,5 +161,23 @@ public class ClienteModel {
 	
 	public StringProperty dniProperty() {
 		return dni;
+	}
+
+	public void borrar() {
+		try {
+			ClienteDAO.borrarCliente(this);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+
+	public boolean tieneCreditos() {
+		boolean tieneCreditos = false;
+		try {
+			tieneCreditos = CreditoDAO.buscarCreditoCliente(this);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return tieneCreditos;
 	}	
 }

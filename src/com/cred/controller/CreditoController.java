@@ -171,7 +171,7 @@ public class CreditoController {
 	  	try {
 			CreditoDAO.agregarCredito(nuevoCredito);
 //			Obtener Id asignado al crédito por la base de datos						
-			nuevoCredito.setId(DBUtil.getLastRowId());
+			nuevoCredito.setId(DBUtil.getLastRowId("creditos"));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
