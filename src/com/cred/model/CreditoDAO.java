@@ -36,7 +36,7 @@ public class CreditoDAO {
 	    String insertStmt =
 	            "BEGIN;\n" +
 	                    "INSERT INTO creditos\n" +
-	                    "(IDCLIENTE, IDCOBRADOR, IDRUTA, MONTOTOTAL, MONTOCUOTA, CANTCUOTAS, UNIDAD)\n" +
+	                    "(IDCLIENTE, IDCOBRADOR, IDRUTA, MONTOTOTAL, MONTOCUOTA, CANTCUOTAS, UNIDAD, CERRADO)\n" +
 	                    "VALUES\n" +
 	                    "(" + credito.getClienteRef().getId() + "," + 
 	                    	  credito.getCobradorRef().getId() + "," +
@@ -44,7 +44,7 @@ public class CreditoDAO {
 	                    	  credito.getMontoCredito().multiply(BigDecimal.valueOf(100)) + "," +	                    	  
 	                    	  credito.getValorCuota().multiply(BigDecimal.valueOf(100)) + "," +
 							  credito.getCantCuotas() + "," +							  
-							  CreditoModel.obtenerIdUnidad(credito.getUnidad()) + 
+							  CreditoModel.obtenerIdUnidad(credito.getUnidad()) + "," + 
 							  0 + " );\n" +	                    
 	                    "COMMIT;";	    
 	    
@@ -141,19 +141,18 @@ public class CreditoDAO {
 		boolean tieneCreditos = false;
 		String selectStmt = "SELECT rowid FROM creditos WHERE idCliente = " + cliente.getId() + ";";
 		
-        try {
-            ResultSet rsCreditos = DBUtil.dbExecuteQuery(selectStmt);
-            
-            if (rsCreditos.next())
-            
-	            if (rsCreditos.getInt("ROWID") > 0)
-	            	tieneCreditos = true;
+		try {
+			ResultSet rsCreditos = DBUtil.dbExecuteQuery(selectStmt);
 
-            
-        } catch (SQLException e) {
-            System.out.println("SQL select operation has failed: " + e);
-            throw e;
-        }		
-        return tieneCreditos;
-	}		
+			if (rsCreditos.next())
+
+				if (rsCreditos.getInt("ROWID") > 0)
+					tieneCreditos = true;
+
+		} catch (SQLException e) {
+			System.out.println("SQL select operation has failed: " + e);
+			throw e;
+		}
+		return tieneCreditos;
+	}
 }
