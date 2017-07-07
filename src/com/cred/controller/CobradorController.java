@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.cred.model.ClienteDAO;
 import com.cred.model.ClienteModel;
+import com.cred.model.CobradorModel;
 import com.cred.model.CreditoModel;
 import com.cred.util.DBUtil;
 
@@ -24,72 +25,59 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
-public class ClienteController {
+public class CobradorController {
 
 	@FXML
-	private TextField clienteNombreField;
+	private TextField cobradorNombreField;
 	
 	@FXML
-	private TextField clienteApellidoField;
+	private TextField cobradorApellidoField;
 	
 	@FXML
-	private TextField clienteDniField;
-
+	private TableView<CobradorModel> cobradoresTable;	
 	@FXML
-	private TextField clienteDireccionField;
-	
+	private TableColumn<CobradorModel, String> cobradorNombreColumn;
 	@FXML
-	private TextField clienteTelefonoField;
-
-	@FXML
-	private Button clienteGuardarButton;
-	@FXML
-	private Button clienteNuevoButton;
-	@FXML
-	private Button clienteBorrarButton;		
-	
-	@FXML
-	private TableView<ClienteModel> clientesTable;	
-	@FXML
-	private TableColumn<ClienteModel, String> clienteNombreColumn;
-	@FXML
-	private TableColumn<ClienteModel, String> clienteApellidoColumn;
-	@FXML
-	private TableColumn<ClienteModel, String> clienteDniColumn;
-	@FXML
-	private TableColumn<ClienteModel, String> clienteDireccionColumn;
-	@FXML
-	private TableColumn<ClienteModel, String> clienteTelefonoColumn;
+	private TableColumn<CobradorModel, String> cobradorApellidoColumn;
 		
-	private ObservableList<ClienteModel> clientes;
+	@FXML
+	private Button cobradorGuardarButton;
+	@FXML
+	private Button cobradorNuevoButton;
+	@FXML
+	private Button cobradorBorrarButton;		
+	
+	
+	
+	private ObservableList<CobradorModel> cobradores;
 	
 //	Referencia al cliente que se está editando (Nuevo o modificación)
-	private ClienteModel cliente = null;
+	private CobradorModel cobrador = null;
 	
 	
-	public ClienteController() {}
+	public CobradorController() {}
 	
 	@FXML
 	private void initialize() {
 
 		initColumns();		
 
-		clienteGuardarButton.setOnAction( event -> {
-		    guardarCliente();
+		cobradorGuardarButton.setOnAction( event -> {
+		    guardarCobrador();
 		    initFields();
         	grisarCampos(true);
 		});		
 		
-		clienteNuevoButton.setOnAction( event -> { 
-			nuevoCliente();
+		cobradorNuevoButton.setOnAction( event -> { 
+			nuevoCobrador();
 		});
 		
-		clienteBorrarButton.setOnAction( event -> { borrarCliente(); });
+		cobradorBorrarButton.setOnAction( event -> { borrarCobrador(); });
 		
 //		Doble-click        
-        clientesTable.setRowFactory( tv -> {
+        cobradoresTable.setRowFactory( tv -> {
 
-            TableRow<ClienteModel> row = new TableRow<>();
+            TableRow<CobradorModel> row = new TableRow<>();
             
             row.setOnMouseClicked( event -> {
 
@@ -99,93 +87,60 @@ public class ClienteController {
                 if (row.isEmpty())
                 	return;
 
-                clienteBorrarButton.setDisable(false);
+                cobradorBorrarButton.setDisable(false);
                 
-                ClienteModel rowData = row.getItem();
+                CobradorModel rowData = row.getItem();
 
                 switch (event.getClickCount()) {
 
 	                case 1:
 	                	grisarCampos(true);
-	                	cargarCliente(rowData);
+	                	cargarCobrador(rowData);
 	                	break;
 	                case 2:
 //	                	clienteView(rowData);
 	                	grisarCampos(false);
-	                	cargarCliente(rowData);
+	                	cargarCobrador(rowData);
 	                	break;
                 }                       
             });
             return row;
         });
         
-        if (clientesTable.getSelectionModel().getSelectedItem() == null)
-        	clienteBorrarButton.setDisable(true);
-//        	else
-//        		clienteBorrarButton.setDisable(false);	
+        if (cobradoresTable.getSelectionModel().getSelectedItem() == null)
+        	cobradorBorrarButton.setDisable(true);	
         
 	}
 
-	private void nuevoCliente() {
+	private void nuevoCobrador() {
 		grisarCampos(false);
 		initFields();
-		this.cliente = null;		
+		this.cobrador = null;		
 	}
 
-	private void cargarCliente(ClienteModel cliente) {
+	private void cargarCobrador(CobradorModel cobrador) {
 		
-		this.cliente = cliente;
-		clienteNombreField.setText(cliente.getNombre());		
-		clienteApellidoField.setText(cliente.getApellido());
-		clienteDniField.setText(cliente.getDni());
-		clienteDireccionField.setText(cliente.getDireccion());
-		clienteTelefonoField.setText(cliente.getTelefono());
+		this.cobrador = cobrador;
+		cobradorNombreField.setText(cobrador.getNombre());		
+		cobradorApellidoField.setText(cobrador.getApellido());
 	}
 
 	private void grisarCampos(Boolean value) {
-		clienteNombreField.setDisable(value);		
-		clienteApellidoField.setDisable(value);
-		clienteDniField.setDisable(value);
-		clienteDireccionField.setDisable(value);
-		clienteTelefonoField.setDisable(value);		
+		cobradorNombreField.setDisable(value);		
+		cobradorApellidoField.setDisable(value);
 		
-		clienteGuardarButton.setDisable(value);
-	}	
-	
-	private void clienteView(ClienteModel rowData) {
+		cobradorGuardarButton.setDisable(value);
+	}		
+
+	private void guardarCobrador() {
 		
-		try {
-			FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ClienteCreditos.fxml"));
-			GridPane page = (GridPane) loader.load();
-			ClienteCreditosController controller = loader.<ClienteCreditosController>getController();
-
-			controller.setCliente(rowData);       
-
-			Stage stage = new Stage();
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.setTitle("Creditos de Cliente");
-
-			Scene scene = new Scene(page);
-
-			stage.setScene(scene);
-			stage.show();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void guardarCliente() {
-		
-		if (this.cliente == null) {
-			ClienteModel clienteNew = new ClienteModel(
-					  clienteNombreField.getText(), clienteApellidoField.getText(), 
-					  clienteDireccionField.getText(), clienteTelefonoField.getText(), 
-					  clienteDniField.getText()); 
+		if (this.cobrador == null) {
+			CobradorModel cobradorNew = new CobradorModel(
+					  cobradorNombreField.getText(), cobradorApellidoField.getText()); 
 			
 	    	try {
-				ClienteDAO.agregarCliente(clienteNew);
-				clienteNew.setId(DBUtil.getLastRowId("clientes"));
+				CobradorDAO.agregarCliente(clienteNew);
+				cobradorNew.setId(DBUtil.getLastRowId("clientes"));
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}    	
@@ -214,12 +169,8 @@ public class ClienteController {
     }	
 	
 	private void initColumns() {
-
-		clienteNombreColumn.setCellValueFactory(cellData -> cellData.getValue().nombreProperty());		
-        clienteApellidoColumn.setCellValueFactory(new PropertyValueFactory<>("apellido"));
-        clienteDniColumn.setCellValueFactory(new PropertyValueFactory<>("dni"));
-        clienteDireccionColumn.setCellValueFactory(new PropertyValueFactory<>("direccion"));
-        clienteTelefonoColumn.setCellValueFactory(new PropertyValueFactory<>("telefono"));        
+		cobradorNombreColumn.setCellValueFactory(cellData -> cellData.getValue().nombreProperty());		
+        cobradorApellidoColumn.setCellValueFactory(cellData -> cellData.getValue().apellidoProperty());
 	}
 
 	private void initFields() {

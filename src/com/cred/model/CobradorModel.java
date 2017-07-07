@@ -1,35 +1,52 @@
 package com.cred.model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class CobradorModel {
-	private int id;
-	private String nombre;
-	private String apellido;
+
+	private final IntegerProperty id;	
+	private final StringProperty nombre;
+	private final StringProperty apellido;	
 	
 	public CobradorModel() {
-		
+		id = new SimpleIntegerProperty();
+		nombre = new SimpleStringProperty();
+		apellido = new SimpleStringProperty();		
 	}
 
+	public void setId(int id) {
+		this.id.set(id);	
+	}
+	
 	public int getId() {
-		return id;
+		return id.get();
 	}
-
-	public void setId(int idCobrador) {
-		this.id = idCobrador;
-	}
-
+	
 	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		return nombre.get();
 	}
 
 	public String getApellido() {
-		return apellido;
+		return apellido.get();
+	}
+
+	public void setNombre(String nombre) {
+	    this.nombre.set(nombre);
 	}
 
 	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	    this.apellido.set(apellido);
 	}
+	
+	public StringProperty nombreProperty() {
+		return nombre;
+	}
+
+	public StringProperty apellidoProperty() {
+		return apellido;
+	}
+		
 }
