@@ -113,6 +113,8 @@ public class MainController {
 	
 //	Lista de créditos	
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
+	private ObservableList<CreditoModel> creditosCerrados = FXCollections.observableArrayList();
+	
 	private FilteredList<CreditoModel> filteredItems; 
 
 	private ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();
@@ -239,9 +241,14 @@ public class MainController {
 	
 	private void buscarCredCerrados() {
 
-		try {
-//			creditos = CreditoDAO.buscarCreditos(1);
-			creditos.addAll(CreditoDAO.buscarCreditos(1));
+//		solo debería buscar una vez los créditos cerrados
+		if (creditosCerrados.size() > 0)
+			return;
+		
+		try {		
+			creditosCerrados = CreditoDAO.buscarCreditos(1);
+			creditos.addAll(creditosCerrados);
+			
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -250,8 +257,7 @@ public class MainController {
     	
 //		Completar en los créditos, las referencias a clientes, cobradores y rutas		
 		completarCreditos();    	
-//		filteredItems = new FilteredList<>(creditos, p -> true);
-//		creditosTable.refresh();
+
 	}
 
 	private void hashClientes() {

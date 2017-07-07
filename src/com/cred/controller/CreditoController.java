@@ -140,21 +140,7 @@ public class CreditoController {
 		
 	  	if (!validar())
 	  		return;
-
-//	  	mainController.addItemToList(new CreditoModel(this.clienteField.getText(),
-//      											Integer.valueOf(this.cantCuotasField.getText()),
-//      											unidadCuotasCombo.getValue(),
-//      											montoCuotaField.getText(),
-//      											montoCreditoField.getText(),	      											
-//      											cobradorCombo.getValue(),
-//      											rutaCombo.getValue()));
-
-//		public CreditoModel(int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
-//				int montoCredito, int idCobrador, int idRuta) {
-	  	
-	  	
-//		public CreditoModel(ClienteModel cliente, int cantCuotas, String unidad, String montoCuota,
-//				String montoCredito, CobradorModel cobrador, RutaModel ruta)	  	
+  	
 	  	CreditoModel nuevoCredito = new CreditoModel(
 	  													this.cliente,
 	  													Integer.valueOf(cantCuotasField.getText()),
@@ -167,6 +153,7 @@ public class CreditoController {
 	  	nuevoCredito.setCliente(cliente);
 	  	nuevoCredito.setCobrador(cobradorCombo.getValue());
 	  	nuevoCredito.setRuta(rutaCombo.getValue());
+	  	nuevoCredito.setCerrado(false);
 	  	
 	  	try {
 			CreditoDAO.agregarCredito(nuevoCredito);
@@ -203,7 +190,6 @@ public class CreditoController {
 	}
 	
 	private void initComboRuta() {
-//		rutaCombo.setItems(FXCollections.observableArrayList("1","2","3","4","5","6","7"));
 		rutaCombo.setItems(mainController.getListaRutas());
 	}
 	
@@ -229,9 +215,7 @@ public class CreditoController {
 		
 		BigDecimal tasaInteres = CreditoModel.obtenerTasaInteres(
 									montoCreditoField.getText(), montoTotalCredito, cantCuotasField.getText(), unidadCuotasCombo.getValue());
-//		BigDecimal montoCuota = CreditoModel.obtenerMontoCuota(montoTotalCredito, Integer.valueOf(cantCuotasField.getText()));
 
-//		montoCuotaField.setText(String.valueOf(montoCuota));
 		tasaInteresField.setText(tasaInteres.toString());
 		gciaXDiaField.setText(String.valueOf(montoCuota.subtract(cuotaCapital)));
 		montoTotalCreditoField.setText(String.valueOf(montoTotalCredito));
@@ -281,7 +265,6 @@ public class CreditoController {
 			return false;
 		}
 				
-		
 		if (cobradorCombo.getValue() == null) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Atención");
