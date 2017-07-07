@@ -222,7 +222,7 @@ public class CreditoModel {
 	}
 
 	public String getCliente() {
-		return this.cliente.getNombre();
+		return this.cliente.getNombre() + " " + this.cliente.getApellido();
 	}
 
 	public int getCuotasPagas() {
