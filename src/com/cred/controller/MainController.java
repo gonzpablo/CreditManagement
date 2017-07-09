@@ -109,7 +109,9 @@ public class MainController {
 	@FXML
 	private MenuItem clienteMenuGestionar;
 	@FXML
-	private MenuItem cobradorMenuGestionar;	
+	private MenuItem cobradorMenuGestionar;
+	@FXML
+	private MenuItem rutasMenuGestionar;		
 	@FXML
 	private MenuItem reporteMenu;
 	
@@ -178,6 +180,7 @@ public class MainController {
         clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
         
         cobradorMenuGestionar.setOnAction( e -> { gestCobradores(); });
+        rutasMenuGestionar.setOnAction( e -> { gestRutas();} );
         
         crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
         reporteMenu.setOnAction( e -> { reporte(); } );
@@ -300,13 +303,9 @@ public class MainController {
 
 	private void reporte() {
 
-	    // get a handle to the stage
-//	    Stage stage = (Stage) btnCleanFilters.getScene().getWindow();
 		Stage stage = new Stage();
-	    // do what you have to do
-//	    stage.close();		
-		
 		Reporte rep = new Reporte(stage);
+		
 		try {
 			rep.reporteRutaBeta(filteredItems);
 		} catch (IOException e) {
@@ -400,6 +399,30 @@ public class MainController {
             e.printStackTrace();
         }		
 	}	
+	
+	private void gestRutas() {
+		   try {
+	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Ruta.fxml"));
+	            GridPane page = (GridPane) loader.load();
+	            RutaController controller = loader.<RutaController>getController();
+
+	            controller.setRutas(listaRutas);
+	            
+	            Stage stage = new Stage();
+	            stage.initModality(Modality.APPLICATION_MODAL);
+	            stage.setTitle("Gestionar Rutas");
+	          
+	            Scene scene = new Scene(page);
+
+	            stage.setResizable(false);
+	            stage.setScene(scene);
+	            stage.show();
+	            
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }		
+		}	
+	
 	
 	public void calcPagos() {
 			

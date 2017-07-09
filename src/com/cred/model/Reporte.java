@@ -330,8 +330,8 @@ public class Reporte {
 		doc.save(file.getAbsolutePath());
 		doc.close();		
 
+		
 		Desktop.getDesktop().open(new File(file.getAbsolutePath()));
-
 	}
 
 	private static void drawHeader(PDPageContentStream contentStream, List<ReporteField> headerFields, float startx, float starty) throws IOException {

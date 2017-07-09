@@ -50,5 +50,63 @@ public class RutaDAO {
         }
         //return empList (ObservableList of Employees)
         return listaRutas;
-    }	    
+    }
+	
+	public static void agregarRuta(RutaModel ruta) throws SQLException, ClassNotFoundException {
+
+		String insertStmt =
+				"BEGIN;\n" +
+					"INSERT INTO rutas\n" +
+					"(NOMBRE, DESCRIPCION)\n" +
+					"VALUES\n" +
+					"('" + ruta.getNombre() + "'," + 
+						"'" + ruta.getDescripcion() + "');" + 				
+				"COMMIT;";
+
+		System.out.println(insertStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(insertStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en INSERT Ruta: " + e);
+			throw e;
+		}
+	}
+	
+	public static void modificarRuta(RutaModel ruta) throws SQLException, ClassNotFoundException {
+
+		String updateStmt =
+				"BEGIN;\n" +
+					"UPDATE rutas \n" +
+					"set NOMBRE = '" + ruta.getNombre() + "', " +
+						"DESCRIPCION = '" + ruta.getDescripcion() + "' " +
+						"WHERE rowid = " + ruta.getId() + ";\n" +
+				"COMMIT;";
+
+		System.out.println(updateStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(updateStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en UPDATE Ruta: " + e);
+			throw e;
+		}
+	}
+	
+	public static void borrarRuta(RutaModel ruta) throws SQLException, ClassNotFoundException {
+		String deleteStmt =
+				"BEGIN;\n" +
+					"DELETE FROM rutas \n" +
+					"WHERE rowid = " + ruta.getId() + ";\n" +
+				"COMMIT;";
+
+		System.out.println(deleteStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(deleteStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en DELETE Ruta: " + e);
+			throw e;
+		}					
+	}			
 }
