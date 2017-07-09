@@ -1,5 +1,7 @@
 package com.cred.model;
 
+import java.sql.SQLException;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -48,5 +50,12 @@ public class CobradorModel {
 	public StringProperty apellidoProperty() {
 		return apellido;
 	}
-		
+
+	public void borrar() {
+		try {
+			CobradorDAO.borrarCobrador(this);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}		
+	}	
 }

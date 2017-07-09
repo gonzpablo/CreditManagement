@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import com.cred.model.ClienteModel;
 import com.cred.util.DBUtil;
 
 public class ClienteDAO {

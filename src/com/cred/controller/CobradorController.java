@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.cred.model.ClienteDAO;
 import com.cred.model.ClienteModel;
+import com.cred.model.CobradorDAO;
 import com.cred.model.CobradorModel;
 import com.cred.model.CreditoModel;
 import com.cred.util.DBUtil;
@@ -28,8 +29,7 @@ import javafx.fxml.FXMLLoader;
 public class CobradorController {
 
 	@FXML
-	private TextField cobradorNombreField;
-	
+	private TextField cobradorNombreField;	
 	@FXML
 	private TextField cobradorApellidoField;
 	
@@ -135,37 +135,37 @@ public class CobradorController {
 	private void guardarCobrador() {
 		
 		if (this.cobrador == null) {
-			CobradorModel cobradorNew = new CobradorModel(
-					  cobradorNombreField.getText(), cobradorApellidoField.getText()); 
+
+			CobradorModel cobradorNew = new CobradorModel();
+			
+			cobradorNew.setNombre(cobradorNombreField.getText());
+			cobradorNew.setApellido(cobradorApellidoField.getText());
 			
 	    	try {
-				CobradorDAO.agregarCliente(clienteNew);
+				CobradorDAO.agregarCobrador(cobradorNew);
 				cobradorNew.setId(DBUtil.getLastRowId("clientes"));
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}    	
 			
-			addItemToList(clienteNew);
+			addItemToList(cobradorNew);
 			
 		} else {
 			try {
 				
-				this.cliente.setNombre(clienteNombreField.getText());
-				this.cliente.setApellido(clienteApellidoField.getText());
-				this.cliente.setDireccion(clienteDireccionField.getText());
-				this.cliente.setTelefono(clienteTelefonoField.getText());
-				this.cliente.setDni(clienteDniField.getText());
+				this.cobrador.setNombre(cobradorNombreField.getText());
+				this.cobrador.setApellido(cobradorApellidoField.getText());
 				
-				ClienteDAO.modificarCliente(cliente);			
-				this.cliente = null;
+				CobradorDAO.modificarCobrador(cobrador);			
+				this.cobrador = null;
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}			
 		}  	
 	}
 
-    private void addItemToList(ClienteModel cliente) {
-    	clientes.add(cliente);
+    private void addItemToList(CobradorModel cobrador) {
+    	cobradores.add(cobrador);
     }	
 	
 	private void initColumns() {
@@ -174,42 +174,39 @@ public class CobradorController {
 	}
 
 	private void initFields() {
-		clienteNombreField.clear();
-		clienteApellidoField.clear();
-		clienteDireccionField.clear();
-		clienteDniField.clear();
-		clienteTelefonoField.clear();
+		cobradorNombreField.clear();
+		cobradorApellidoField.clear();
 	}
 
-	public void setClientes(ObservableList<ClienteModel> clientes) {
-		this.clientes = clientes;
-		clientesTable.setItems(clientes);
+	public void setCobradores(ObservableList<CobradorModel> cobradores) {
+		this.cobradores = cobradores;
+		cobradoresTable.setItems(cobradores);
 	}
 	
-	private void borrarCliente() {
-		ClienteModel cliente = clientesTable.getSelectionModel().getSelectedItem();
+	private void borrarCobrador() {
+		CobradorModel cobrador = cobradoresTable.getSelectionModel().getSelectedItem();
 	
-		if (cliente == null) {
+		if (cobrador == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
-			alert.setHeaderText("Error al borrar un cliente");
-			alert.setContentText("Por favor seleccione un cliente a borrar");
+			alert.setHeaderText("Error al borrar un cobrador");
+			alert.setContentText("Por favor seleccione un cobrador a borrar");
 			alert.showAndWait();									
 			return;
 		}
 			
-		if (cliente.tieneCreditos()) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText("Error al borrar un cliente");
-			alert.setContentText("Por favor elimine los creditos del cliente");
-			alert.showAndWait();									
-			return;
-		}
+//		if (cliente.tieneCreditos()) {
+//			Alert alert = new Alert(AlertType.ERROR);
+//			alert.setTitle("Error");
+//			alert.setHeaderText("Error al borrar un cliente");
+//			alert.setContentText("Por favor elimine los creditos del cliente");
+//			alert.showAndWait();									
+//			return;
+//		}
 		
-		clientes.remove(cliente);
+		cobradores.remove(cobrador);
 //		credito.calcular();
-		cliente.borrar();
+		cobrador.borrar();
 		initFields();		
 		
 //        TableRow<ClienteModel> row = new TableRow<>();
@@ -230,10 +227,10 @@ public class CobradorController {
 //
 //                case 1:
 //                	grisarCampos(true);
-		cliente = clientesTable.getSelectionModel().getSelectedItem();
-		if (cliente == null)
+		cobrador = cobradoresTable.getSelectionModel().getSelectedItem();
+		if (cobrador == null)
 			return;
-                	cargarCliente(cliente);
+                	cargarCobrador(cobrador);
 //                	break;		
 		
 	}

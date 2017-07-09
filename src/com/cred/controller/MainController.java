@@ -109,6 +109,8 @@ public class MainController {
 	@FXML
 	private MenuItem clienteMenuGestionar;
 	@FXML
+	private MenuItem cobradorMenuGestionar;	
+	@FXML
 	private MenuItem reporteMenu;
 	
 //	Lista de créditos	
@@ -174,6 +176,9 @@ public class MainController {
         
         fechaFilterField.setOnAction(e -> { calcPagos(); } );
         clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
+        
+        cobradorMenuGestionar.setOnAction( e -> { gestCobradores(); });
+        
         crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
         reporteMenu.setOnAction( e -> { reporte(); } );
 		btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });
@@ -373,6 +378,29 @@ public class MainController {
         }		
 	}
 
+	private void gestCobradores() {
+	   try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Cobrador.fxml"));
+            GridPane page = (GridPane) loader.load();
+            CobradorController controller = loader.<CobradorController>getController();
+
+            controller.setCobradores(listaCobradores);
+            
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Gestionar Cobradores");
+          
+            Scene scene = new Scene(page);
+
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }		
+	}	
+	
 	public void calcPagos() {
 			
 		BigDecimal sumaCuotaPura = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP),

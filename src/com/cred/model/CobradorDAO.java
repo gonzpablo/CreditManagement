@@ -51,5 +51,63 @@ public class CobradorDAO {
         }
         //return empList (ObservableList of Employees)
         return listaCobradores;
-    }	        
+    }
+	
+	public static void agregarCobrador(CobradorModel cobrador) throws SQLException, ClassNotFoundException {
+
+		String insertStmt =
+				"BEGIN;\n" +
+					"INSERT INTO cobradores\n" +
+					"(NOMBRE, APELLIDO)\n" +
+					"VALUES\n" +
+					"('" + cobrador.getNombre() + "'," + 
+						"'" + cobrador.getApellido() + "');" + 				
+				"COMMIT;";
+
+		System.out.println(insertStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(insertStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en INSERT Cobrador: " + e);
+			throw e;
+		}
+	}
+	
+	public static void modificarCobrador(CobradorModel cobrador) throws SQLException, ClassNotFoundException {
+
+		String updateStmt =
+				"BEGIN;\n" +
+					"UPDATE cobradores \n" +
+					"set NOMBRE = '" + cobrador.getNombre() + "', " +
+						"APELLIDO = '" + cobrador.getApellido() + "' " +
+						"WHERE rowid = " + cobrador.getId() + ";\n" +
+				"COMMIT;";
+
+		System.out.println(updateStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(updateStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en UPDATE Cobrador: " + e);
+			throw e;
+		}
+	}
+	
+	public static void borrarCobrador(CobradorModel cobrador) throws SQLException, ClassNotFoundException {
+		String deleteStmt =
+				"BEGIN;\n" +
+					"DELETE FROM cobradores \n" +
+					"WHERE rowid = " + cobrador.getId() + ";\n" +
+				"COMMIT;";
+
+		System.out.println(deleteStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(deleteStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en DELETE Cobrador: " + e);
+			throw e;
+		}					
+	}	
 }
