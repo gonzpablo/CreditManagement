@@ -33,22 +33,20 @@ public class RutaDAO {
     }
 
 	private static ObservableList<RutaModel> getListaRutas(ResultSet rs) throws SQLException, ClassNotFoundException {
-        //Declare a observable List which comprises of Employee objects
+
         ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();
  
         while (rs.next()) {
-//        	public CreditoModel(String cliente, int cantCuotas, String unidad, String montoCuota, 
-//					String montoCredito, String cobrador, String ruta) {
-	        	
+        	
             RutaModel ruta = new RutaModel();
             		
             ruta.setId(rs.getInt("ROWID"));
+            ruta.setNombre(rs.getString("NOMBRE"));
             ruta.setDescripcion(rs.getString("DESCRIPCION"));
             
-            //Agregar crédito a lista de créditos
             listaRutas.add(ruta);
         }
-        //return empList (ObservableList of Employees)
+
         return listaRutas;
     }
 	

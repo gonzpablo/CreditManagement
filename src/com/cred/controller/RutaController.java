@@ -102,6 +102,7 @@ public class RutaController {
         if (rutasTable.getSelectionModel().getSelectedItem() == null)
         	rutaBorrarButton.setDisable(true);	
         
+        rutaDescTextArea.setWrapText(true);        
 	}
 
 	private void nuevaRuta() {

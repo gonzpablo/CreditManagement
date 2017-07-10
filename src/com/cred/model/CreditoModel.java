@@ -222,7 +222,8 @@ public class CreditoModel {
 	}
 
 	public String getCliente() {
-		return this.cliente.getNombre() + " " + this.cliente.getApellido();
+		return ( this.cliente == null ) ? null : 
+			this.cliente.getNombre() + " " + this.cliente.getApellido();		
 	}
 
 	public int getCuotasPagas() {
@@ -406,7 +407,7 @@ public class CreditoModel {
 	}
 
 	public String getCobrador() {		
-		return this.cobrador.getNombre();		
+		return ( this.cobrador == null ) ? null : this.cobrador.getNombre();		
 	}
 
 	public CobradorModel getCobradorRef() {
@@ -418,7 +419,7 @@ public class CreditoModel {
 	}
 
 	public String getRuta() {
-		return this.ruta.getDescripcion();
+		return ( this.ruta == null ) ? null : this.ruta.getDescripcion();		
 	}
 	
 	public void setTasaInt(BigDecimal tasaInt) {
