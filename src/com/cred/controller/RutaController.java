@@ -90,7 +90,6 @@ public class RutaController {
 	                	cargarRuta(rowData);
 	                	break;
 	                case 2:
-//	                	clienteView(rowData);
 	                	grisarCampos(false);
 	                	cargarRuta(rowData);
 	                	break;

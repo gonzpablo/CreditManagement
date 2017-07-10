@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -146,6 +148,8 @@ public class MainController {
 	@FXML
 	private void initialize() {
 
+		initFiltros();
+		
 		cerradoFilterCheckBox.setOnAction( e -> { buscarCredCerrados(); });
 		
         rutaFilterCombo.setOnAction(e -> { 	calc();  });
@@ -245,6 +249,8 @@ public class MainController {
             });
             return row;
         });
+        
+        calcPagos();
 	}	
 	
 	private void buscarCredCerrados() {
@@ -427,7 +433,7 @@ public class MainController {
 	public void calcPagos() {
 			
 		BigDecimal sumaCuotaPura = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP),
-					sumaGciaXDia = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
+				   sumaGciaXDia = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
 		
 			for ( CreditoModel cred : filteredItems ) {
 				sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota(fechaFilterField.getValue()));
@@ -618,4 +624,14 @@ public class MainController {
 	public ObservableList<CobradorModel> getListaCobradores() {
 		return listaCobradores;
 	}
+	
+	private void initFiltros() {
+		
+	    LocalDateTime fechaHoraActual = LocalDateTime.now();	    
+//		LocalDate fecha = fechaHoraActual.toLocalDate();
+//	    SimpleObjectProperty<LocalDate> fecha = new SimpleObjectProperty<LocalDate>( fechaHoraActual.toLocalDate() );
+//		LocalTime hora = fechaHoraActual.toLocalTime();
+	    fechaFilterField.setValue(fechaHoraActual.toLocalDate());					
+		
+	}	
 }

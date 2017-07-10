@@ -177,6 +177,9 @@ public class ClienteController {
 
 	private void guardarCliente() {
 		
+		if (!validar())
+			return;		
+		
 		if (this.cliente == null) {
 			ClienteModel clienteNew = new ClienteModel(
 					  clienteNombreField.getText(), clienteApellidoField.getText(), 
@@ -285,5 +288,19 @@ public class ClienteController {
                 	cargarCliente(cliente);
 //                	break;		
 		
+	}
+	
+	private boolean validar() {
+		
+		if (clienteNombreField.getText().equals("") && clienteApellidoField.getText().equals("")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Atención");
+			alert.setHeaderText("Error");
+			alert.setContentText("Por favor ingrese Nombre y Apellido");
+			alert.showAndWait();			
+			return false;
+		} 		
+	
+		return true;
 	}
 }
