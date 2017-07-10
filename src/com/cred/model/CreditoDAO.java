@@ -116,13 +116,20 @@ public class CreditoDAO {
         return listaCreditos;
     }
 
-	public static void cerrarCredito(CreditoModel credito) throws SQLException, ClassNotFoundException {
+	public static void cerrarCredito(CreditoModel credito, boolean cerrar) throws SQLException, ClassNotFoundException {
 
+		int cerrado = 0;
+		
+		if (cerrar)
+			cerrado = 1;
+		else
+			cerrado = 0;
+		
 //		Cerrar un crédito		 
 		String updateStmt =
 		        "BEGIN;\n" +
 		                "UPDATE creditos \n" +
-		        		"SET cerrado = 1 \n" +
+		        		"SET cerrado = " + cerrado + " \n" +
 		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
 		                "COMMIT;";	    
 		

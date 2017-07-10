@@ -186,18 +186,8 @@ public class PagoController {
 
 		credito.setCerrado(cerrarCreditoCheckBox.isSelected());
 		disableFields(cerrarCreditoCheckBox.isSelected());
-		credito.cerrar();
-//		if (cerrarCreditoCheckBox.isSelected() == true) {
-//			credito.setCerrado(true);
-//			disableFields(true);
-//		} else {
-//			credito.setCerrado(false);
-//			
-//			if (this.credito.getCuotasPagas() == this.credito.getCantCuotas())
-//				disableFields(true);
-//			else
-//				disableFields(false);	
-//		}				
+		credito.cerrar(cerrarCreditoCheckBox.isSelected());
+//		mainController.getCreditos().remove(credito);
 	}
 	
 	private void ingresarPago() {
@@ -224,11 +214,7 @@ public class PagoController {
 		this.credito.agregarPago(this.pago);
 
 		pagos.add(this.pago);
-		
-//		System.out.println(this.pago.getMontoPago());
-//		System.out.println(this.pago.getMontoPagoInterno());
-//		System.out.println(this.pago.getFecha());
-		
+				
 		try {
 			PagoDAO.agregarPago(credito.getId(), this.pago);
 		} catch (ClassNotFoundException e) {
@@ -236,6 +222,11 @@ public class PagoController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		credito.calcularMontoAcumulado();
+		
+		if (credito.alcanzoMontoFinal())
+			credito.cerrar(true);
 		
 		this.pago = new PagoModel();
 		initFields();
@@ -269,9 +260,7 @@ public class PagoController {
 	}
 	
 	public void cancelarPago() {
-	    // get a handle to the stage
 	    Stage stage = (Stage) cancelarButton.getScene().getWindow();
-	    // do what you have to do
 	    stage.close();		
 	}
 }

@@ -263,17 +263,25 @@ public class MainController {
 //		solo debería buscar una vez los créditos cerrados
 		if (creditosCerrados.size() > 0)
 			return;
-		
+
 		try {		
 			creditosCerrados = CreditoDAO.buscarCreditos(1);
-			creditos.addAll(creditosCerrados);
+			
+			for (CreditoModel credCerr : creditosCerrados) {
+				if (creditos.contains(credCerr))
+					continue;
+				else
+					creditos.add(credCerr);
+			}
+				
+//			creditos.addAll(creditosCerrados);
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		
+
     	hashCreditos();
-    	
+
 //		Completar en los créditos, las referencias a clientes, cobradores y rutas		
 		completarCreditos();    	
 

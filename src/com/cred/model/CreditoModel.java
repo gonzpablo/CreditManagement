@@ -48,7 +48,6 @@ public class CreditoModel {
 		this.cobrador = cobrador;		
 		this.ruta = ruta;
 		this.cerrado = false;
-
 	}	
 	
 //	CreditoModel (De BD):	
@@ -73,7 +72,6 @@ public class CreditoModel {
 			this.cerrado = false;
 		else 
 			this.cerrado = true;
-		
 	}
 
 	public void CreditoModelFromDB() {
@@ -324,6 +322,18 @@ public class CreditoModel {
 		return result;
 	}
 	
+	public boolean alcanzoMontoFinal() {
+	
+		System.out.println(montoCuotaAcumulado);
+		System.out.println(CreditoModel.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas)));
+		
+		if ( montoCuotaAcumulado.compareTo(
+				CreditoModel.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas))) == 0 )
+			return true;
+		else
+			return false;
+	}
+	
 	public void borrarPago(PagoModel pago) {
 		listaPagos.remove(pago);
 	}
@@ -453,9 +463,9 @@ public class CreditoModel {
 		}
 	}
 
-	public void cerrar() {
+	public void cerrar(boolean cerrar) {
 		try {
-			CreditoDAO.cerrarCredito(this);
+			CreditoDAO.cerrarCredito(this, cerrar);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}		

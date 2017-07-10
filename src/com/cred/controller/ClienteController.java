@@ -114,9 +114,7 @@ public class ClienteController {
         
         if (clientesTable.getSelectionModel().getSelectedItem() == null)
         	clienteBorrarButton.setDisable(true);
-//        	else
-//        		clienteBorrarButton.setDisable(false);	
-        
+ 
 	}
 
 	private void nuevoCliente() {
