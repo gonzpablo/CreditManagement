@@ -4,24 +4,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.cred.model.ClienteDAO;
-import com.cred.model.ClienteModel;
-import com.cred.model.CobradorDAO;
-import com.cred.model.CobradorModel;
-import com.cred.model.CreditoDAO;
-import com.cred.model.CreditoModel;
-import com.cred.model.NumeroUtil;
-import com.cred.model.PagoDAO;
-import com.cred.model.PagoModel;
-import com.cred.model.Reporte;
-import com.cred.model.RutaDAO;
-import com.cred.model.RutaModel;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -35,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -49,6 +37,19 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
+import com.cred.model.ClienteDAO;
+import com.cred.model.ClienteModel;
+import com.cred.model.CobradorDAO;
+import com.cred.model.CobradorModel;
+import com.cred.model.CreditoDAO;
+import com.cred.model.CreditoModel;
+import com.cred.model.NumeroUtil;
+import com.cred.model.PagoDAO;
+import com.cred.model.PagoModel;
+import com.cred.model.Reporte;
+import com.cred.model.RutaDAO;
+import com.cred.model.RutaModel;
 
 public class MainController {
 
@@ -97,7 +98,8 @@ public class MainController {
 	private Button btnCleanFilters;
 	@FXML
 	private Button btnBorrarCreditos;
-
+	@FXML
+	private Button btnModificarCreditos;
 //  -------------------------------------------------------------------
 //  Sumarizadores
 //  -------------------------------------------------------------------
@@ -156,8 +158,8 @@ public class MainController {
         
         rutaFilterCombo.setConverter(new StringConverter<RutaModel>() {
             @Override
-            public String toString(RutaModel object) {
-                return object.getDescripcion();
+            public String toString(RutaModel ruta) {
+                return ruta.getNombre() + " - " + ruta.getDescripcion();
             }
 
             @Override
@@ -170,8 +172,8 @@ public class MainController {
         
         cobradorFilterCombo.setConverter(new StringConverter<CobradorModel>() {
             @Override
-            public String toString(CobradorModel object) {
-                return object.getNombre();
+            public String toString(CobradorModel cobrador) {
+                return cobrador.getNombre() + " " + cobrador.getApellido();
             }
 
             @Override
@@ -188,7 +190,10 @@ public class MainController {
         
         crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
         reporteMenu.setOnAction( e -> { reporte(); } );
-		btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });
+		
+        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); } );
+        btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });
+		
         btnCleanFilters.setOnAction(e -> {
             rutaFilterCombo.setValue(null);
             cobradorFilterCombo.setValue(null);
@@ -320,6 +325,7 @@ public class MainController {
 	}
 
 	private void borrarCredito() {
+		
 		CreditoModel credito = creditosTable.getSelectionModel().getSelectedItem();
 		
 		if (credito == null) {
@@ -330,7 +336,17 @@ public class MainController {
 			alert.showAndWait();									
 			return;
 		}
-			
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("¡ Atención !");
+		alert.setHeaderText("Borrar crédito");
+		alert.setContentText("¿Está seguro que desea borrar el crédito seleccionado?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+	
+		if (!(result.get() == ButtonType.OK))
+		    return;
+		
 		creditos.remove(credito);
 		credito.calcular();
 		credito.borrarCredito();
@@ -406,29 +422,65 @@ public class MainController {
         }		
 	}	
 	
+	private void modificarCredito() {
+		
+		CreditoModel credito = creditosTable.getSelectionModel().getSelectedItem();
+		
+		if (credito == null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Error al borrar un crédito");
+			alert.setContentText("Por favor seleccione un crédito a modificar");
+			alert.showAndWait();									
+			return;
+		}
+
+		try {
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/CreditoModificar.fxml"));
+			GridPane page = (GridPane) loader.load();
+			CreditoModController controller = loader.<CreditoModController>getController();
+
+			controller.setCredito(credito);
+			controller.setMainController(this);
+			controller.cargarDatos();
+			
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Modificar Crédito");
+
+			Scene scene = new Scene(page);
+
+			stage.setResizable(false);
+			stage.setScene(scene);
+			stage.show();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void gestRutas() {
-		   try {
-	            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Ruta.fxml"));
-	            GridPane page = (GridPane) loader.load();
-	            RutaController controller = loader.<RutaController>getController();
+	   try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Ruta.fxml"));
+            GridPane page = (GridPane) loader.load();
+            RutaController controller = loader.<RutaController>getController();
 
-	            controller.setRutas(listaRutas);
-	            
-	            Stage stage = new Stage();
-	            stage.initModality(Modality.APPLICATION_MODAL);
-	            stage.setTitle("Gestionar Rutas");
-	          
-	            Scene scene = new Scene(page);
+            controller.setRutas(listaRutas);
+            
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Gestionar Rutas");
+          
+            Scene scene = new Scene(page);
 
-	            stage.setResizable(false);
-	            stage.setScene(scene);
-	            stage.show();
-	            
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }		
-		}	
-	
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }		
+	}	
 	
 	public void calcPagos() {
 			
@@ -535,29 +587,28 @@ public class MainController {
 	}
 
 	public ObservableList<PagoModel> initPagos() {
-    	
-    	try {
+
+		try {
 			listaPagos = PagoDAO.buscarPagos();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-    	
-    	for ( PagoModel pago : listaPagos ) {
-    		CreditoModel credito;    		
-    		credito = hashCreditos.get(pago.getIdCredito());
 
-    		if (credito == null)
-      			continue;
-    		
-    		credito.agregarPago(pago);
-    		credito.calcularMontoAcumulado();
-    		credito.calcularCuotasPagas();
-    		credito.calcularSaldoCapital();
-    	}
-    	
-    	return listaPagos;
-    }    
-  
+		for ( PagoModel pago : listaPagos ) {
+			CreditoModel credito;
+			credito = hashCreditos.get(pago.getIdCredito());
+
+			if (credito == null)
+				continue;
+
+			credito.agregarPago(pago);
+			credito.calcularMontoAcumulado();
+			credito.calcularCuotasPagas();
+			credito.calcularSaldoCapital();
+		}
+		return listaPagos;
+	}
+
 	public ObservableList<ClienteModel> initClientes() {
     	
 		try {
@@ -583,7 +634,7 @@ public class MainController {
     	
     	return listaRutas;
     }    
-    
+
     public ObservableList<CobradorModel> initCobradores() {    	
     	
     	try {
@@ -598,13 +649,13 @@ public class MainController {
     }        
     
     public ObservableList<CreditoModel> getCreditos() {
-        return creditos;
+    	return creditos;
     }
     
     public void refreshTableView() {
     	creditosTable.refresh();
     }
-    
+
     public void addItemToList(CreditoModel cred) {
     	creditos.add(cred);
     }
@@ -626,12 +677,8 @@ public class MainController {
 	}
 	
 	private void initFiltros() {
-		
-	    LocalDateTime fechaHoraActual = LocalDateTime.now();	    
-//		LocalDate fecha = fechaHoraActual.toLocalDate();
-//	    SimpleObjectProperty<LocalDate> fecha = new SimpleObjectProperty<LocalDate>( fechaHoraActual.toLocalDate() );
-//		LocalTime hora = fechaHoraActual.toLocalTime();
-	    fechaFilterField.setValue(fechaHoraActual.toLocalDate());					
-		
-	}	
+		LocalDateTime fechaHoraActual = LocalDateTime.now();
+
+		fechaFilterField.setValue(fechaHoraActual.toLocalDate());
+	}
 }

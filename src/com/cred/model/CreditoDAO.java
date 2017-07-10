@@ -155,4 +155,25 @@ public class CreditoDAO {
 		}
 		return tieneCreditos;
 	}
+	
+	public static void modificarCredito(CreditoModel credito) throws SQLException, ClassNotFoundException {
+
+//		Cerrar un crédito		 
+		String updateStmt =
+		        "BEGIN;\n" +
+		                "UPDATE creditos \n" +
+		        		"SET idCobrador = " + credito.getCobradorRef().getId() + ", \n" +
+		                "idRuta = " + credito.getRutaRef().getId() + " \n" +
+		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
+		                "COMMIT;";	    
+		
+			System.out.println(updateStmt);
+		
+		try {
+		    DBUtil.dbExecuteUpdate(updateStmt);
+		} catch (SQLException e) {
+		    System.out.print("Error en Update Creditos: " + e);
+		    throw e;
+		}	
+	}	
 }

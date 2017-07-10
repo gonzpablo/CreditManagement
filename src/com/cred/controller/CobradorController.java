@@ -123,6 +123,9 @@ public class CobradorController {
 	}		
 
 	private void guardarCobrador() {
+
+		if (!validar())
+			return;
 		
 		if (this.cobrador == null) {
 
@@ -204,4 +207,18 @@ public class CobradorController {
         
 		cargarCobrador(cobrador);
 	}
+	
+	private boolean validar() {
+		
+		if (cobradorNombreField.getText().equals("")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Atención");
+			alert.setHeaderText("Error");
+			alert.setContentText("Por favor ingrese un Nombre");
+			alert.showAndWait();			
+			return false;
+		} 		
+		
+		return true;
+	}		
 }

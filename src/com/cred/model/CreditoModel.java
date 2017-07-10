@@ -48,9 +48,7 @@ public class CreditoModel {
 		this.cobrador = cobrador;		
 		this.ruta = ruta;
 		this.cerrado = false;
-//		calcularMontoAcumulado();
-//		calcularCuotasPagas();
-//		calcularSaldoCapital();
+
 	}	
 	
 //	CreditoModel (De BD):	
@@ -65,9 +63,8 @@ public class CreditoModel {
 		this.idCobrador = idCobrador;
 		this.idRuta = idRuta;
 		this.unidad = obtenerUnidad(idUnidad);
-//		public static BigDecimal obtenerMontoCuota(BigDecimal montoTotalCredito, int cantCuotas)		
 		this.valorCuota = obtenerMontoCuota(
-//		public static BigDecimal obtenerMontoTotalCredito(String montoCuotaIn, String cantCuotasIn)				
+				
 		obtenerMontoTotalCredito(
 	(BigDecimal.valueOf(montoCuota).divide(BigDecimal.valueOf(100))).toString(), String.valueOf(cantCuotas)
 	)
@@ -77,9 +74,6 @@ public class CreditoModel {
 		else 
 			this.cerrado = true;
 		
-//		calcularMontoAcumulado();
-//		calcularCuotasPagas();
-//		calcularSaldoCapital();
 	}
 
 	public void CreditoModelFromDB() {
@@ -407,7 +401,8 @@ public class CreditoModel {
 	}
 
 	public String getCobrador() {		
-		return ( this.cobrador == null ) ? null : this.cobrador.getNombre();		
+		return ( this.cobrador == null ) ? null : this.cobrador.getNombre() +
+												  " " + this.cobrador.getApellido();		
 	}
 
 	public CobradorModel getCobradorRef() {
@@ -419,7 +414,7 @@ public class CreditoModel {
 	}
 
 	public String getRuta() {
-		return ( this.ruta == null ) ? null : this.ruta.getDescripcion();		
+		return ( this.ruta == null ) ? null : this.ruta.getNombre();		
 	}
 	
 	public void setTasaInt(BigDecimal tasaInt) {

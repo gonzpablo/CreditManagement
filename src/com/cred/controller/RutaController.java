@@ -2,12 +2,6 @@ package com.cred.controller;
 
 import java.sql.SQLException;
 
-import com.cred.model.CobradorDAO;
-import com.cred.model.CobradorModel;
-import com.cred.model.RutaDAO;
-import com.cred.model.RutaModel;
-import com.cred.util.DBUtil;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -18,6 +12,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+
+import com.cred.model.RutaDAO;
+import com.cred.model.RutaModel;
+import com.cred.util.DBUtil;
 
 public class RutaController {
 
@@ -126,6 +124,9 @@ public class RutaController {
 
 	private void guardarRuta() {
 		
+		if (!validar())
+			return;
+		
 		if (this.ruta == null) {
 
 			RutaModel rutaNew = new RutaModel();
@@ -206,4 +207,18 @@ public class RutaController {
         
 		cargarRuta(ruta);
 	}
+	
+	private boolean validar() {
+	
+		if (rutaNombreField.getText().equals("")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Atención");
+			alert.setHeaderText("Error");
+			alert.setContentText("Por favor ingrese un Nombre");
+			alert.showAndWait();			
+			return false;
+		} 		
+		
+		return true;
+	}	
 }
