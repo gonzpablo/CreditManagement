@@ -53,9 +53,7 @@ public class PagoDAO {
 		}
 	}
 	
-	public static ObservableList<PagoModel> buscarPagos() throws SQLException, ClassNotFoundException {
-
-//		String selectStmt = "SELECT rowid, idcredito, montoPago, date(fecha, 'unixepoch') as fecha from pagos;";
+	public static ObservableList<PagoModel> buscarPagos(int cerrado) throws SQLException, ClassNotFoundException {
 
 		String selectStmt = "SELECT p.rowid as rowid, " +
 									"p.idcredito as idcredito, " +
@@ -64,14 +62,7 @@ public class PagoDAO {
 							"FROM pagos as p " +
 									"inner join creditos as c " +
 									"on p.idCredito = c.rowid " +
-							"WHERE c.cerrado = 0;";
-							
-		
-//		SELECT p.rowid as rowid, p.idcredito as idcredito, p.montoPago as montoPago, date(p.fecha, 'unixepoch') as fecha
-//		from pagos as p
-//		inner join creditos as c
-//		on p.idCredito = c.rowid
-//		where c.cerrado = 0;		
+							"WHERE c.cerrado = " + cerrado + ";";		
 		
 		try {
 			//Get ResultSet from dbExecuteQuery method

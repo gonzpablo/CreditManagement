@@ -16,17 +16,13 @@ public class CreditoDAO {
 		String selectStmt = "SELECT rowid, * FROM creditos WHERE cerrado = " + cerrado + ";";
 		
         try {
-            //Get ResultSet from dbExecuteQuery method
             ResultSet rsCreditos = DBUtil.dbExecuteQuery(selectStmt);
  
-            //Send ResultSet to the getEmployeeList method and get employee object
             ObservableList<CreditoModel> listaCreditos = getListaCreditos(rsCreditos);
  
-            //Return employee object
             return listaCreditos;
         } catch (SQLException e) {
             System.out.println("SQL select operation has failed: " + e);
-            //Return exception
             throw e;
         }		
 	}

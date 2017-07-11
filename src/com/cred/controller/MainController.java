@@ -137,74 +137,80 @@ public class MainController {
 	
 
 	public MainController() {	
-		initClientes();
-		initRutas();
-		initCobradores();
-		initCreditos();
-		initPagos();		
+
+		buscarDatos();			
 		
-//		Completar en los créditos, las referencias a clientes, cobradores y rutas		
-		completarCreditos();
+//		Completar en los créditos, las referencias a clientes, cobradores, rutas y pagos	
+		completarCreditos(creditos);
+		
+		filteredItems = new FilteredList<>(creditos, p -> true);		
 	}	
 		
+	private void buscarDatos() {
+
+		listaClientes = buscarClientes();		// Busca todos los clientes en BD y carga hashClientes
+		listaRutas = buscarRutas();				// Busca las rutas y carga hashRutas
+		listaCobradores = buscarCobradores();	// Busca los cobradores y carga hashCobradores
+		listaPagos = buscarPagos(0);  			// Buscar pagos correspondientes a créditos abiertos (no cerrados)
+		
+		creditos = buscarCreditos(0); 			// Buscar creditos no cerrados		
+	}
+
+	private void buscarCredCerrados() {
+
+//		Solo buscar una vez los créditos cerrados
+		if (creditosCerrados.size() > 0)
+			return;
+		
+//		Acá no estoy pisando la lista de pagos? quizas no importa porque se agregaron antes a los creditos abiertos..		
+		listaPagos = buscarPagos(1);		  // Buscar pagos correspondientes a créditos cerrados
+		creditosCerrados = buscarCreditos(1); // Buscar creditos cerrados
+
+		completarCreditos(creditosCerrados);
+		
+		creditos.addAll(creditosCerrados);
+		
+		calc();
+		calcPagos();
+	}		
+	
 	@FXML
 	private void initialize() {
 
-		initFiltros();
+		initFiltros();			// Cargar fecha del día en filtro de fecha
 		
-		cerradoFilterCheckBox.setOnAction( e -> { buscarCredCerrados(); });
+		defineActions();		// Buttons onAction	
 		
-        rutaFilterCombo.setOnAction(e -> { 	calc();  });
-        
-        rutaFilterCombo.setConverter(new StringConverter<RutaModel>() {
-            @Override
-            public String toString(RutaModel ruta) {
-                return ruta.getNombre() + " - " + ruta.getDescripcion();
-            }
-
-            @Override
-            public RutaModel fromString(String string) {
-                return null;
-            }
-        });
-        
-        cobradorFilterCombo.setOnAction(e -> { calc(); });        
-        
-        cobradorFilterCombo.setConverter(new StringConverter<CobradorModel>() {
-            @Override
-            public String toString(CobradorModel cobrador) {
-                return cobrador.getNombre() + " " + cobrador.getApellido();
-            }
-
-            @Override
-            public CobradorModel fromString(String string) {
-                return null;
-            }
-        });
-        
-        fechaFilterField.setOnAction(e -> { calcPagos(); } );
-        clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
-        
-        cobradorMenuGestionar.setOnAction( e -> { gestCobradores(); });
-        rutasMenuGestionar.setOnAction( e -> { gestRutas();} );
-        
-        crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
-        reporteMenu.setOnAction( e -> { reporte(); } );
-		
-        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); } );
-        btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });
-		
-        btnCleanFilters.setOnAction(e -> {
-            rutaFilterCombo.setValue(null);
-            cobradorFilterCombo.setValue(null);
-            fechaFilterField.setValue(null);
-            cerradoFilterCheckBox.setSelected(false);           
-        });        
-        
 		initColumns();
-		initComboCobrador();
-		initComboRuta();
+		
+		initCombos();       
 				
+		filtrosYDatosTabla();
+
+        calc();
+
+        eventosTabla();			// Doble click en un registro
+        
+        calcPagos();
+	}	
+	
+	private void eventosTabla() {
+//		Doble-click        
+        creditosTable.setRowFactory( tv -> {
+
+            TableRow<CreditoModel> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    CreditoModel rowData = row.getItem();
+                    pago(rowData, row);
+                }
+            });
+            return row;
+        });
+	}
+
+	private void filtrosYDatosTabla() {
         ObjectProperty<Predicate<CreditoModel>> cobradorFilter = new SimpleObjectProperty<>();
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();			
         ObjectProperty<Predicate<CreditoModel>> cerradoFilter = new SimpleObjectProperty<>();
@@ -218,7 +224,6 @@ public class MainController {
 		credito -> 
 			rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue().getId() == credito.getIdRuta(),
 			rutaFilterCombo.valueProperty()));		
-        
         
         cerradoFilter.bind(Bindings.createObjectBinding(() ->
 							credito -> 
@@ -236,88 +241,88 @@ public class MainController {
         
         // 5. Add sorted (and filtered) data to the table.
         creditosTable.setItems(sortedData);
-        
-        calc();       
-
-//		Doble-click        
-        creditosTable.setRowFactory( tv -> {
-
-            TableRow<CreditoModel> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    CreditoModel rowData = row.getItem();
-//                    System.out.println(rowData.getCliente());
-
-                    pago(rowData, row);
-                }
-            });
-            return row;
-        });
-        
-        calcPagos();
-	}	
-	
-	private void buscarCredCerrados() {
-
-//		solo debería buscar una vez los créditos cerrados
-		if (creditosCerrados.size() > 0)
-			return;
-
-		try {		
-			creditosCerrados = CreditoDAO.buscarCreditos(1);
-			
-			for (CreditoModel credCerr : creditosCerrados) {
-				if (creditos.contains(credCerr))
-					continue;
-				else
-					creditos.add(credCerr);
-			}
-				
-//			creditos.addAll(creditosCerrados);
-			
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-
-    	hashCreditos();
-
-//		Completar en los créditos, las referencias a clientes, cobradores y rutas		
-		completarCreditos();    	
-
+		
 	}
 
-	private void hashClientes() {
+	private void initCombos() {
+		initComboCobrador();
+		initComboRuta();		
+	}
 
-		for (ClienteModel cliente : listaClientes)			
+	private void defineActions() {
+		cerradoFilterCheckBox.setOnAction( e -> { buscarCredCerrados(); });
+		
+        rutaFilterCombo.setOnAction(e -> { 	calc();  });
+        
+        cobradorFilterCombo.setOnAction(e -> { calc(); });        
+	
+        fechaFilterField.setOnAction(e -> { calcPagos(); } );
+        clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
+        
+        cobradorMenuGestionar.setOnAction( e -> { gestCobradores(); });
+        rutasMenuGestionar.setOnAction( e -> { gestRutas();} );
+        
+        crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
+        reporteMenu.setOnAction( e -> { reporte(); } );
+		
+        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); } );
+        btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });
+		
+        btnCleanFilters.setOnAction(e -> {
+            rutaFilterCombo.setValue(null);
+            cobradorFilterCombo.setValue(null);
+            fechaFilterField.setValue(null);
+            cerradoFilterCheckBox.setSelected(false);           
+        });               
+	}
+
+	private void hashClientes(ObservableList<ClienteModel> clientes) {
+
+		for (ClienteModel cliente : clientes)			
 			hashClientes.put(cliente.getId(), cliente);		
 	}
 
-	private void hashRutas() {
+	private void hashRutas(ObservableList<RutaModel> rutas) {
 		
-		for (RutaModel ruta : listaRutas)
+		for (RutaModel ruta : rutas)
 			hashRutas.put(ruta.getId(), ruta);
 	}
 
-	private void hashCobradores() {
+	private void hashCobradores(ObservableList<CobradorModel> cobradores) {
 		
-		for (CobradorModel cobrador : listaCobradores )
+		for (CobradorModel cobrador : cobradores )
 			hashCobradores.put(cobrador.getId(), cobrador);
 	}
-	
-	private void completarCreditos() {
 
-		for ( CreditoModel credito : creditos ) {
+	private void completarCreditos(ObservableList<CreditoModel> listaCreditos) {
+		
+//		Agregar los pagos a los créditos
+		for ( PagoModel pago : listaPagos ) {
+			CreditoModel credito = hashCreditos.get(pago.getIdCredito());
+
+			if (credito == null)
+				continue;
+
+			credito.agregarPago(pago);
+		}		
+		
+//		Utilizar este método sólo para creditos cargados desde la base de datos
+//		ya que utilizan los id (Cliente, cobrador y ruta) que no se están seteando
+//		para los objetos creados en el momento (estos otros ya tienen la referencia
+//		al objeto cargada.		
+		for ( CreditoModel credito : listaCreditos ) {
 
 			//	Referencia al Cliente
 			credito.setCliente(hashClientes.get(credito.getIdCliente()));
 			//	Referencia al Cobrador			
 			credito.setCobrador(hashCobradores.get(credito.getIdCobrador()));
 			//	Referencia a la Ruta
-			credito.setRuta(hashRutas.get(credito.getIdRuta()));			
+			credito.setRuta(hashRutas.get(credito.getIdRuta()));
+			
+			credito.calcularMontoAcumulado();		// se repite innecesariamente
+			credito.calcularCuotasPagas();			// se repite innecesariamente
+			credito.calcularSaldoCapital();			
 		}
-		
-		filteredItems = new FilteredList<>(creditos, p -> true);
 	}
 
 	private void reporte() {
@@ -553,10 +558,34 @@ public class MainController {
 	
     private void initComboRuta() {
 		rutaFilterCombo.setItems(listaRutas);
+		
+        rutaFilterCombo.setConverter(new StringConverter<RutaModel>() {
+            @Override
+            public String toString(RutaModel ruta) {
+                return ruta.getNombre() + " - " + ruta.getDescripcion();
+            }
+
+            @Override
+            public RutaModel fromString(String string) {
+                return null;
+            }
+        });		
 	}
 
     private void initComboCobrador() {
     	cobradorFilterCombo.setItems(listaCobradores);
+    	
+        cobradorFilterCombo.setConverter(new StringConverter<CobradorModel>() {
+            @Override
+            public String toString(CobradorModel cobrador) {
+                return cobrador.getNombre() + " " + cobrador.getApellido();
+            }
+
+            @Override
+            public CobradorModel fromString(String string) {
+                return null;
+            }
+        });     	
 	}
 
 	private void initColumns() {
@@ -574,86 +603,87 @@ public class MainController {
         unidadColumn.setCellValueFactory(new PropertyValueFactory<>("unidad"));
 	}
 
-    public ObservableList<CreditoModel> initCreditos() {
+    public ObservableList<CreditoModel> buscarCreditos(int cerrado) {
+    	
+    	ObservableList<CreditoModel> creditosBD = FXCollections.observableArrayList();
     	
     	try {
-			creditos = CreditoDAO.buscarCreditos(0);
+			creditosBD = CreditoDAO.buscarCreditos(cerrado);
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		}
     	    	
-    	hashCreditos();
+    	hashCreditos(creditosBD);
     	
-    	return creditos;
+    	return creditosBD;
     }
 
-    private void hashCreditos() {
+    private void hashCreditos(ObservableList<CreditoModel> listaCreditos) {
     	
-    	for ( CreditoModel credito : creditos )
-    		hashCreditos.put(credito.getId(), credito);
-  			
+    	for ( CreditoModel credito : listaCreditos )
+    		if (hashCreditos.containsKey(credito.getId()))
+    			continue;
+    		else
+    			hashCreditos.put(credito.getId(), credito);
 	}
 
-	public ObservableList<PagoModel> initPagos() {
+	public ObservableList<PagoModel> buscarPagos(int cerrado) {
 
+		ObservableList<PagoModel> pagos = FXCollections.observableArrayList();
+		
+		
 		try {
-			listaPagos = PagoDAO.buscarPagos();
+			pagos = PagoDAO.buscarPagos(cerrado);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 
-		for ( PagoModel pago : listaPagos ) {
-			CreditoModel credito;
-			credito = hashCreditos.get(pago.getIdCredito());
-
-			if (credito == null)
-				continue;
-
-			credito.agregarPago(pago);
-			credito.calcularMontoAcumulado();
-			credito.calcularCuotasPagas();
-			credito.calcularSaldoCapital();
-		}
-		return listaPagos;
+		return pagos;
 	}
 
-	public ObservableList<ClienteModel> initClientes() {
+	public ObservableList<ClienteModel> buscarClientes() {
     	
+		ObservableList<ClienteModel> clientes = FXCollections.observableArrayList();
+		
 		try {
-			listaClientes = ClienteDAO.buscarClientes();
+			clientes = ClienteDAO.buscarClientes();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}		
     	
-    	hashClientes();
+    	hashClientes(clientes);
     	
-    	return listaClientes;
+    	return clientes;
     }
     
-    public ObservableList<RutaModel> initRutas() {    	
+    public ObservableList<RutaModel> buscarRutas() {    	
+    	
+    	ObservableList<RutaModel> rutas = FXCollections.observableArrayList();
     	
     	try {
-			listaRutas = RutaDAO.buscarRutas();
+			rutas = RutaDAO.buscarRutas();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
     	
-    	hashRutas();
+    	hashRutas(rutas);
     	
-    	return listaRutas;
+    	return rutas;
     }    
 
-    public ObservableList<CobradorModel> initCobradores() {    	
+    public ObservableList<CobradorModel> buscarCobradores() {    	
+    	
+    	ObservableList<CobradorModel> cobradores = FXCollections.observableArrayList();
     	
     	try {
-			listaCobradores = CobradorDAO.buscarCobradores();
+			cobradores = CobradorDAO.buscarCobradores();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
     	
-    	hashCobradores();
+    	hashCobradores(cobradores);
     	
-    	return listaCobradores;
+    	return cobradores;
     }        
     
     public ObservableList<CreditoModel> getCreditos() {

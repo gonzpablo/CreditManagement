@@ -62,12 +62,8 @@ public class CreditoModel {
 		this.idCobrador = idCobrador;
 		this.idRuta = idRuta;
 		this.unidad = obtenerUnidad(idUnidad);
-		this.valorCuota = obtenerMontoCuota(
-				
-		obtenerMontoTotalCredito(
-	(BigDecimal.valueOf(montoCuota).divide(BigDecimal.valueOf(100))).toString(), String.valueOf(cantCuotas)
-	)
-							, cantCuotas); 
+		this.valorCuota = BigDecimal.valueOf(montoCuota).divide(BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP));
+		
 		if (cerrado == 0)
 			this.cerrado = false;
 		else 
@@ -250,9 +246,9 @@ public class CreditoModel {
 		return valorCuota.setScale(2, RoundingMode.HALF_UP);
 	}
 
-	public BigDecimal getValorCuotaInterno() {
-		return valorCuota;
-	}
+//	public BigDecimal getValorCuotaInterno() {
+//		return valorCuota;
+//	}
 	
 	public void setValorCuota(BigDecimal valorCuota) {
 		this.valorCuota = valorCuota;
@@ -306,7 +302,7 @@ public class CreditoModel {
 	
 	public BigDecimal calcularMontoSegunCuota(int cantCuotas) {
 		return valorCuota.multiply(
-				BigDecimal.valueOf(cantCuotas)).setScale(NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
+				BigDecimal.valueOf(cantCuotas)).setScale(2, RoundingMode.HALF_UP);
 	}
 	
 	public boolean validarMontoAPagar(BigDecimal monto) {

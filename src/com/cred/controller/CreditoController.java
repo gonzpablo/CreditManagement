@@ -140,19 +140,19 @@ public class CreditoController {
 	  	if (!validar())
 	  		return;
   	
-	  	CreditoModel nuevoCredito = new CreditoModel(
-	  													this.cliente,
-	  													Integer.valueOf(cantCuotasField.getText()),
-	  													unidadCuotasCombo.getValue(),					
-	  													montoCuotaField.getText(),
-	  													montoCreditoField.getText(),	      											
-	  													cobradorCombo.getValue(),
-	  													rutaCombo.getValue());	  	
+	  	CreditoModel nuevoCredito = new CreditoModel(this.cliente,
+	  												 Integer.valueOf(cantCuotasField.getText()),
+	  												 unidadCuotasCombo.getValue(),					
+	  												 montoCuotaField.getText(),
+	  												 montoCreditoField.getText(),	      											
+	  												 cobradorCombo.getValue(),
+	  												 rutaCombo.getValue());	  	
 	  	
 	  	nuevoCredito.setCliente(cliente);
 	  	nuevoCredito.setCobrador(cobradorCombo.getValue());
 	  	nuevoCredito.setRuta(rutaCombo.getValue());
 	  	nuevoCredito.setCerrado(false);
+	  	nuevoCredito.calcularSaldoCapital();
 	  	
 	  	try {
 			CreditoDAO.agregarCredito(nuevoCredito);
@@ -166,9 +166,7 @@ public class CreditoController {
 	  	
 	  	mainController.addItemToList(nuevoCredito);
 	  	
-	    // get a handle to the stage
 	    Stage stage = (Stage) crearButton.getScene().getWindow();
-	    // do what you have to do
 	    stage.close();      	
 	}
 

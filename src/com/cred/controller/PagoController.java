@@ -1,6 +1,7 @@
 package com.cred.controller;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,8 +26,10 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import com.cred.model.CreditoModel;
+import com.cred.model.NumeroUtil;
 import com.cred.model.PagoDAO;
 import com.cred.model.PagoModel;
+import com.cred.util.DBUtil;
 
 public class PagoController {
 
@@ -134,6 +137,12 @@ public class PagoController {
 	}
 	
 	private void actualizarMontoPagadoField() {
+
+		if (cuotasPagadasField.getText().length() <= 0) {
+			montoPagadoField.setText("0");
+			return;
+		}			
+		
 		montoPagadoField.setText(String.valueOf(credito.calcularMontoSegunCuota(Integer.valueOf(cuotasPagadasField.textProperty().getValue()))));		
 	}
 	
@@ -176,8 +185,10 @@ public class PagoController {
 	private void initFields() {
 
 		montoPagadoField.clear();
-		montoPagadoField.setText(credito.getValorCuotaInterno().toString());
-		credito.setMontoCuota(credito.getValorCuotaInterno());
+//		montoPagadoField.setText(credito.getValorCuotaInterno().toString());
+		montoPagadoField.setText(credito.getValorCuota().toString());
+//		credito.setMontoCuota(credito.getValorCuotaInterno());
+		credito.setMontoCuota(credito.getValorCuota());
 
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
 	}
@@ -194,7 +205,7 @@ public class PagoController {
 		
 		if (!(credito.validarMontoAPagar(new BigDecimal(montoPagadoField.textProperty().getValue())))) {
 
-			credito.setCerrado(true);
+//			credito.setCerrado(true);
 			credito.calcular();
 			this.mainController.refrescar();
 			
@@ -217,6 +228,8 @@ public class PagoController {
 				
 		try {
 			PagoDAO.agregarPago(credito.getId(), this.pago);
+//			Obtener Id asignado por la base de datos						
+			this.pago.setId(DBUtil.getLastRowId("pagos"));			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -225,8 +238,10 @@ public class PagoController {
 		
 		credito.calcularMontoAcumulado();
 		
-		if (credito.alcanzoMontoFinal())
+		if (credito.alcanzoMontoFinal()) {
 			credito.cerrar(true);
+			credito.setCerrado(true);
+		}
 		
 		this.pago = new PagoModel();
 		initFields();
@@ -234,14 +249,21 @@ public class PagoController {
 		this.mainController.calcPagos();
 	}
 
+	private int calcularCuotasAPagarSegunMonto(String monto, BigDecimal valorCuota) {
+		BigDecimal montoAPagar = new BigDecimal(monto);
+		
+		return montoAPagar.divide(
+				valorCuota, NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP).intValue();					
+	}
+	
 	public void setCredito(CreditoModel credito) {		
 		this.credito = credito;
 		clienteField.setText(this.credito.getCliente());
 		pagos.addAll(this.credito.getListaPagos());
 
-		this.montoPagadoField.setText(this.credito.getValorCuotaInterno().toString());
-		credito.setMontoCuota(this.credito.getValorCuotaInterno());
-		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
+		this.montoPagadoField.setText(this.credito.getValorCuota().toString());		
+		
+		cuotasPagadasField.setText(String.valueOf(calcularCuotasAPagarSegunMonto(this.montoPagadoField.getText(), credito.getValorCuota())));		
 		
 		if (this.credito.getCuotasPagas() == this.credito.getCantCuotas()) { 
 			disableFields(true);

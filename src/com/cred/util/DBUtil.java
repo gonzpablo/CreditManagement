@@ -51,6 +51,7 @@ public class DBUtil {
         Statement stmt = null;
         ResultSet resultSet = null;
         CachedRowSetImpl crs = null;
+        
         try {
             //Connect to DB (Establish SQlite Connection)
             dbConnect();
