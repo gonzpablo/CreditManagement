@@ -13,10 +13,7 @@ public class PagoModel {
 	private int id;
 	private int idCredito;
 	private BigDecimal montoPago;
-//	private LocalDate fecha;
 	private SimpleObjectProperty<LocalDate> fecha;
-
-//	private LocalTime hora;
 	
 	public PagoModel() {
 

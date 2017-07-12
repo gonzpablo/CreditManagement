@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
 
 public class CreditoModel {
 
@@ -29,14 +32,24 @@ public class CreditoModel {
 	private int idRuta;
 
 //  Referencias objetos	
-	private ClienteModel cliente;
-	private CobradorModel cobrador;	
-	private RutaModel ruta;
+//	private ClienteModel cliente;
+	private SimpleObjectProperty<ClienteModel> cliente;
+	
+//	private CobradorModel cobrador;
+	private SimpleObjectProperty<CobradorModel> cobrador;
+		
+//	private RutaModel ruta;
+	private SimpleObjectProperty<RutaModel> ruta;
+	
 	
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
 	public CreditoModel(ClienteModel cliente, int cantCuotas, String unidad, String montoCuota,
 						String montoCredito, CobradorModel cobrador, RutaModel ruta) {
+
+		this.cliente = new SimpleObjectProperty();		
+		this.cobrador = new SimpleObjectProperty();
+		this.ruta = new SimpleObjectProperty();
 		
 		this.cantCuotas = cantCuotas;
 		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
@@ -44,16 +57,20 @@ public class CreditoModel {
 		this.valorCuota = obtenerMontoCuota(
 							obtenerMontoTotalCredito(montoCuota, String.valueOf(cantCuotas)), cantCuotas);
 		
-		this.cliente = cliente;		
-		this.cobrador = cobrador;		
-		this.ruta = ruta;
+		this.cliente.set(cliente);
+		this.cobrador.set(cobrador);		
+		this.ruta.set(ruta);
 		this.cerrado = false;
 	}	
 	
 //	CreditoModel (De BD):	
 	public CreditoModel(int id, int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
 						int montoCredito, int idCobrador, int idRuta, int cerrado) {
-
+		
+		this.cliente = new SimpleObjectProperty();		
+		this.cobrador = new SimpleObjectProperty();		
+		this.ruta = new SimpleObjectProperty();
+		
 		this.id = id;
 		this.idCliente = idCliente;
 		this.cantCuotas = cantCuotas;
@@ -207,7 +224,7 @@ public class CreditoModel {
 
 	public String getCliente() {
 		return ( this.cliente == null ) ? null : 
-			this.cliente.getNombre() + " " + this.cliente.getApellido();		
+			this.cliente.get().getNombre() + " " + this.cliente.get().getApellido();		
 	}
 
 	public int getCuotasPagas() {
@@ -379,19 +396,21 @@ public class CreditoModel {
 	}
 
 	public ClienteModel getClienteRef() {
-		return cliente;
+		return cliente.get();
 	}
 
 	public void setCliente(ClienteModel cliente) {
-		this.cliente = cliente;
+		this.cliente.set(cliente);
 	}
 
 	public void setCobrador(CobradorModel cobrador) {
-		this.cobrador = cobrador;
+//		this.cobrador = cobrador;
+		this.cobrador.set(cobrador);
 	}
 
 	public void setRuta(RutaModel ruta) {
-		this.ruta = ruta;
+//		this.ruta = ruta;
+		this.ruta.set(ruta);
 	}
 
 	public int getId() {
@@ -403,20 +422,26 @@ public class CreditoModel {
 	}
 
 	public String getCobrador() {		
-		return ( this.cobrador == null ) ? null : this.cobrador.getNombre() +
-												  " " + this.cobrador.getApellido();		
+//		return ( this.cobrador == null ) ? null : this.cobrador.getNombre() +
+//												  " " + this.cobrador.getApellido();
+		
+		return ( this.cobrador.get() == null ) ? null : this.cobrador.get().getNombre() +
+				  " " + this.cobrador.get().getApellido();		
 	}
 
 	public CobradorModel getCobradorRef() {
-		return this.cobrador;
+//		return this.cobrador;
+		return this.cobrador.get();		
 	}
 	
 	public RutaModel getRutaRef() {
-		return ruta;
+//		return ruta;
+		return this.ruta.get();
 	}
 
 	public String getRuta() {
-		return ( this.ruta == null ) ? null : this.ruta.getNombre();		
+//		return ( this.ruta == null ) ? null : this.ruta.getNombre();
+		return ( this.ruta.get() == null ) ? null : this.ruta.get().getNombre(); 
 	}
 	
 	public void setTasaInt(BigDecimal tasaInt) {
