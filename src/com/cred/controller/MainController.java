@@ -146,7 +146,7 @@ public class MainController {
 //		Completar en los créditos, las referencias a clientes, cobradores, rutas y pagos	
 		completarCreditos(creditos);
 		
-		filteredItems = new FilteredList<>(creditos, p -> true);		
+		filteredItems = new FilteredList<>(creditos, p -> true);
 	}	
 		
 	private void buscarDatos() {
@@ -187,7 +187,7 @@ public class MainController {
 
         eventosTabla();			// Doble click en un registro
         
-        calcularTotales();		// Actualizar los campos de abajo (sumaCuotaPura y sumaGciaXDia)        
+        calcularTotales();		// Actualizar los campos de abajo (sumaCuotaPura y sumaGciaXDia)
 	}	
 	
 	private void eventosTabla() {
@@ -269,7 +269,7 @@ public class MainController {
         reporteMenu.setOnAction( e -> { reporte(); } );
 
 //		Botones        
-        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); this.refrescar();} );
+        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); } );
         btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });           
 	}
 
