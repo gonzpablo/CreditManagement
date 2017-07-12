@@ -126,7 +126,8 @@ public class MainController {
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
 	private ObservableList<CreditoModel> creditosCerrados = FXCollections.observableArrayList();
 	
-	private FilteredList<CreditoModel> filteredItems; 
+//	private FilteredList<CreditoModel> filteredItems;
+	private FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);			 
 
 	private ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();
 	private ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();	
@@ -146,7 +147,7 @@ public class MainController {
 //		Completar en los créditos, las referencias a clientes, cobradores, rutas y pagos	
 		completarCreditos(creditos);
 		
-		filteredItems = new FilteredList<>(creditos, p -> true);
+//		filteredItems = new FilteredList<>(creditos, p -> true);
 	}	
 		
 	private void buscarDatos() {
