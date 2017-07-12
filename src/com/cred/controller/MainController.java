@@ -269,7 +269,7 @@ public class MainController {
         reporteMenu.setOnAction( e -> { reporte(); } );
 
 //		Botones        
-        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); } );
+        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); this.refrescar();} );
         btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });           
 	}
 

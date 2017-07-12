@@ -62,7 +62,8 @@ public class PagoDAO {
 							"FROM pagos as p " +
 									"inner join creditos as c " +
 									"on p.idCredito = c.rowid " +
-							"WHERE c.cerrado = " + cerrado + ";";		
+							"WHERE c.cerrado = " + cerrado + " " +  
+							"ORDER BY fecha desc;";		
 		
 		try {
 			//Get ResultSet from dbExecuteQuery method

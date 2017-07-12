@@ -70,10 +70,6 @@ public class CreditoModel {
 			this.cerrado = true;
 	}
 
-	public void CreditoModelFromDB() {
-		
-	}
-	
 	public static String obtenerUnidad(int idUnidad) {
 		
 		switch (idUnidad) {

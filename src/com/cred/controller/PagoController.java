@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.Temporal;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -71,13 +73,13 @@ public class PagoController {
 
 	@FXML
 	private void initialize() {
-
+		
 		initColumns();		
 		
 		fechaPagoField.setValue(pago.getFecha().getValue());
 		
 		pagosTable.setItems(pagos);
-
+		
 		montoPagadoField.setOnKeyReleased( (event) -> {			
 			actualizarCuotasPagadasField();
 		});
@@ -100,7 +102,8 @@ public class PagoController {
 		
 		cerrarCreditoCheckBox.setOnAction( (event) -> { cerrarCredito(); } );
 		
-		montoPagadoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 3).getFormatter());		
+		montoPagadoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());
+		cuotasPagadasField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_INTEGERS, 9).getFormatter());
 	}
 
 	private void borrarPago() {
@@ -202,7 +205,6 @@ public class PagoController {
 		
 		if (!(credito.validarMontoAPagar(new BigDecimal(montoPagadoField.textProperty().getValue())))) {
 
-//			credito.setCerrado(true);
 			credito.calcular();
 			this.mainController.refrescar();
 			
@@ -222,7 +224,18 @@ public class PagoController {
 		this.credito.agregarPago(this.pago);
 
 		pagos.add(this.pago);
-				
+		
+		Comparator<PagoModel> comparator = new Comparator<PagoModel>() {
+		    @Override
+		    public int compare(final PagoModel o1, final PagoModel o2) {
+		        if (o1.getFechaValue()== null || o2.getFechaValue() == null)
+		            return 0;
+		        return o2.getFechaValue().compareTo(o1.getFechaValue());
+		    }
+		};	
+
+		FXCollections.sort(pagos, comparator);
+		
 		try {
 			PagoDAO.agregarPago(credito.getId(), this.pago);
 //			Obtener Id asignado por la base de datos						

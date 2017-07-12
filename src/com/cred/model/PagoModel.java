@@ -14,7 +14,8 @@ public class PagoModel {
 	private int idCredito;
 	private BigDecimal montoPago;
 //	private LocalDate fecha;
-	private SimpleObjectProperty<LocalDate> fecha;	
+	private SimpleObjectProperty<LocalDate> fecha;
+
 //	private LocalTime hora;
 	
 	public PagoModel() {
@@ -72,6 +73,10 @@ public class PagoModel {
 		this.fecha = fecha;
 	}
 
+	public LocalDate getFechaValue() {
+		return this.fecha.getValue();
+	}
+	
 	public void borrarPago() {
 		try {
 			PagoDAO.borrarPago(this);

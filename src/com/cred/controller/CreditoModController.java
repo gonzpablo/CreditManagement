@@ -52,8 +52,7 @@ public class CreditoModController {
 	private CreditoModel credito;
 
 	
-	public CreditoModController() {
-	}
+	public CreditoModController() {	}
 
 	@FXML
 	private void initialize() {
@@ -149,9 +148,7 @@ public class CreditoModController {
 
 	  	this.mainController.refreshTableView();
 	  	
-	    // get a handle to the stage
 	    Stage stage = (Stage) guardarButton.getScene().getWindow();
-	    // do what you have to do
 	    stage.close();      	
 	}
 

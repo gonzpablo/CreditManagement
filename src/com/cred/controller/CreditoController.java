@@ -10,6 +10,8 @@ import com.cred.model.CreditoDAO;
 import com.cred.model.CreditoModel;
 import com.cred.model.RutaModel;
 import com.cred.util.DBUtil;
+import com.cred.util.TextFieldValidator;
+import com.cred.util.TextFieldValidator.ValidationModus;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -75,6 +77,12 @@ public class CreditoController {
 		montoCuotaField.setOnKeyReleased( (event) -> { simular(); });
 		cantCuotasField.setOnKeyReleased( (event) -> { simular(); });		
 
+		
+		montoCreditoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());
+		montoCuotaField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());		
+		cantCuotasField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_INTEGERS, 9).getFormatter());
+		
+		
 		crearButton.setOnAction( (event) -> { crear(); });
 		cancelarButton.setOnAction( (event) -> { cancelar(); });
 		buscarButton.setOnAction( (event) -> { buscarCliente(); });
@@ -197,14 +205,15 @@ public class CreditoController {
 		if ( ( montoCreditoField.getText().length() == 0 || 
 			   cantCuotasField.getText().length() == 0 || 
 			   montoCuotaField.getText().length() == 0 )
+				
 			|| ( Float.valueOf(montoCreditoField.getText()) <= 0 ) ||
-				( Integer.valueOf(cantCuotasField.getText()) <= 0 ) ||
+				( Integer.valueOf(cantCuotasField.getText()) <= 0 ) || // numero muy grande de cuotas
 				( Float.valueOf(montoCuotaField.getText()) <= 0 ) ) {
 		
 			initFields();
 			return;
 		}
-		
+
 		BigDecimal montoCuota = new BigDecimal(montoCuotaField.getText());
 		
 		BigDecimal cuotaCapital = CreditoModel.obtenerCuotaCapital(
