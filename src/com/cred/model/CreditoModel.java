@@ -241,7 +241,7 @@ public class CreditoModel {
 	public int getIdRuta() {
 		return idRuta;
 	}
-	
+
 	public BigDecimal getValorCuota() {
 		return valorCuota.setScale(2, RoundingMode.HALF_UP);
 	}

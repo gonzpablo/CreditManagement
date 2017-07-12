@@ -44,7 +44,6 @@ import com.cred.model.CobradorDAO;
 import com.cred.model.CobradorModel;
 import com.cred.model.CreditoDAO;
 import com.cred.model.CreditoModel;
-import com.cred.model.NumeroUtil;
 import com.cred.model.PagoDAO;
 import com.cred.model.PagoModel;
 import com.cred.model.Reporte;
@@ -108,6 +107,10 @@ public class MainController {
 	@FXML
 	private TextField gciaDiaField;
 //  -------------------------------------------------------------------
+//  Menú
+//  -------------------------------------------------------------------	
+	@FXML
+	private MenuItem salirMenu;
 	@FXML
 	private MenuItem crearCreditoMenu;
 	@FXML
@@ -118,8 +121,8 @@ public class MainController {
 	private MenuItem rutasMenuGestionar;		
 	@FXML
 	private MenuItem reporteMenu;
-	
-//	Lista de créditos	
+//  -------------------------------------------------------------------	
+
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
 	private ObservableList<CreditoModel> creditosCerrados = FXCollections.observableArrayList();
 	
@@ -152,26 +155,21 @@ public class MainController {
 		listaRutas = buscarRutas();				// Busca las rutas y carga hashRutas
 		listaCobradores = buscarCobradores();	// Busca los cobradores y carga hashCobradores
 		listaPagos = buscarPagos(0);  			// Buscar pagos correspondientes a créditos abiertos (no cerrados)
-		
 		creditos = buscarCreditos(0); 			// Buscar creditos no cerrados		
 	}
 
 	private void buscarCredCerrados() {
 
 //		Solo buscar una vez los créditos cerrados
-		if (creditosCerrados.size() > 0)
-			return;
-		
-//		Acá no estoy pisando la lista de pagos? quizas no importa porque se agregaron antes a los creditos abiertos..		
-		listaPagos = buscarPagos(1);		  // Buscar pagos correspondientes a créditos cerrados
-		creditosCerrados = buscarCreditos(1); // Buscar creditos cerrados
-
-		completarCreditos(creditosCerrados);
-		
-		creditos.addAll(creditosCerrados);
-		
-		calc();
-		calcPagos();
+		if (creditosCerrados.size() == 0) {
+			
+			listaPagos = buscarPagos(1);		  // Buscar pagos correspondientes a créditos cerrados
+			creditosCerrados = buscarCreditos(1); // Buscar creditos cerrados
+	
+			completarCreditos(creditosCerrados);
+			
+			creditos.addAll(creditosCerrados);
+		}
 	}		
 	
 	@FXML
@@ -187,11 +185,9 @@ public class MainController {
 				
 		filtrosYDatosTabla();
 
-        calc();
-
         eventosTabla();			// Doble click en un registro
         
-        calcPagos();
+        calcularTotales();		// Actualizar los campos de abajo (sumaCuotaPura y sumaGciaXDia)        
 	}	
 	
 	private void eventosTabla() {
@@ -211,6 +207,7 @@ public class MainController {
 	}
 
 	private void filtrosYDatosTabla() {
+		
         ObjectProperty<Predicate<CreditoModel>> cobradorFilter = new SimpleObjectProperty<>();
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();			
         ObjectProperty<Predicate<CreditoModel>> cerradoFilter = new SimpleObjectProperty<>();
@@ -241,7 +238,6 @@ public class MainController {
         
         // 5. Add sorted (and filtered) data to the table.
         creditosTable.setItems(sortedData);
-		
 	}
 
 	private void initCombos() {
@@ -250,30 +246,36 @@ public class MainController {
 	}
 
 	private void defineActions() {
-		cerradoFilterCheckBox.setOnAction( e -> { buscarCredCerrados(); });
-		
-        rutaFilterCombo.setOnAction(e -> { 	calc();  });
+
+//		Filtros
+        cobradorFilterCombo.setOnAction(e -> { calcularTotales(); });
+        rutaFilterCombo.setOnAction(e -> { 	calcularTotales();  });
+        fechaFilterField.setOnAction(e -> { calcularTotales(); } );
         
-        cobradorFilterCombo.setOnAction(e -> { calc(); });        
-	
-        fechaFilterField.setOnAction(e -> { calcPagos(); } );
-        clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
-        
-        cobradorMenuGestionar.setOnAction( e -> { gestCobradores(); });
-        rutasMenuGestionar.setOnAction( e -> { gestRutas();} );
-        
-        crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
-        reporteMenu.setOnAction( e -> { reporte(); } );
-		
-        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); } );
-        btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });
-		
+        cerradoFilterCheckBox.setOnAction( e -> { buscarCredCerrados(); calcularTotales(); });      
         btnCleanFilters.setOnAction(e -> {
             rutaFilterCombo.setValue(null);
             cobradorFilterCombo.setValue(null);
             fechaFilterField.setValue(null);
             cerradoFilterCheckBox.setSelected(false);           
-        });               
+        });            
+
+//		Menú
+        salirMenu.setOnAction( e-> { salir(); });
+        crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
+        clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
+        cobradorMenuGestionar.setOnAction( e -> { gestCobradores(); });
+        rutasMenuGestionar.setOnAction( e -> { gestRutas();} );       
+        reporteMenu.setOnAction( e -> { reporte(); } );
+
+//		Botones        
+        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); } );
+        btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });           
+	}
+
+	private void salir() {
+	    Stage stage = (Stage) btnBorrarCreditos.getScene().getWindow();
+	    stage.close();			
 	}
 
 	private void hashClientes(ObservableList<ClienteModel> clientes) {
@@ -319,8 +321,8 @@ public class MainController {
 			//	Referencia a la Ruta
 			credito.setRuta(hashRutas.get(credito.getIdRuta()));
 			
-			credito.calcularMontoAcumulado();		// se repite innecesariamente
-			credito.calcularCuotasPagas();			// se repite innecesariamente
+			credito.calcularMontoAcumulado();
+			credito.calcularCuotasPagas();
 			credito.calcularSaldoCapital();			
 		}
 	}
@@ -363,7 +365,7 @@ public class MainController {
 		creditos.remove(credito);
 		credito.calcular();
 		credito.borrarCredito();
-		this.calcPagos();		
+		calcularTotales();		
 	}
 
 	private void crearCredito() {
@@ -473,10 +475,14 @@ public class MainController {
 	}
 
 	private void gestRutas() {
+		
+//		RutaController controller = null;
+		
 	   try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Ruta.fxml"));
             GridPane page = (GridPane) loader.load();
             RutaController controller = loader.<RutaController>getController();
+//            controller = loader.getController();
 
             controller.setRutas(listaRutas);
             
@@ -493,23 +499,9 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }		
-	}	
-	
-	public void calcPagos() {
-			
-		BigDecimal sumaCuotaPura = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP),
-				   sumaGciaXDia = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
-		
-			for ( CreditoModel cred : filteredItems ) {
-				sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota(fechaFilterField.getValue()));
-				sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia(fechaFilterField.getValue()));
-			}
-
-    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura.setScale(2, RoundingMode.HALF_UP)));
-    	gciaDiaField.setText(String.valueOf(sumaGciaXDia.setScale(2, RoundingMode.HALF_UP)));				
-    	
-		creditosTable.refresh();
-	}
+	   
+//	   	controller.setRutas(listaRutas);
+	}		
 	
 	public void refrescar() {
 		creditosTable.refresh();
@@ -540,21 +532,21 @@ public class MainController {
         }
 	}
 
-	private void calc() {
-
-		BigDecimal sumaCuotaPura = NumeroUtil.crearBigDecimal("0").setScale(2, RoundingMode.HALF_UP),
-				sumaGciaXDia = NumeroUtil.crearBigDecimal("0").setScale(2, RoundingMode.HALF_UP);
-
-		for ( CreditoModel cred : filteredItems ) {			
-			sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota());
-			sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia());
-        }		
+	public void calcularTotales() {
 		
-		sumaCuotaPura.setScale(2, RoundingMode.HALF_UP);
-		sumaGciaXDia.setScale(2, RoundingMode.HALF_UP);
-    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura));
-    	gciaDiaField.setText(String.valueOf(sumaGciaXDia));		
-	}
+		BigDecimal sumaCuotaPura = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP),
+				   sumaGciaXDia = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
+		
+			for ( CreditoModel cred : filteredItems ) {
+				sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota(fechaFilterField.getValue()));
+				sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia(fechaFilterField.getValue()));
+			}
+
+    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura.setScale(2, RoundingMode.HALF_UP)));
+    	gciaDiaField.setText(String.valueOf(sumaGciaXDia.setScale(2, RoundingMode.HALF_UP)));				
+    	
+		creditosTable.refresh();
+	}	
 	
     private void initComboRuta() {
 		rutaFilterCombo.setItems(listaRutas);
@@ -630,7 +622,6 @@ public class MainController {
 	public ObservableList<PagoModel> buscarPagos(int cerrado) {
 
 		ObservableList<PagoModel> pagos = FXCollections.observableArrayList();
-		
 		
 		try {
 			pagos = PagoDAO.buscarPagos(cerrado);

@@ -27,7 +27,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" text="Salir" />
+              <MenuItem fx:id="salirMenu" mnemonicParsing="false" text="Salir" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Créditos">
@@ -55,11 +55,6 @@
                   <MenuItem fx:id="reporteMenu" mnemonicParsing="false" text="Emitir Reporte" />
                </items>
             </Menu>            
-          <Menu mnemonicParsing="false" text="Ayuda">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Acerca de" />
-            </items>
-          </Menu>
         </menus>
       </MenuBar>
       <ToolBar>

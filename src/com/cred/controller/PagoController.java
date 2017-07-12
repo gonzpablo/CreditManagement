@@ -30,6 +30,8 @@ import com.cred.model.NumeroUtil;
 import com.cred.model.PagoDAO;
 import com.cred.model.PagoModel;
 import com.cred.util.DBUtil;
+import com.cred.util.TextFieldValidator;
+import com.cred.util.TextFieldValidator.ValidationModus;
 
 public class PagoController {
 
@@ -65,15 +67,7 @@ public class PagoController {
 	private MainController mainController;
 
 
-	public PagoController() {
-
-	}
-
-	public static final LocalDate LOCAL_DATE (String dateString) {
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-	    LocalDate localDate = LocalDate.parse(dateString, formatter);
-	    return localDate;
-	}
+	public PagoController() {}
 
 	@FXML
 	private void initialize() {
@@ -105,6 +99,8 @@ public class PagoController {
 		});
 		
 		cerrarCreditoCheckBox.setOnAction( (event) -> { cerrarCredito(); } );
+		
+		montoPagadoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 3).getFormatter());		
 	}
 
 	private void borrarPago() {
@@ -124,7 +120,7 @@ public class PagoController {
 		credito.borrarPago(pago);
 		pago.borrarPago();
 		credito.calcular();
-		this.mainController.calcPagos();
+		mainController.calcularTotales();
 	}
 
 	private void disableFields(Boolean value) {
@@ -137,13 +133,14 @@ public class PagoController {
 	}
 	
 	private void actualizarMontoPagadoField() {
-
+	
 		if (cuotasPagadasField.getText().length() <= 0) {
 			montoPagadoField.setText("0");
 			return;
 		}			
 		
-		montoPagadoField.setText(String.valueOf(credito.calcularMontoSegunCuota(Integer.valueOf(cuotasPagadasField.textProperty().getValue()))));		
+//		montoPagadoField.setText(credito.getValorCuota().toString());
+		montoPagadoField.setText(String.valueOf(credito.calcularMontoSegunCuota(Integer.valueOf(cuotasPagadasField.textProperty().getValue()))));				
 	}
 	
 	private void actualizarCuotasPagadasField() {
@@ -185,8 +182,8 @@ public class PagoController {
 	private void initFields() {
 
 		montoPagadoField.clear();
-//		montoPagadoField.setText(credito.getValorCuotaInterno().toString());
 		montoPagadoField.setText(credito.getValorCuota().toString());
+		
 //		credito.setMontoCuota(credito.getValorCuotaInterno());
 		credito.setMontoCuota(credito.getValorCuota());
 
@@ -246,10 +243,11 @@ public class PagoController {
 		this.pago = new PagoModel();
 		initFields();
 		credito.calcular();
-		this.mainController.calcPagos();
+		mainController.calcularTotales();
 	}
 
 	private int calcularCuotasAPagarSegunMonto(String monto, BigDecimal valorCuota) {
+		System.out.println(monto);
 		BigDecimal montoAPagar = new BigDecimal(monto);
 		
 		return montoAPagar.divide(
@@ -259,8 +257,8 @@ public class PagoController {
 	public void setCredito(CreditoModel credito) {		
 		this.credito = credito;
 		clienteField.setText(this.credito.getCliente());
-		pagos.addAll(this.credito.getListaPagos());
-
+		pagos.addAll(this.credito.getListaPagos());		
+		
 		this.montoPagadoField.setText(this.credito.getValorCuota().toString());		
 		
 		cuotasPagadasField.setText(String.valueOf(calcularCuotasAPagarSegunMonto(this.montoPagadoField.getText(), credito.getValorCuota())));		
@@ -285,4 +283,10 @@ public class PagoController {
 	    Stage stage = (Stage) cancelarButton.getScene().getWindow();
 	    stage.close();		
 	}
+	
+	public static final LocalDate LOCAL_DATE (String dateString) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    LocalDate localDate = LocalDate.parse(dateString, formatter);
+	    return localDate;
+	}	
 }

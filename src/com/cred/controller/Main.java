@@ -8,9 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- * Main class to start the application.
- */
 public class Main extends Application {
 
     @Override

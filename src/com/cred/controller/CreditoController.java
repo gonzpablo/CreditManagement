@@ -69,6 +69,8 @@ public class CreditoController {
 		
 		initComboUnidadCuotas();
 		
+		unidadCuotasCombo.setOnAction( (event) -> {simular();} ); 
+		
 		montoCreditoField.setOnKeyReleased( (event) -> { simular(); });		
 		montoCuotaField.setOnKeyReleased( (event) -> { simular(); });
 		cantCuotasField.setOnKeyReleased( (event) -> { simular(); });		
