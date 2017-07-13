@@ -126,8 +126,8 @@ public class MainController {
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
 	private ObservableList<CreditoModel> creditosCerrados = FXCollections.observableArrayList();
 	
-//	private FilteredList<CreditoModel> filteredItems;
-	private FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);			 
+	private FilteredList<CreditoModel> filteredItems;
+//	private FilteredList<CreditoModel> filteredItems = new FilteredList<>(creditos, p -> true);			 
 
 	private ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();
 	private ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();	
@@ -147,7 +147,7 @@ public class MainController {
 //		Completar en los créditos, las referencias a clientes, cobradores, rutas y pagos	
 		completarCreditos(creditos);
 		
-//		filteredItems = new FilteredList<>(creditos, p -> true);
+		filteredItems = new FilteredList<>(creditos, p -> true);
 	}	
 		
 	private void buscarDatos() {
@@ -213,20 +213,31 @@ public class MainController {
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();			
         ObjectProperty<Predicate<CreditoModel>> cerradoFilter = new SimpleObjectProperty<>();
         
+//        cobradorFilter.bind(Bindings.createObjectBinding(() ->        
+//		credito ->
+//			cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue().getId() == credito.getIdCobrador(),
+//			cobradorFilterCombo.valueProperty()));              
+
         cobradorFilter.bind(Bindings.createObjectBinding(() ->        
 		credito ->
-			cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue().getId() == credito.getIdCobrador(),
+			cobradorFilterCombo.getValue() == null || cobradorFilterCombo.getValue() == credito.getCobradorRef(),
 			cobradorFilterCombo.valueProperty()));              
         
+//        rutaFilter.bind(Bindings.createObjectBinding(() ->
+//		credito -> 
+//			rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue().getId() == credito.getIdRuta(),
+//			rutaFilterCombo.valueProperty()));		
+
         rutaFilter.bind(Bindings.createObjectBinding(() ->
 		credito -> 
-			rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue().getId() == credito.getIdRuta(),
+			rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRutaRef(),
 			rutaFilterCombo.valueProperty()));		
+        
         
         cerradoFilter.bind(Bindings.createObjectBinding(() ->
 							credito -> 
 							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
-								cerradoFilterCheckBox.selectedProperty()));	        
+								cerradoFilterCheckBox.selectedProperty()));
 
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
 				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
