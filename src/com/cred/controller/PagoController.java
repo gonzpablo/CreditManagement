@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.Temporal;
-import java.util.Collections;
 import java.util.Comparator;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -19,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -41,8 +41,10 @@ public class PagoController {
 	private TextField clienteField;
 	@FXML
 	private TextField montoPagadoField;
+//	@FXML
+//	private TextField cuotasPagadasField;
 	@FXML
-	private TextField cuotasPagadasField;		
+	private Spinner<Integer> cuotasPagadasField;	
 	@FXML
 	private DatePicker fechaPagoField;
 	@FXML
@@ -83,8 +85,10 @@ public class PagoController {
 		montoPagadoField.setOnKeyReleased( (event) -> {			
 			actualizarCuotasPagadasField();
 		});
-		
-		cuotasPagadasField.setOnKeyReleased( (event) -> {
+	
+		cuotasPagadasField.getEditor().setTextFormatter(new TextFieldValidator(ValidationModus.MAX_INTEGERS, 9).getFormatter());
+
+		cuotasPagadasField.setOnMouseReleased((event) -> {
 			actualizarMontoPagadoField();
 		});
 		
@@ -103,7 +107,6 @@ public class PagoController {
 		cerrarCreditoCheckBox.setOnAction( (event) -> { cerrarCredito(); } );
 
 		montoPagadoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());
-		cuotasPagadasField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_INTEGERS, 9).getFormatter());
 	}
 
 	private void borrarPago() {
@@ -135,14 +138,8 @@ public class PagoController {
 		fechaPagoField.setDisable(value);
 	}
 	
-	private void actualizarMontoPagadoField() {
-	
-		if (cuotasPagadasField.getText().length() <= 0) {
-			montoPagadoField.setText("0");
-			return;
-		}			
-		
-		montoPagadoField.setText(String.valueOf(credito.calcularMontoSegunCuota(Integer.valueOf(cuotasPagadasField.textProperty().getValue()))));				
+	private void actualizarMontoPagadoField() {		
+		montoPagadoField.setText(String.valueOf(credito.calcularMontoSegunCuota(cuotasPagadasField.getValue())));		
 	}
 	
 	private void actualizarCuotasPagadasField() {
@@ -152,7 +149,7 @@ public class PagoController {
 	
 		credito.setMontoCuota(new BigDecimal(montoPagadoField.textProperty().getValue()));
 			
-		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
+		cuotasPagadasField.getValueFactory().setValue(credito.calcularCuotasAPagarSegunMonto());
 	};	
 	
 	private void initColumns() {
@@ -188,7 +185,7 @@ public class PagoController {
 		
 		credito.setMontoCuota(credito.getValorCuota());
 
-		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
+		cuotasPagadasField.getValueFactory().setValue(credito.calcularCuotasAPagarSegunMonto());
 	}
 	
 	private void cerrarCredito() {
@@ -196,7 +193,6 @@ public class PagoController {
 		credito.setCerrado(cerrarCreditoCheckBox.isSelected());
 		disableFields(cerrarCreditoCheckBox.isSelected());
 		credito.cerrar(cerrarCreditoCheckBox.isSelected());
-//		mainController.getCreditos().remove(credito);
 	}
 	
 	private void ingresarPago() {
@@ -272,7 +268,7 @@ public class PagoController {
 		
 		this.montoPagadoField.setText(this.credito.getValorCuota().toString());		
 		
-		cuotasPagadasField.setText(String.valueOf(calcularCuotasAPagarSegunMonto(this.montoPagadoField.getText(), credito.getValorCuota())));		
+		cuotasPagadasField.getValueFactory().setValue(calcularCuotasAPagarSegunMonto(this.montoPagadoField.getText(), credito.getValorCuota()));
 		
 		if (this.credito.getCuotasPagas() == this.credito.getCantCuotas()) { 
 			disableFields(true);

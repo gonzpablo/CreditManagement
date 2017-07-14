@@ -5,6 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 
 <GridPane maxHeight="458.0" maxWidth="330.0" prefHeight="458.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.PagoController">
    <columnConstraints>
@@ -48,20 +49,31 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Label>
- 
+<!--  
       
       <TextField fx:id="cuotasPagadasField" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </TextField>
-     
-     <!--<Spinner fx:id="cuotasPagadasField" min="1" initialValue="1" amountToStepBy="1" GridPane.columnIndex="2" GridPane.rowIndex="2">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
+      
+     <Spinner fx:id="cuotasPagadasField" min="1" initialValue="1" amountToStepBy="1" GridPane.columnIndex="2" GridPane.rowIndex="2">
+      <valueFactory>
+        <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10"/>
+      </valueFactory>         
       </Spinner>
--->      
+      <valueFactory>
+        <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10"/>
+      </valueFactory>
+-->
+
+ <Spinner fx:id="cuotasPagadasField" BorderPane.alignment="CENTER" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <valueFactory>
+                <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="999999" initialValue="1" amountToStepBy="1"/>
+            </valueFactory>
+        </Spinner>
+    
+
       <DatePicker fx:id="fechaPagoField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
       <TableView fx:id="pagosTable" prefHeight="142.0" prefWidth="390.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="9">
         <columns>
