@@ -55,7 +55,7 @@ public class TextFieldValidator {
     }
 
     private static Pattern maxFractionPattern(int countOf) {
-        return Pattern.compile("\\d*(\\" + DECIMAL_SEPARATOR + "\\d{0," + countOf + "})?");
+        return Pattern.compile("(\\d+(\\" + DECIMAL_SEPARATOR + "\\d{0," + countOf + "})?)|()");
     }
 
     private static Pattern maxCurrencyFractionPattern(int countOf) {

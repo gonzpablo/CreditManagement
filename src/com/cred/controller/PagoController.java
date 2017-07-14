@@ -101,7 +101,7 @@ public class PagoController {
 		});
 		
 		cerrarCreditoCheckBox.setOnAction( (event) -> { cerrarCredito(); } );
-		
+
 		montoPagadoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());
 		cuotasPagadasField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_INTEGERS, 9).getFormatter());
 	}
@@ -142,7 +142,6 @@ public class PagoController {
 			return;
 		}			
 		
-//		montoPagadoField.setText(credito.getValorCuota().toString());
 		montoPagadoField.setText(String.valueOf(credito.calcularMontoSegunCuota(Integer.valueOf(cuotasPagadasField.textProperty().getValue()))));				
 	}
 	
@@ -187,7 +186,6 @@ public class PagoController {
 		montoPagadoField.clear();
 		montoPagadoField.setText(credito.getValorCuota().toString());
 		
-//		credito.setMontoCuota(credito.getValorCuotaInterno());
 		credito.setMontoCuota(credito.getValorCuota());
 
 		cuotasPagadasField.setText(String.valueOf(credito.calcularCuotasAPagarSegunMonto()));
