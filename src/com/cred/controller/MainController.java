@@ -19,6 +19,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -535,18 +536,32 @@ public class MainController {
 
 	public void calcularTotales() {
 		
-		BigDecimal sumaCuotaPura = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP),
-				   sumaGciaXDia = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
-		
-			for ( CreditoModel cred : filteredItems ) {
-				sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota(fechaFilterField.getValue()));
-				sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia(fechaFilterField.getValue()));
-			}
+		if (fechaFilterField.getValue() == null) {
 
-    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura.setScale(2, RoundingMode.HALF_UP)));
-    	gciaDiaField.setText(String.valueOf(sumaGciaXDia.setScale(2, RoundingMode.HALF_UP)));				
-    	
-		creditosTable.refresh();
+			cuotaPuraField.setAlignment(Pos.CENTER_LEFT);
+			cuotaPuraField.setText("Seleccione una fecha");
+			gciaDiaField.setText(null);
+			cuotaPuraField.setDisable(true);
+			gciaDiaField.setDisable(true);;			
+			
+		} else {
+			cuotaPuraField.setAlignment(Pos.CENTER_RIGHT);
+			cuotaPuraField.setDisable(false);
+			gciaDiaField.setDisable(false);	
+			
+			BigDecimal sumaCuotaPura = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP),
+					   sumaGciaXDia = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
+			
+				for ( CreditoModel cred : filteredItems ) {
+					sumaCuotaPura = sumaCuotaPura.add(cred.getMontoCuota(fechaFilterField.getValue()));
+					sumaGciaXDia = sumaGciaXDia.add(cred.getGciaXDia(fechaFilterField.getValue()));
+				}
+	
+	    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura.setScale(2, RoundingMode.HALF_UP)));
+	    	gciaDiaField.setText(String.valueOf(sumaGciaXDia.setScale(2, RoundingMode.HALF_UP)));				
+	    	
+			creditosTable.refresh();
+		}
 	}	
 	
     private void initComboRuta() {

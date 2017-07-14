@@ -149,13 +149,13 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="cuotaPuraField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="120.0" scaleShape="false" />
+                  <TextField fx:id="cuotaPuraField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="150.0" scaleShape="false" />
                   <Label text="Ganancia" textAlignment="CENTER">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="gciaDiaField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="120.0" scaleShape="false" />
+                  <TextField fx:id="gciaDiaField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="150.0" scaleShape="false" />
                </children>
             </HBox>
          </items>
