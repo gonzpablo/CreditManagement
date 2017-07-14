@@ -37,8 +37,7 @@ public class ClienteSearchController {
 	private ObservableList<ClienteModel> clientes;
 	
 	
-	public ClienteSearchController() {		
-	}
+	public ClienteSearchController() {	}
 	
 	@FXML
 	private void initialize() {	
@@ -52,22 +51,19 @@ public class ClienteSearchController {
 
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     ClienteModel rowData = row.getItem();
-//                    System.out.println(rowData.getCliente());
-
                     setCliente(rowData, row);
                 }
             });
             return row;
         });
-		
 	}
 
 	private void setCliente(ClienteModel rowData, TableRow<ClienteModel> row) {
 		creditoController.setCliente(rowData);		
-	    // get a handle to the stage
+
 	    Stage stage = (Stage) row.getScene().getWindow();
-	    // do what you have to do
-	    stage.close();		
+
+	    stage.close();
 	}
 
 	private void initColumns() {
@@ -85,5 +81,5 @@ public class ClienteSearchController {
 
 	public void setMainController(CreditoController creditoController) {
 		this.creditoController = creditoController;		
-	}	
+	}
 }
