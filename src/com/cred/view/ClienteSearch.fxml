@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -7,12 +10,11 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.ClienteSearchController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.ClienteSearchController">
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-            <TextField fx:id="nombreFilterField" />
-          <Button fx:id="limpiarFiltrosButton" mnemonicParsing="false" text="Limpiar Filtros" />
+            <TextField fx:id="nombreFilterField" promptText="Buscar por nombre" />
         </items>
       </ToolBar>
       <TableView fx:id="clientesTable" prefHeight="404.0" prefWidth="600.0">

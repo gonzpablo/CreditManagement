@@ -1,6 +1,10 @@
 package com.cred.util;
 
+import com.cred.model.RutaModel;
 import com.sun.rowset.CachedRowSetImpl;
+
+import javafx.collections.ObservableList;
+
 import java.sql.*;
 
 public class DBUtil {
@@ -13,6 +17,20 @@ public class DBUtil {
     //Username=HR, Password=HR, IP=localhost, IP=1521, SID=xe
     private static final String connStr = "jdbc:sqlite:dbCred.db";
 
+//    private static boolean tieneEsquema = false;
+    
+	static {
+		System.out.println("_INIT_");
+
+		try {
+			if (!tieneEsquema()) {
+				crearEsquema();
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+    
     //Connect to DB
     public static void dbConnect() throws SQLException, ClassNotFoundException {
 //		Setting SQlite JDBC Driver
@@ -34,7 +52,57 @@ public class DBUtil {
         }
     }
 
-    //Close Connection
+    private static void crearEsquema() throws SQLException, ClassNotFoundException {
+
+//		Todas las tablas tienen ROWID y éste es por defecto la clave primaria    	
+    	
+		String updateStmt =
+				"BEGIN TRANSACTION;\n" +
+		
+					"CREATE TABLE rutas ( \n" +
+					"nombre INTEGER, \n" +
+					"descripcion TEXT NOT NULL);\n" +
+
+		    	"CREATE TABLE pagos ( \n" + 
+		        		"idCredito	INTEGER NOT NULL, \n" + 
+		        		"montoPago	INTEGER, \n" + 
+		        		"fecha	INTEGER NOT NULL); \n" + 
+
+	        	"CREATE TABLE creditos ( \n" + 
+	        		"idCliente	INTEGER NOT NULL, \n" + 
+	        		"idCobrador	INTEGER NOT NULL, \n" + 
+	        		"idRuta	INTEGER NOT NULL, \n" + 
+	        		"montoTotal	INTEGER, \n" + 
+	        		"montoCuota	INTEGER, \n" + 
+	        		"cantCuotas	INTEGER, \n" +
+	        		"unidad	INTEGER, \n" + 
+	        		"cerrado INTEGER); \n" +
+	
+	        	"CREATE TABLE cobradores ( \n" +
+	        		"nombre	TEXT NOT NULL, \n" + 
+	        		"apellido	TEXT, \n" +
+	        		"PRIMARY KEY(nombre,apellido)); \n" +
+	
+	        	"CREATE TABLE clientes ( \n" +
+	        		"nombre	TEXT, \n" +
+	        		"apellido	TEXT, \n" + 
+	        		"dni	TEXT, \n" + 
+	        		"direccion	TEXT, \n" +
+	        		"telefono	TEXT); \n"	+			
+	
+					"COMMIT;";
+
+		System.out.println(updateStmt);
+
+		try {
+			DBUtil.dbExecuteUpdate(updateStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en Creación de Esquema de BD: " + e);
+			throw e;
+		} 	
+	}
+
+	//Close Connection
     public static void dbDisconnect() throws SQLException {
         try {
             if (conn != null && !conn.isClosed()) {
@@ -133,4 +201,26 @@ public class DBUtil {
     	    	
         return rowId;
     }
+    
+	private static boolean tieneEsquema() throws SQLException, ClassNotFoundException {
+
+        //Declare a SELECT statement
+        String selectStmt = "SELECT name FROM sqlite_master WHERE type='table' AND name='clientes'";
+ 
+        //Execute SELECT statement
+        try {
+            //Get ResultSet from dbExecuteQuery method
+            ResultSet rs = DBUtil.dbExecuteQuery(selectStmt);
+ 
+			if (rs.next())
+				return true;
+			else
+				return false;
+			
+        } catch (SQLException e) {
+            System.out.println("SQL select operation has been failed: " + e);
+            //Return exception
+            throw e;
+        }
+	}    
 }
