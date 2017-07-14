@@ -34,6 +34,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -386,6 +387,7 @@ public class MainController {
 
             stage.setScene(scene);
             stage.setResizable(false);
+            stage.getIcons().add(new Image("file:icons/calculator.png"));            
             stage.show();
 
         } catch (IOException e) {
@@ -409,6 +411,7 @@ public class MainController {
 
             stage.setResizable(false);
             stage.setScene(scene);
+            stage.getIcons().add(new Image("file:icons/users.png"));            
             stage.show();
             
         } catch (IOException e) {
@@ -432,6 +435,7 @@ public class MainController {
 
             stage.setResizable(false);
             stage.setScene(scene);
+            stage.getIcons().add(new Image("file:icons/contacts.png"));            
             stage.show();
             
         } catch (IOException e) {
@@ -469,6 +473,7 @@ public class MainController {
 
 			stage.setResizable(false);
 			stage.setScene(scene);
+            stage.getIcons().add(new Image("file:icons/calculator.png"));
 			stage.show();
 
 		} catch (IOException e) {
@@ -484,7 +489,6 @@ public class MainController {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Ruta.fxml"));
             GridPane page = (GridPane) loader.load();
             RutaController controller = loader.<RutaController>getController();
-//            controller = loader.getController();
 
             controller.setRutas(listaRutas);
             
@@ -496,6 +500,7 @@ public class MainController {
 
             stage.setResizable(false);
             stage.setScene(scene);
+            stage.getIcons().add(new Image("file:icons/route.png"));            
             stage.show();
             
         } catch (IOException e) {
@@ -522,6 +527,7 @@ public class MainController {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Gestionar Pagos");
+            stage.getIcons().add(new Image("file:icons/moneybox.png"));            
             stage.setResizable(false);
             
             Scene scene = new Scene(page);
