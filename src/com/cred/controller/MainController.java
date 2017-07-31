@@ -40,6 +40,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import com.cred.Main;
 import com.cred.model.ClienteDAO;
 import com.cred.model.ClienteModel;
 import com.cred.model.CobradorDAO;
@@ -373,7 +374,7 @@ public class MainController {
 
 	private void crearCredito() {
 	   try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Credito.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Credito.fxml"));
             GridPane page = (GridPane) loader.load();
             CreditoController controller = loader.<CreditoController>getController();
 
@@ -397,7 +398,7 @@ public class MainController {
 
 	private void gestClientes() {
 	   try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Cliente.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Cliente.fxml"));
             GridPane page = (GridPane) loader.load();
             ClienteController controller = loader.<ClienteController>getController();
 
@@ -421,7 +422,7 @@ public class MainController {
 
 	private void gestCobradores() {
 	   try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Cobrador.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Cobrador.fxml"));
             GridPane page = (GridPane) loader.load();
             CobradorController controller = loader.<CobradorController>getController();
 
@@ -457,7 +458,7 @@ public class MainController {
 		}
 
 		try {
-			FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/CreditoModificar.fxml"));
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/CreditoModificar.fxml"));
 			GridPane page = (GridPane) loader.load();
 			CreditoModController controller = loader.<CreditoModController>getController();
 
@@ -486,7 +487,7 @@ public class MainController {
 //		RutaController controller = null;
 		
 	   try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Ruta.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Ruta.fxml"));
             GridPane page = (GridPane) loader.load();
             RutaController controller = loader.<RutaController>getController();
 
@@ -517,7 +518,7 @@ public class MainController {
 	private void pago(CreditoModel rowData, TableRow<CreditoModel> row) {
 
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Pago.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Pago.fxml"));
             GridPane page = (GridPane) loader.load();
             PagoController controller = loader.<PagoController>getController();
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
+import com.cred.Main;
 import com.cred.model.ClienteModel;
 import com.cred.model.CobradorModel;
 import com.cred.model.CreditoDAO;
@@ -122,7 +123,7 @@ public class CreditoController {
 	private void buscarCliente() {
 		
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ClienteSearch.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ClienteSearch.fxml"));
             VBox page = (VBox) loader.load();
             ClienteSearchController controller = loader.<ClienteSearchController>getController();
 

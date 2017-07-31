@@ -1,4 +1,4 @@
-package com.cred.controller;
+package com.cred;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class Main extends Application {
         primaryStage.setTitle("Gestión de Créditos");
 
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/Main.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Main.fxml"));
             VBox page = (VBox) loader.load();
             
             Scene scene = new Scene(page);
