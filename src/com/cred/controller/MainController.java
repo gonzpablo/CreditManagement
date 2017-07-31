@@ -388,7 +388,7 @@ public class MainController {
 
             stage.setScene(scene);
             stage.setResizable(false);
-            stage.getIcons().add(new Image("file:icons/calculator.png"));            
+            stage.getIcons().add(new Image("file:icons/Cred.png"));            
             stage.show();
 
         } catch (IOException e) {
@@ -474,7 +474,7 @@ public class MainController {
 
 			stage.setResizable(false);
 			stage.setScene(scene);
-            stage.getIcons().add(new Image("file:icons/calculator.png"));
+            stage.getIcons().add(new Image("file:icons/Cred.png"));
 			stage.show();
 
 		} catch (IOException e) {
