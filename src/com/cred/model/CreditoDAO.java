@@ -44,8 +44,6 @@ public class CreditoDAO {
 							  0 + " );\n" +	                    
 	                    "COMMIT;";	    
 	    
-	    	System.out.println(insertStmt);
-
 	    try {
 	        DBUtil.dbExecuteUpdate(insertStmt);
 	    } catch (SQLException e) {
@@ -63,8 +61,6 @@ public class CreditoDAO {
 		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
 		                "COMMIT;";	    
 		
-			System.out.println(deleteStmt);
-		
 		try {
 		    DBUtil.dbExecuteUpdate(deleteStmt);
 		} catch (SQLException e) {
@@ -78,8 +74,6 @@ public class CreditoDAO {
 		                "DELETE FROM pagos\n" +
 		                "WHERE idCredito = " + credito.getId() + ";\n" +	                    
 		                "COMMIT;";	   
-
-		System.out.println(deleteStmt);
 		
 		try {
 		    DBUtil.dbExecuteUpdate(deleteStmt);
@@ -128,9 +122,7 @@ public class CreditoDAO {
 		        		"SET cerrado = " + cerrado + " \n" +
 		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
 		                "COMMIT;";	    
-		
-			System.out.println(updateStmt);
-		
+			
 		try {
 		    DBUtil.dbExecuteUpdate(updateStmt);
 		} catch (SQLException e) {
@@ -168,9 +160,7 @@ public class CreditoDAO {
 		        		"SET idCobrador = " + credito.getCobradorRef().getId() + ", \n" +
 		                "idRuta = " + credito.getRutaRef().getId() + " \n" +
 		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
-		                "COMMIT;";	    
-		
-			System.out.println(updateStmt);
+		                "COMMIT;";	
 		
 		try {
 		    DBUtil.dbExecuteUpdate(updateStmt);

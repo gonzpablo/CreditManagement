@@ -254,7 +254,7 @@ public class PagoController {
 	}
 
 	private int calcularCuotasAPagarSegunMonto(String monto, BigDecimal valorCuota) {
-		System.out.println(monto);
+
 		BigDecimal montoAPagar = new BigDecimal(monto);
 		
 		return montoAPagar.divide(

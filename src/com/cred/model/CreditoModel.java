@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.beans.property.SimpleObjectProperty;
-
 
 public class CreditoModel {
 
@@ -257,10 +255,6 @@ public class CreditoModel {
 	public BigDecimal getValorCuota() {
 		return valorCuota.setScale(2, RoundingMode.HALF_UP);
 	}
-
-//	public BigDecimal getValorCuotaInterno() {
-//		return valorCuota;
-//	}
 	
 	public void setValorCuota(BigDecimal valorCuota) {
 		this.valorCuota = valorCuota;
@@ -331,10 +325,7 @@ public class CreditoModel {
 	}
 	
 	public boolean alcanzoMontoFinal() {
-	
-		System.out.println(montoCuotaAcumulado);
-		System.out.println(CreditoModel.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas)));
-		
+			
 		if ( montoCuotaAcumulado.compareTo(
 				CreditoModel.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas))) == 0 )
 			return true;
@@ -403,12 +394,10 @@ public class CreditoModel {
 	}
 
 	public void setCobrador(CobradorModel cobrador) {
-//		this.cobrador = cobrador;
 		this.cobrador.set(cobrador);
 	}
 
 	public void setRuta(RutaModel ruta) {
-//		this.ruta = ruta;
 		this.ruta.set(ruta);
 	}
 
@@ -421,25 +410,19 @@ public class CreditoModel {
 	}
 
 	public String getCobrador() {		
-//		return ( this.cobrador == null ) ? null : this.cobrador.getNombre() +
-//												  " " + this.cobrador.getApellido();
-		
 		return ( this.cobrador.get() == null ) ? null : this.cobrador.get().getNombre() +
 				  " " + this.cobrador.get().getApellido();		
 	}
 
 	public CobradorModel getCobradorRef() {
-//		return this.cobrador;
 		return this.cobrador.get();		
 	}
 	
 	public RutaModel getRutaRef() {
-//		return ruta;
 		return this.ruta.get();
 	}
 
 	public String getRuta() {
-//		return ( this.ruta == null ) ? null : this.ruta.getNombre();
 		return ( this.ruta.get() == null ) ? null : this.ruta.get().getNombre(); 
 	}
 	

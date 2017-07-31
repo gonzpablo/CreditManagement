@@ -18,12 +18,8 @@ public class PagoModel {
 	public PagoModel() {
 
 	    LocalDateTime fechaHoraActual = LocalDateTime.now();	    
-//		LocalDate fecha = fechaHoraActual.toLocalDate();
 	    SimpleObjectProperty<LocalDate> fecha = new SimpleObjectProperty<LocalDate>( fechaHoraActual.toLocalDate() );
-//		LocalTime hora = fechaHoraActual.toLocalTime();
 	    setFecha(fecha);
-//	    setHora(hora);
-
 	}
 
 	public BigDecimal getMontoPago() {

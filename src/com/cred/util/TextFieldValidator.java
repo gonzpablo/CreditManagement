@@ -102,5 +102,4 @@ public class TextFieldValidator {
 
         public abstract Pattern createPattern(int countOf);
     }
-
 }

@@ -61,8 +61,6 @@ public class ClienteDAO {
 						"'" + cliente.getTelefono() + "');" + 				
 				"COMMIT;";
 
-		System.out.println(insertStmt);
-
 		try {
 			DBUtil.dbExecuteUpdate(insertStmt);
 		} catch (SQLException e) {
@@ -84,8 +82,6 @@ public class ClienteDAO {
 						"WHERE rowid = " + cliente.getId() + ";\n" +
 				"COMMIT;";
 
-		System.out.println(updateStmt);
-
 		try {
 			DBUtil.dbExecuteUpdate(updateStmt);
 		} catch (SQLException e) {
@@ -100,8 +96,6 @@ public class ClienteDAO {
 					"DELETE FROM clientes \n" +
 					"WHERE rowid = " + cliente.getId() + ";\n" +
 				"COMMIT;";
-
-		System.out.println(deleteStmt);
 
 		try {
 			DBUtil.dbExecuteUpdate(deleteStmt);

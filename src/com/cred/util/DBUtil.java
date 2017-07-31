@@ -16,7 +16,6 @@ public class DBUtil {
 
     
 	static {
-		System.out.println("_INIT_");
 
 		try {
 			if (!tieneEsquema()) {
@@ -42,7 +41,7 @@ public class DBUtil {
         try {
             conn = DriverManager.getConnection(connStr);
         } catch (SQLException e) {
-            System.out.println("Connection Failed! Check output console" + e);
+            System.out.println("Conexión a BD fallida! " + e);
             e.printStackTrace();
             throw e;
         }
@@ -88,7 +87,7 @@ public class DBUtil {
 	
 					"COMMIT;";
 
-		System.out.println(updateStmt);
+		Log.show(updateStmt);
 
 		try {
 			DBUtil.dbExecuteUpdate(updateStmt);
@@ -100,10 +99,11 @@ public class DBUtil {
 
 	//Close Connection
     public static void dbDisconnect() throws SQLException {
-        try {
-            if (conn != null && !conn.isClosed()) {
+
+    	try {
+            if (conn != null && !conn.isClosed())
                 conn.close();
-            }
+
         } catch (Exception e){
            throw e;
         }                
@@ -111,7 +111,7 @@ public class DBUtil {
 
     //DB Execute Query Operation
     public static ResultSet dbExecuteQuery(String queryStmt) throws SQLException, ClassNotFoundException {
-        //Declare statement, resultSet and CachedResultSet as null
+
         Statement stmt = null;
         ResultSet resultSet = null;
         CachedRowSetImpl crs = null;
@@ -119,7 +119,8 @@ public class DBUtil {
         try {
             //Connect to DB (Establish SQlite Connection)
             dbConnect();
-            System.out.println("Select statement: " + queryStmt + "\n");
+            
+    		Log.show("SELECT: " + queryStmt + "\n");            
 
             //Create statement
             stmt = conn.createStatement();
@@ -133,7 +134,7 @@ public class DBUtil {
             crs = new CachedRowSetImpl();
             crs.populate(resultSet);
         } catch (SQLException e) {
-            System.out.println("Problem occurred at executeQuery operation : " + e);
+            System.out.println("Ocurrió un problema en la operación: " + e);
             throw e;
         } finally {
             if (resultSet != null) {
@@ -162,8 +163,11 @@ public class DBUtil {
             stmt = conn.createStatement();
             //Run executeUpdate operation with given sql statement
             stmt.executeUpdate(sqlStmt);
+            
+            Log.show(sqlStmt);
+            
         } catch (SQLException e) {
-            System.out.println("Problem occurred at executeUpdate operation : " + e);
+            System.out.println("Ocurrió un problema en la operación: " + e);
             throw e;
         } finally {
             if (stmt != null) {
@@ -181,16 +185,16 @@ public class DBUtil {
 		String selectStmt = "SELECT MAX(rowid) as lastId \n" +
 							"FROM " + table + ";\n"; 
 
+		Log.show(selectStmt);
+		
         try {
             ResultSet rs = DBUtil.dbExecuteQuery(selectStmt);
  
             while (rs.next())	        	
                 rowId = rs.getInt("lastId");
-
-            System.out.println(rowId);
             
         } catch (SQLException e) {
-            System.out.println("SQL select operation has failed: " + e);
+            System.out.println("Ha fallado la operación select: " + e);
             //Return exception
             throw e;
         }		
@@ -203,6 +207,8 @@ public class DBUtil {
         //Declare a SELECT statement
         String selectStmt = "SELECT name FROM sqlite_master WHERE type='table' AND name='clientes'";
  
+        Log.show(selectStmt);
+        
         //Execute SELECT statement
         try {
             //Get ResultSet from dbExecuteQuery method
@@ -214,7 +220,7 @@ public class DBUtil {
 				return false;
 			
         } catch (SQLException e) {
-            System.out.println("SQL select operation has been failed: " + e);
+            System.out.println("Ha fallado la operación select: " + e);
             //Return exception
             throw e;
         }

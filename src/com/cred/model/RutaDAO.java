@@ -61,8 +61,6 @@ public class RutaDAO {
 						"'" + ruta.getDescripcion() + "');" + 				
 				"COMMIT;";
 
-		System.out.println(insertStmt);
-
 		try {
 			DBUtil.dbExecuteUpdate(insertStmt);
 		} catch (SQLException e) {
@@ -81,8 +79,6 @@ public class RutaDAO {
 						"WHERE rowid = " + ruta.getId() + ";\n" +
 				"COMMIT;";
 
-		System.out.println(updateStmt);
-
 		try {
 			DBUtil.dbExecuteUpdate(updateStmt);
 		} catch (SQLException e) {
@@ -97,8 +93,6 @@ public class RutaDAO {
 					"DELETE FROM rutas \n" +
 					"WHERE rowid = " + ruta.getId() + ";\n" +
 				"COMMIT;";
-
-		System.out.println(deleteStmt);
 
 		try {
 			DBUtil.dbExecuteUpdate(deleteStmt);

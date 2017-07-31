@@ -64,8 +64,6 @@ public class CobradorDAO {
 						"'" + cobrador.getApellido() + "');" + 				
 				"COMMIT;";
 
-		System.out.println(insertStmt);
-
 		try {
 			DBUtil.dbExecuteUpdate(insertStmt);
 		} catch (SQLException e) {
@@ -84,8 +82,6 @@ public class CobradorDAO {
 						"WHERE rowid = " + cobrador.getId() + ";\n" +
 				"COMMIT;";
 
-		System.out.println(updateStmt);
-
 		try {
 			DBUtil.dbExecuteUpdate(updateStmt);
 		} catch (SQLException e) {
@@ -100,8 +96,6 @@ public class CobradorDAO {
 					"DELETE FROM cobradores \n" +
 					"WHERE rowid = " + cobrador.getId() + ";\n" +
 				"COMMIT;";
-
-		System.out.println(deleteStmt);
 
 		try {
 			DBUtil.dbExecuteUpdate(deleteStmt);

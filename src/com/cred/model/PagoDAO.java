@@ -25,8 +25,6 @@ public class PagoDAO {
 					" (SELECT strftime('%s','" + pago.getFecha().getValue() + "')));\n" +  
 				"COMMIT;";
 
-		System.out.println(insertStmt);
-
 		try {
 			DBUtil.dbExecuteUpdate(insertStmt);
 		} catch (SQLException e) {
@@ -42,8 +40,6 @@ public class PagoDAO {
 					"DELETE FROM pagos\n" +
 					"WHERE rowid = " + pago.getId() + ";\n" +  
 				"COMMIT;";
-
-		System.out.println(deleteStmt);
 
 		try {
 			DBUtil.dbExecuteUpdate(deleteStmt);
