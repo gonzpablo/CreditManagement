@@ -2,8 +2,6 @@ package com.cred;
 
 import java.io.IOException;
 
-import com.cred.util.Log;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
