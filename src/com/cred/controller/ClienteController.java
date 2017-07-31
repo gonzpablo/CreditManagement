@@ -103,7 +103,6 @@ public class ClienteController {
 	                	cargarCliente(rowData);
 	                	break;
 	                case 2:
-//	                	clienteView(rowData);
 	                	grisarCampos(false);
 	                	cargarCliente(rowData);
 	                	break;
@@ -114,7 +113,6 @@ public class ClienteController {
         
         if (clientesTable.getSelectionModel().getSelectedItem() == null)
         	clienteBorrarButton.setDisable(true);
- 
 	}
 
 	private void nuevoCliente() {

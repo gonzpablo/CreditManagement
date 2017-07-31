@@ -57,21 +57,5 @@ public class RutaModel {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}		
-	}		
-	
-//	public int getId() {
-//		return id;
-//	}
-//
-//	public void setId(int id) {
-//		this.id = id;
-//	}
-//
-//	public String getDescripcion() {
-//		return descripcion;
-//	}
-//
-//	public void setDescripcion(String descripcion) {
-//		this.descripcion = descripcion;
-//	}	
+	}
 }

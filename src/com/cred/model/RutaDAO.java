@@ -9,25 +9,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class RutaDAO {
-
 	
     public static ObservableList<RutaModel> buscarRutas() throws SQLException, ClassNotFoundException {
-        //Declare a SELECT statement
         String selectStmt = "SELECT rowid, * FROM rutas";
  
-        //Execute SELECT statement
         try {
-            //Get ResultSet from dbExecuteQuery method
             ResultSet rsRutas = DBUtil.dbExecuteQuery(selectStmt);
  
-            //Send ResultSet to the getEmployeeList method and get employee object
             ObservableList<RutaModel> listaRutas = getListaRutas(rsRutas);
  
-            //Return employee object
             return listaRutas;
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
-            //Return exception
             throw e;
         }
     }

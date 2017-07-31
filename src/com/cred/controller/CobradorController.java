@@ -37,8 +37,6 @@ public class CobradorController {
 	@FXML
 	private Button cobradorBorrarButton;		
 	
-	
-	
 	private ObservableList<CobradorModel> cobradores;
 	
 //	Referencia al cliente que se está editando (Nuevo o modificación)
@@ -88,7 +86,6 @@ public class CobradorController {
 	                	cargarCobrador(rowData);
 	                	break;
 	                case 2:
-//	                	clienteView(rowData);
 	                	grisarCampos(false);
 	                	cargarCobrador(rowData);
 	                	break;
@@ -98,8 +95,7 @@ public class CobradorController {
         });
         
         if (cobradoresTable.getSelectionModel().getSelectedItem() == null)
-        	cobradorBorrarButton.setDisable(true);	
-        
+        	cobradorBorrarButton.setDisable(true);        
 	}
 
 	private void nuevoCobrador() {
@@ -187,15 +183,6 @@ public class CobradorController {
 			alert.showAndWait();									
 			return;
 		}
-			
-//		if (cliente.tieneCreditos()) {
-//			Alert alert = new Alert(AlertType.ERROR);
-//			alert.setTitle("Error");
-//			alert.setHeaderText("Error al borrar un cliente");
-//			alert.setContentText("Por favor elimine los creditos del cliente");
-//			alert.showAndWait();									
-//			return;
-//		}
 		
 		cobradores.remove(cobrador);
 		cobrador.borrar();

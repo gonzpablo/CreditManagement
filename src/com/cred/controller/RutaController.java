@@ -187,16 +187,7 @@ public class RutaController {
 			alert.showAndWait();									
 			return;
 		}
-			
-//		if (cliente.tieneCreditos()) {
-//			Alert alert = new Alert(AlertType.ERROR);
-//			alert.setTitle("Error");
-//			alert.setHeaderText("Error al borrar un cliente");
-//			alert.setContentText("Por favor elimine los creditos del cliente");
-//			alert.showAndWait();									
-//			return;
-//		}
-		
+
 		rutas.remove(ruta);
 		ruta.borrar();
 		initFields();		

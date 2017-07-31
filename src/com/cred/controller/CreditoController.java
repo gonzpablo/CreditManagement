@@ -64,8 +64,7 @@ public class CreditoController {
 	private MainController mainController;
 
 
-	public CreditoController() {
-	}
+	public CreditoController() {}
 
 	@FXML
 	private void initialize() {
@@ -127,8 +126,7 @@ public class CreditoController {
             VBox page = (VBox) loader.load();
             ClienteSearchController controller = loader.<ClienteSearchController>getController();
 
-            controller.setClientes(mainController.getClientes());
-//            controller.setCredito(rowData);            
+            controller.setClientes(mainController.getClientes()); 
             controller.setMainController(this);            
             
             Stage stage = new Stage();

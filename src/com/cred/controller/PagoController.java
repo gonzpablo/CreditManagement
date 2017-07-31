@@ -41,8 +41,6 @@ public class PagoController {
 	private TextField clienteField;
 	@FXML
 	private TextField montoPagadoField;
-//	@FXML
-//	private TextField cuotasPagadasField;
 	@FXML
 	private Spinner<Integer> cuotasPagadasField;	
 	@FXML

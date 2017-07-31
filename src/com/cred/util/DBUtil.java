@@ -26,7 +26,6 @@ public class DBUtil {
 		}
 	}
     
-    //Connect to DB
     public static void dbConnect() throws SQLException, ClassNotFoundException {
 //		Setting SQlite JDBC Driver
         try {
@@ -97,7 +96,6 @@ public class DBUtil {
 		} 	
 	}
 
-	//Close Connection
     public static void dbDisconnect() throws SQLException {
 
     	try {
@@ -109,7 +107,6 @@ public class DBUtil {
         }                
     }
 
-    //DB Execute Query Operation
     public static ResultSet dbExecuteQuery(String queryStmt) throws SQLException, ClassNotFoundException {
 
         Statement stmt = null;
@@ -117,15 +114,12 @@ public class DBUtil {
         CachedRowSetImpl crs = null;
         
         try {
-            //Connect to DB (Establish SQlite Connection)
             dbConnect();
             
     		Log.show("SELECT: " + queryStmt + "\n");            
 
-            //Create statement
             stmt = conn.createStatement();
 
-            //Execute select (query) operation
             resultSet = stmt.executeQuery(queryStmt);
 
             //CachedRowSet Implementation
@@ -138,30 +132,21 @@ public class DBUtil {
             throw e;
         } finally {
             if (resultSet != null) {
-                //Close resultSet
                 resultSet.close();
             }
             if (stmt != null) {
-                //Close Statement
                 stmt.close();
             }
-            //Close connection
             dbDisconnect();
         }
-        //Return CachedRowSet
         return crs;
     }
 
-    //DB Execute Update (For Update/Insert/Delete) Operation
     public static void dbExecuteUpdate(String sqlStmt) throws SQLException, ClassNotFoundException {
-        //Declare statement as null
         Statement stmt = null;
         try {
-            //Connect to DB (Establish SQlite Connection)
             dbConnect();
-            //Create Statement
             stmt = conn.createStatement();
-            //Run executeUpdate operation with given sql statement
             stmt.executeUpdate(sqlStmt);
             
             Log.show(sqlStmt);
@@ -171,10 +156,8 @@ public class DBUtil {
             throw e;
         } finally {
             if (stmt != null) {
-                //Close statement
                 stmt.close();
             }
-            //Close connection
             dbDisconnect();
         }
     }
@@ -195,7 +178,6 @@ public class DBUtil {
             
         } catch (SQLException e) {
             System.out.println("Ha fallado la operación select: " + e);
-            //Return exception
             throw e;
         }		
     	    	
@@ -204,14 +186,11 @@ public class DBUtil {
     
 	private static boolean tieneEsquema() throws SQLException, ClassNotFoundException {
 
-        //Declare a SELECT statement
         String selectStmt = "SELECT name FROM sqlite_master WHERE type='table' AND name='clientes'";
  
         Log.show(selectStmt);
         
-        //Execute SELECT statement
         try {
-            //Get ResultSet from dbExecuteQuery method
             ResultSet rs = DBUtil.dbExecuteQuery(selectStmt);
  
 			if (rs.next())
@@ -221,7 +200,6 @@ public class DBUtil {
 			
         } catch (SQLException e) {
             System.out.println("Ha fallado la operación select: " + e);
-            //Return exception
             throw e;
         }
 	}    

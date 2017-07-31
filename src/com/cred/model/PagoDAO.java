@@ -62,17 +62,13 @@ public class PagoDAO {
 							"ORDER BY fecha desc;";		
 		
 		try {
-			//Get ResultSet from dbExecuteQuery method
 			ResultSet rsPagos = DBUtil.dbExecuteQuery(selectStmt);
  
-			//Send ResultSet to the getEmployeeList method and get employee object
 			ObservableList<PagoModel> listaPagos = getListaPagos(rsPagos);
  
-			//Return employee object
 			return listaPagos;
 		} catch (SQLException e) {
 			System.out.println("SQL select operation has failed: " + e);
-			//Return exception
 			throw e;
 		}
 	}

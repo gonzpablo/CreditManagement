@@ -25,6 +25,4 @@ public class ReporteField {
 	public void setLength(int length) {
 		this.length = length;
 	}
-	
-	
 }

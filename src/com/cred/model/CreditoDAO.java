@@ -84,7 +84,7 @@ public class CreditoDAO {
 	}		 
 	 
 	private static ObservableList<CreditoModel> getListaCreditos(ResultSet rs) throws SQLException, ClassNotFoundException {
-        //Declare a observable List which comprises of Employee objects
+
         ObservableList<CreditoModel> listaCreditos = FXCollections.observableArrayList();
  
         while (rs.next()) {
@@ -99,7 +99,6 @@ public class CreditoDAO {
             										rs.getInt("IDRUTA"),
             										rs.getInt("CERRADO"));
             
-            //Agregar crédito a lista de créditos
             listaCreditos.add(credito);
         }
 

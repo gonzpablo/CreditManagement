@@ -483,9 +483,7 @@ public class MainController {
 	}
 
 	private void gestRutas() {
-		
-//		RutaController controller = null;
-		
+	
 	   try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Ruta.fxml"));
             GridPane page = (GridPane) loader.load();
@@ -507,8 +505,6 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }		
-	   
-//	   	controller.setRutas(listaRutas);
 	}		
 	
 	public void refrescar() {
