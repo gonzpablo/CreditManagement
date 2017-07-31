@@ -25,5 +25,30 @@
 			<type>1</type>
 			<location>E:/workspace/cred/database/dbCred.txt</location>
 		</link>
+		<link>
+			<name>icons/calculator.png</name>
+			<type>1</type>
+			<location>E:/workspace/cred/icons/calculator.png</location>
+		</link>
+		<link>
+			<name>icons/contacts.png</name>
+			<type>1</type>
+			<location>E:/workspace/cred/icons/contacts.png</location>
+		</link>
+		<link>
+			<name>icons/moneybox.png</name>
+			<type>1</type>
+			<location>E:/workspace/cred/icons/moneybox.png</location>
+		</link>
+		<link>
+			<name>icons/route.png</name>
+			<type>1</type>
+			<location>E:/workspace/cred/icons/route.png</location>
+		</link>
+		<link>
+			<name>icons/users.png</name>
+			<type>1</type>
+			<location>E:/workspace/cred/icons/users.png</location>
+		</link>
 	</linkedResources>
 </projectDescription>

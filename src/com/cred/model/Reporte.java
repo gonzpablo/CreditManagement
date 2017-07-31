@@ -27,13 +27,9 @@ import javafx.stage.Stage;
 public class Reporte {
 
 	private static final float rowHeight = 20f;
-//	private static final String[][] headerFields = {"Cliente";"1", "Valor Cuota", "Monto Cr.", "CP", "CC", "Cobrador", "Ruta"};
-//	private static final String[][] headerFields = {"Cliente","1"};	
 	private static final float beginX = 70;
 	private static final float MARGEN_ARRIBA = 90;
 	private List<ReporteField> headerFields = new ArrayList<ReporteField>();
-//	private Hashtable<String, Integer> headerFields = new Hashtable<String,Integer>();
-//	private Map<String, Integer> headerFields = new HashMap<String, Integer>();
 	private Stage stage;
 	
 	public Reporte(Stage stage) {
@@ -45,17 +41,7 @@ public class Reporte {
 	    PDDocument doc = new PDDocument();
 	    
 	    drawTable(doc, 750, 50, creditos);
-	    
-//	    PDPage page2 = new PDPage();	    
-//
-//	    doc.addPage(page2);
-//	    PDPageContentStream contentStream2 = new PDPageContentStream(doc, page2);	    
-//		contentStream2.beginText();
-//		contentStream2.setFont( PDType1Font.HELVETICA.HELVETICA_BOLD , 9 );		
-//	    contentStream2.drawString("test");
-//	    contentStream2.endText();	    
-//	    contentStream2.close();
-	    
+	    	    
 	    doc.save("c:/temp/test_table.pdf" );
 	    doc.close();
 	}
@@ -63,7 +49,6 @@ public class Reporte {
 	public static void drawTable(PDDocument doc, float y, float margin,
 									ObservableList<CreditoModel> creditos) throws IOException {
 		
-
 		final int rows = creditos.size() + 1;  // +1 es para el heading
 		final int cols = 7;
 		final float rowHeight = 20f;
@@ -92,19 +77,13 @@ public class Reporte {
 //			 * @param xEnd The end x coordinate.
 //			 * @param yEnd The end y coordinate.
 //			 * @throws IOException If there is an error while drawing on the screen.
-
-//			public void drawLine(float xStart, float yStart, float xEnd, float yEnd) throws IOException
-			
+		
 			contentStream.drawLine(margin, nexty, margin+tableWidth, nexty);
 
-//			contentStream.fillRect(margin, nexty, margin+tableWidth, nexty);
 			contentStream.moveTo(margin, nexty);
 			contentStream.lineTo(margin+tableWidth, nexty);
-//			contentStream.stroke();
-//			contentStream.addRect(10, 10, 10, 10);
 		
 			nexty-= rowHeight;
-//			System.out.println(nexty);
 			
 			if ( nexty < 10 ) {
 				contentStream.close();
@@ -117,11 +96,7 @@ public class Reporte {
 				
 				nexty = y ;
 			}
-			
-//			-----------------------------------------------			
-			
-			
-			
+					
 		}
 
 		contentStream.setNonStrokingColor(0, 0, 0); //black text
@@ -137,15 +112,7 @@ public class Reporte {
 			case 4 : { nextx += colWidth-15; break; }
 			default: { nextx += colWidth; }
 			}
-			
-//			if (i == 0)
-//				nextx += colWidth+30;
-//			else
-//				nextx += colWidth;
-			
-//			if (i == cols)
-//				nextx += colWidth-30;
-			
+						
 		}
 
 //		now add the text
@@ -165,7 +132,8 @@ public class Reporte {
 		texty-=rowHeight;
 
 		textx = margin+cellMargin;
-//		loop de Registros		
+
+		//		loop de Registros		
 		for ( CreditoModel cred : creditos) {		
 			
 //			Loop de columnas			
@@ -174,13 +142,9 @@ public class Reporte {
 			textx+=imprimirDato(2, cred.getMontoCredito().toString(), contentStream, textx, texty, colWidth);
 			textx+=imprimirDato(2, String.valueOf(cred.getCuotasPagas()), contentStream, textx, texty, colWidth-15);
 			textx+=imprimirDato(2, String.valueOf(cred.getCantCuotas()), contentStream, textx, texty, colWidth-15);
-//			textx+=imprimirDato(2, cred.getCobrador(), contentStream, textx, texty, colWidth);
-//			textx+=imprimirDato(2, cred.getRuta(), contentStream, textx, texty, colWidth);
 			
 			texty-=rowHeight;
-			textx = margin+cellMargin;
-			
-			
+			textx = margin+cellMargin;			
 		}		
 		
 	    contentStream.close();
@@ -192,11 +156,8 @@ public class Reporte {
 		
 		if (textWidth > 0) {
 
-			contentStream.moveTextPositionByAmount(x-textWidth, y);		
-//			contentStream.moveTextPositionByAmount(x, y);
-		
-			contentStream.drawString(texto);
-		
+			contentStream.moveTextPositionByAmount(x-textWidth, y);				
+			contentStream.drawString(texto);		
 			contentStream.moveTextPositionByAmount(x+textWidth, y);		
 			
 		
@@ -221,15 +182,13 @@ public class Reporte {
 		contentStream.moveTextPositionByAmount(textx,texty);
 		contentStream.drawString(dato);
 		contentStream.endText();
-//		textx += colWidth;
-		return colWidth;
 		
+		return colWidth;		
 	}
 	
 	private static PDPage crearPagina() {
 		return new PDPage(PDRectangle.A4); 
 	}
-	
 	
 	public void reporteRutaBeta(FilteredList<CreditoModel> creditos) throws IOException {	
 
@@ -252,7 +211,6 @@ public class Reporte {
 		LocalDate date1 = currentDateTime.toLocalDate();
 		LocalTime time1 = currentDateTime.toLocalTime();
 		
-
 		
 		String fechaFormat = date1.format(DateTimeFormatter.ofPattern("dd_MM_YYYY"));
 		String horaFormat = time1.format(DateTimeFormatter.ofPattern("HH_mm_ss"));
@@ -274,15 +232,9 @@ public class Reporte {
 		if (file == null)
 			return;
 		
-//		System.out.println(file.getAbsolutePath());
-//		fileChooser.setTitle("Open Resource File");
-//		fileChooser.showOpenDialog(stage);
-		
 	    PDDocument doc = new PDDocument();		
 		
 	    PDPage page = crearPagina();		// crear página A4	    
-//	    tableWidth = page.getCropBox().getWidth() - margin - margin;
-//	    colWidth = tableWidth/(float)cols;
 	    
 	    doc.addPage( page );
 	    PDPageContentStream contentStream = new PDPageContentStream(doc, page);		
@@ -307,65 +259,50 @@ public class Reporte {
 		y -= Reporte.rowHeight; 	
 		
 //		Detalle
-//		contentStream.setFont( PDType1Font.HELVETICA, 9 );
+
 		PDFont font = PDType1Font.HELVETICA;
 		int fontSize = 9; // Or whatever font size you want.
 		String title = "test";
 		float titleWidth = font.getStringWidth(title) / 1000 * fontSize;
-//		float titleHeight = font.getFontDescriptor().getFontBoundingBox().getHeight() / 1000 * fontSize;
-//		stream.moveTextPositionByAmount((page.getMediaBox().getWidth() - titleWidth) / 2,
-		
-//		text_width = (myFont.getStringWidth(myString) / 1000.0f) * fontSize;
-//		contentStream.moveTextPositionByAmount(-text_width, 0);
-//		contentStream.drawString(myString);
-//		contentStream.moveTextPositionByAmount(text_width, 0);		
-		
-		contentStream.setFont(font, fontSize);
 	
+		contentStream.setFont(font, fontSize);	
 		
 		drawDetail(doc, contentStream, creditos, x, y, font, fontSize);
 		
 	    contentStream.close();
-//		doc.save(fileName);
+
 		doc.save(file.getAbsolutePath());
 		doc.close();		
-
 		
 		Desktop.getDesktop().open(new File(file.getAbsolutePath()));
 	}
 
-	private static void drawHeader(PDPageContentStream contentStream, List<ReporteField> headerFields, float startx, float starty) throws IOException {
-//	private static void drawHeader(PDPageContentStream contentStream, Map<String, Integer> headerFields, float startx, float starty) throws IOException {		
+	private static void drawHeader(PDPageContentStream contentStream, List<ReporteField> headerFields, float startx, float starty) throws IOException {	
 
 		float x, y, textWidth = 0;
 
 		x = startx;
 		y = starty; 	    
-//		contentStream.setNonStrokingColor(200, 200, 200); //gray background
 		
 		contentStream.setNonStrokingColor(200, 200, 200); //gray background
-//		contentStream.fillRect(startx, starty-5, 460, rowHeight);
 		contentStream.fillRect(startx, starty-5, 460, rowHeight);
 		contentStream.setNonStrokingColor(0, 0, 0); //gray background
 		
 		for ( ReporteField field : headerFields) {
 
 			imprimirTexto(contentStream, field.getName(), x+5, y, textWidth);
-//			contentStream.drawLine(x, starty+15, x, starty+15-rowHeight);
 			contentStream.drawLine(x, starty+15, x, starty+15-rowHeight);			
-			x+=field.getLength();	       
-			
+			x+=field.getLength();	       			
 		}
+		
 		contentStream.drawLine(x, starty+15, x, starty+15-rowHeight);
-
 		
 //		linea arriba		
 		starty = starty + 15;
 		contentStream.drawLine(startx, starty, x, starty);
 		SetLineWidth setl = new SetLineWidth();
 //		linea abajo
-		contentStream.drawLine(startx, starty-rowHeight, x, starty-rowHeight);
-		
+		contentStream.drawLine(startx, starty-rowHeight, x, starty-rowHeight);		
 	}
 	
 	private void drawDetail(PDDocument doc, PDPageContentStream contentStream, FilteredList<CreditoModel> creditos, float x, float y, PDFont font, int fontSize) throws IOException {
@@ -373,19 +310,15 @@ public class Reporte {
 		float textWidth = 0;
 		PDPage page;
 
-		
-		
+				
 		for ( CreditoModel credito : creditos ) {
 			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
 			imprimirTexto(contentStream, credito.getCliente(), x+5, y, textWidth);
 			x+=getLength("Cliente");			
 			contentStream.drawLine(x, y+15, x, y+15-rowHeight);
-
 			
 			textWidth = (font.getStringWidth(credito.getValorCuota().toString()) / 1000.0f) * fontSize;
-//			System.out.println(textWidth);
-//			textWidth = 0;
-//			imprimirTexto(contentStream, credito.getValorCuota().toString(), x+33, y, textWidth);
+
 			imprimirTexto(contentStream, credito.getValorCuota().toString(), x+73, y, textWidth);
 			
 			x+=getLength("Valor Cuota");
@@ -419,13 +352,8 @@ public class Reporte {
 			
 			if ( y <= 50 ) {
 				
-				
-				contentStream.close();
-			    
-				
-//				creditos.
-				
-				
+				contentStream.close();			    
+												
 				page = crearPagina();		// crear página A4	    
 			    doc.addPage( page );
 			    contentStream = new PDPageContentStream(doc, page);
@@ -436,16 +364,12 @@ public class Reporte {
 				contentStream.setFont( PDType1Font.HELVETICA_BOLD, 9);
 //				Header		
 				drawHeader(contentStream, headerFields, x, y);		
-				
-
-//				contentStream.setNonStrokingColor(200, 200, 200); //gray background
-//				contentStream.fillRect(margin, nexty-rowHeight, tableWidth, 20);	
+					
 
 				y = page.getCropBox().getHeight() - MARGEN_ARRIBA;
 				y-=rowHeight;	// por la cabecera
 				
 				contentStream.setFont( PDType1Font.HELVETICA, 9);				
-//				nexty = y ;
 			}			
 		}
 		contentStream.close();

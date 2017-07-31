@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 
@@ -47,9 +46,9 @@ public class CreditoModel {
 	public CreditoModel(ClienteModel cliente, int cantCuotas, String unidad, String montoCuota,
 						String montoCredito, CobradorModel cobrador, RutaModel ruta) {
 
-		this.cliente = new SimpleObjectProperty();		
-		this.cobrador = new SimpleObjectProperty();
-		this.ruta = new SimpleObjectProperty();
+		this.cliente = new SimpleObjectProperty<ClienteModel>();		
+		this.cobrador = new SimpleObjectProperty<CobradorModel>();
+		this.ruta = new SimpleObjectProperty<RutaModel>();
 		
 		this.cantCuotas = cantCuotas;
 		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
@@ -67,9 +66,9 @@ public class CreditoModel {
 	public CreditoModel(int id, int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
 						int montoCredito, int idCobrador, int idRuta, int cerrado) {
 		
-		this.cliente = new SimpleObjectProperty();		
-		this.cobrador = new SimpleObjectProperty();		
-		this.ruta = new SimpleObjectProperty();
+		this.cliente = new SimpleObjectProperty<ClienteModel>();		
+		this.cobrador = new SimpleObjectProperty<CobradorModel>();		
+		this.ruta = new SimpleObjectProperty<RutaModel>();
 		
 		this.id = id;
 		this.idCliente = idCliente;

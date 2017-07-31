@@ -1,9 +1,6 @@
 package com.cred.util;
 
-import com.cred.model.RutaModel;
 import com.sun.rowset.CachedRowSetImpl;
-
-import javafx.collections.ObservableList;
 
 import java.sql.*;
 
@@ -17,7 +14,6 @@ public class DBUtil {
     //Username=HR, Password=HR, IP=localhost, IP=1521, SID=xe
     private static final String connStr = "jdbc:sqlite:dbCred.db";
 
-//    private static boolean tieneEsquema = false;
     
 	static {
 		System.out.println("_INIT_");
