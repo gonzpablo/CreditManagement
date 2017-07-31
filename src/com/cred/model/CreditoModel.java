@@ -29,16 +29,10 @@ public class CreditoModel {
 	private int idRuta;
 
 //  Referencias objetos	
-//	private ClienteModel cliente;
-	private SimpleObjectProperty<ClienteModel> cliente;
-	
-//	private CobradorModel cobrador;
+	private SimpleObjectProperty<ClienteModel> cliente;	
 	private SimpleObjectProperty<CobradorModel> cobrador;
-		
-//	private RutaModel ruta;
 	private SimpleObjectProperty<RutaModel> ruta;
-	
-	
+		
 	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
 	
 	public CreditoModel(ClienteModel cliente, int cantCuotas, String unidad, String montoCuota,

@@ -180,9 +180,7 @@ public class CreditoController {
 	}
 
 	private void cancelar() {
-	    // get a handle to the stage
 	    Stage stage = (Stage) cancelarButton.getScene().getWindow();
-	    // do what you have to do
 	    stage.close();		
 	}
 
