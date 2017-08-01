@@ -378,7 +378,7 @@ public class MainController {
             GridPane page = (GridPane) loader.load();
             CreditoController controller = loader.<CreditoController>getController();
 
-            controller.setMainController(this);            
+            controller.setMainController(this);
             
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -388,7 +388,7 @@ public class MainController {
 
             stage.setScene(scene);
             stage.setResizable(false);
-            stage.getIcons().add(new Image("file:icons/Cred.png"));            
+            stage.getIcons().add(new Image("file:icons/calculator.png"));            
             stage.show();
 
         } catch (IOException e) {
