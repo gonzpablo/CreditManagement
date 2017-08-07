@@ -271,10 +271,10 @@ public class Reporte {
 		
 	    contentStream.close();
 
-		doc.save(file.getAbsolutePath());
+		doc.save(file);
 		doc.close();		
 		
-		Desktop.getDesktop().open(new File(file.getAbsolutePath()));
+		Desktop.getDesktop().open(file);
 	}
 
 	private static void drawHeader(PDPageContentStream contentStream, List<ReporteField> headerFields, float startx, float starty) throws IOException {	
