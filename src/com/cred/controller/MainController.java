@@ -570,8 +570,8 @@ public class MainController {
 	    	gciaDiaField.setText(String.valueOf(sumaGciaXDia.setScale(2, RoundingMode.HALF_UP)));
 		}
 		creditosTable.refresh();
-	}	
-	
+	}
+
     private void initComboRuta() {
 		rutaFilterCombo.setItems(listaRutas);
 		

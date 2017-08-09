@@ -132,7 +132,7 @@ public class CobradorController {
 			
 	    	try {
 				CobradorDAO.agregarCobrador(cobradorNew);
-				cobradorNew.setId(DBUtil.getLastRowId("clientes"));
+				cobradorNew.setId(DBUtil.getLastRowId("cobradores"));
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}    	

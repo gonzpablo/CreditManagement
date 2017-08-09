@@ -118,7 +118,6 @@ public class RutaController {
 	private void grisarCampos(Boolean value) {
 		rutaNombreField.setDisable(value);		
 		rutaDescTextArea.setDisable(value);
-		
 		rutaGuardarButton.setDisable(value);
 	}		
 
