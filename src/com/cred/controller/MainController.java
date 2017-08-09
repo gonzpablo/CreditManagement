@@ -262,6 +262,7 @@ public class MainController {
             cobradorFilterCombo.setValue(null);
             fechaFilterField.setValue(null);
             cerradoFilterCheckBox.setSelected(false);           
+            calcularTotales();
         });            
 
 //		Menú
@@ -547,6 +548,11 @@ public class MainController {
 			cuotaPuraField.setDisable(true);
 			gciaDiaField.setDisable(true);;			
 			
+			for ( CreditoModel cred : filteredItems ) {				
+				cred.setMontoCuota(BigDecimal.valueOf(0));
+				cred.setGciaXDia(BigDecimal.valueOf(0));
+			}			
+			
 		} else {
 			cuotaPuraField.setAlignment(Pos.CENTER_RIGHT);
 			cuotaPuraField.setDisable(false);
@@ -561,10 +567,9 @@ public class MainController {
 				}
 	
 	    	cuotaPuraField.setText(String.valueOf(sumaCuotaPura.setScale(2, RoundingMode.HALF_UP)));
-	    	gciaDiaField.setText(String.valueOf(sumaGciaXDia.setScale(2, RoundingMode.HALF_UP)));				
-	    	
-			creditosTable.refresh();
+	    	gciaDiaField.setText(String.valueOf(sumaGciaXDia.setScale(2, RoundingMode.HALF_UP)));
 		}
+		creditosTable.refresh();
 	}	
 	
     private void initComboRuta() {
