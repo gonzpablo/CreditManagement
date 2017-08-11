@@ -2,6 +2,7 @@ package com.cred.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 
 import com.cred.Main;
@@ -222,7 +223,7 @@ public class CreditoController {
 									montoCreditoField.getText(), montoTotalCredito, cantCuotasField.getText(), unidadCuotasCombo.getValue());
 
 		tasaInteresField.setText(tasaInteres.toString());
-		gciaXDiaField.setText(String.valueOf(montoCuota.subtract(cuotaCapital)));
+		gciaXDiaField.setText(String.valueOf(montoCuota.subtract(cuotaCapital).setScale(2, RoundingMode.HALF_UP)));
 		montoTotalCreditoField.setText(String.valueOf(montoTotalCredito));
 	}	
 

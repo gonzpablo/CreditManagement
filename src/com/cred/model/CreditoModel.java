@@ -18,6 +18,7 @@ public class CreditoModel {
 	private BigDecimal montoCuota = new BigDecimal("0"); // Monto pagado un día determinado
 	private BigDecimal montoCuotaAcumulado = new BigDecimal("0");	
 	private BigDecimal gciaXDia = new BigDecimal("0");
+	private BigDecimal cuotaCapital;
 	private int cuotasPagas;
 	private String unidad;
 	private BigDecimal saldoCapital = new BigDecimal("0");;
@@ -52,6 +53,9 @@ public class CreditoModel {
 		this.cobrador.set(cobrador);		
 		this.ruta.set(ruta);
 		this.cerrado = false;
+		
+		this.cuotaCapital =	CreditoModel.obtenerCuotaCapital(
+				this.getMontoCredito().toString(), String.valueOf(this.getCantCuotas()));
 	}	
 	
 //	CreditoModel (De BD):	
@@ -76,6 +80,9 @@ public class CreditoModel {
 			this.cerrado = false;
 		else 
 			this.cerrado = true;
+		
+		this.cuotaCapital =	CreditoModel.obtenerCuotaCapital(
+				this.getMontoCredito().toString(), String.valueOf(this.getCantCuotas()));
 	}
 
 	public static String obtenerUnidad(int idUnidad) {
@@ -101,7 +108,7 @@ public class CreditoModel {
 		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCred);
 		int cantCuotas = Integer.valueOf(cantCuotas2);
 		
-		return montoCredito.divide(BigDecimal.valueOf(cantCuotas), 2, RoundingMode.HALF_UP);
+		return montoCredito.divide(BigDecimal.valueOf(cantCuotas), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
 	}
 
 	public static BigDecimal obtenerMontoTotalCredito(String montoCuotaIn, String cantCuotasIn) {
@@ -120,17 +127,20 @@ public class CreditoModel {
 	}
 
 	public void calcularSaldoCapital() {
-		
-		BigDecimal saldo;
-				
-//		Es necesario setScale en una resta?		
-		saldo = montoCredito.subtract(montoCuotaAcumulado).setScale(
-									NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
 
-		if (saldo.compareTo(new BigDecimal("0")) == -1)
-			this.saldoCapital = NumeroUtil.crearBigDecimal("0");
-		else
-			this.saldoCapital = NumeroUtil.crearBigDecimal(saldo.toString());
+//		Se calcula qué porcentaje de la cuota corresponde a capital
+		
+//		indice = 1 - ( ( ValorCuota - CuotaCapital ) / ValorCuota )
+		
+//		donde [ ValorCuota - CuotaCapital = GciaXDia ]		
+		BigDecimal indice = BigDecimal.valueOf(1).subtract(
+						this.getValorCuota().subtract(
+							this.getCuotaCapital()).divide(
+									this.getValorCuota(), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP));
+
+		BigDecimal capitalAcumulado = montoCuotaAcumulado.multiply(indice);
+		
+		this.saldoCapital = this.getMontoCredito().subtract(capitalAcumulado);
 	}
 
 	public int getCantCuotas() {
@@ -462,5 +472,9 @@ public class CreditoModel {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}		
+	}
+
+	public BigDecimal getCuotaCapital() {
+		return cuotaCapital;
 	}
 }

@@ -1,6 +1,7 @@
 package com.cred.controller;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 
 import javafx.collections.FXCollections;
@@ -120,7 +121,7 @@ public class CreditoModController {
 		BigDecimal cuotaCapital = CreditoModel.obtenerCuotaCapital(
 				this.montoCreditoField.getText(), cantCuotasField.getText());		
 
-		gciaXDiaField.setText(String.valueOf(this.credito.getValorCuota().subtract(cuotaCapital)));
+		gciaXDiaField.setText(String.valueOf(this.credito.getValorCuota().subtract(cuotaCapital).setScale(2, RoundingMode.HALF_UP)));
 	}
 	
 	private void initCliente() {
