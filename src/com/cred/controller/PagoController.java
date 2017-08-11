@@ -200,7 +200,7 @@ public class PagoController {
 			credito.calcular();
 			this.mainController.refrescar();
 			
-			credito.calcular();
+//			credito.calcular();
 			
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
