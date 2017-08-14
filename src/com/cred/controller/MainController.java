@@ -179,9 +179,18 @@ public class MainController {
 	
 			completarCreditos(creditosCerrados);
 			
-			creditos.addAll(creditosCerrados);
+//			Se verifica la existencia de cada crédito porque puede haber ocurrido que 
+//			se cerró un crédito que estaba abierto al completar los pagos o al cerrarlo manualmente			
+			for ( CreditoModel credito : creditosCerrados ) {
+				   			
+	    	    if (creditos.contains(hashCreditos.get(credito.getId()))) {
+	    			continue;
+				} else {
+	    			creditos.add(credito);
+				}
+			}
 		}
-	}		
+	}
 	
 	@FXML
 	private void initialize() {
