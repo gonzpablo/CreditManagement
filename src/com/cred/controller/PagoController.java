@@ -153,7 +153,11 @@ public class PagoController {
 	private void initColumns() {
 		fechaColumn.setCellValueFactory(cellData -> cellData.getValue().getFecha());
 		
+		fechaColumn.setStyle( "-fx-alignment: CENTER;");
+
         montoPagoColumn.setCellValueFactory(new PropertyValueFactory<>("montoPago"));
+        
+        montoPagoColumn.setStyle( "-fx-alignment: CENTER-RIGHT;");
         
         DateTimeFormatter format = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
         fechaColumn.setCellFactory (getDateCell(format));        

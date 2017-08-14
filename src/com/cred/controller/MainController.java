@@ -640,6 +640,14 @@ public class MainController {
         DateTimeFormatter format = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
         fechaCreacionColumn.setCellFactory (getDateCell(format));                
         
+        
+        valorCuotaColumn.setStyle( "-fx-alignment: CENTER-RIGHT;");
+        montoCuotaColumn.setStyle( "-fx-alignment: CENTER-RIGHT;");
+        montoCuotaAcumuladoColumn.setStyle( "-fx-alignment: CENTER-RIGHT;");
+        gciaXDiaColumn.setStyle( "-fx-alignment: CENTER-RIGHT;");
+        saldoCapitalColumn.setStyle( "-fx-alignment: CENTER-RIGHT;");
+        montoCreditoColumn.setStyle( "-fx-alignment: CENTER-RIGHT;");
+        
 	}
 
     public ObservableList<CreditoModel> buscarCreditos(int cerrado) {
