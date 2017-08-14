@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
@@ -11,6 +12,7 @@ import javafx.beans.property.SimpleObjectProperty;
 public class CreditoModel {
 
 	private int id;		// ID del crédito
+	private SimpleObjectProperty<LocalDate> fechaCreacion;
 	private int cantCuotas;
 	private BigDecimal tasaInt;
 	private BigDecimal montoCredito;
@@ -69,6 +71,9 @@ public class CreditoModel {
 					this.getCuotaCapital()).divide(
 							this.getValorCuota(), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP));
 		
+	    LocalDateTime fechaHoraActual = LocalDateTime.now();	    
+	    SimpleObjectProperty<LocalDate> fecha = new SimpleObjectProperty<LocalDate>( fechaHoraActual.toLocalDate() );
+	    this.fechaCreacion = fecha;
 	}	
 	
 //	CreditoModel (De BD):	
@@ -484,5 +489,17 @@ public class CreditoModel {
 
 	public BigDecimal getIndiceCapital() {
 		return indiceCapital;
+	}
+	
+	public SimpleObjectProperty<LocalDate> getFecha() {
+		return fechaCreacion;
+	}
+
+	public void setFecha(SimpleObjectProperty<LocalDate> fecha) {
+		this.fechaCreacion = fecha;
+	}
+
+	public LocalDate getFechaValue() {
+		return this.fechaCreacion.getValue();
 	}
 }

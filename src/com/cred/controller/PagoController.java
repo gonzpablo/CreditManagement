@@ -200,8 +200,6 @@ public class PagoController {
 			credito.calcular();
 			this.mainController.refrescar();
 			
-//			credito.calcular();
-			
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Error al ingresar pago");

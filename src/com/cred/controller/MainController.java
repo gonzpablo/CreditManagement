@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.Temporal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -28,6 +32,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -38,6 +43,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import com.cred.Main;
@@ -83,7 +89,9 @@ public class MainController {
 	@FXML	
 	private TableColumn<CreditoModel, String> cobradorColumn;
 	@FXML	
-	private TableColumn<CreditoModel, String> rutaColumn;	
+	private TableColumn<CreditoModel, String> rutaColumn;
+	@FXML	
+	private TableColumn<CreditoModel, LocalDate> fechaCreacionColumn;		
 //  -------------------------------------------------------------------
 //  Filtros	
 //  -------------------------------------------------------------------	
@@ -617,6 +625,12 @@ public class MainController {
         cobradorColumn.setCellValueFactory(new PropertyValueFactory<>("cobrador"));
         rutaColumn.setCellValueFactory(new PropertyValueFactory<>("ruta"));
         unidadColumn.setCellValueFactory(new PropertyValueFactory<>("unidad"));
+        
+		fechaCreacionColumn.setCellValueFactory(cellData -> cellData.getValue().getFecha());
+		        
+        DateTimeFormatter format = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+        fechaCreacionColumn.setCellFactory (getDateCell(format));                
+        
 	}
 
     public ObservableList<CreditoModel> buscarCreditos(int cerrado) {
@@ -734,4 +748,21 @@ public class MainController {
 
 		fechaFilterField.setValue(fechaHoraActual.toLocalDate());
 	}
+	
+	public static <ROW,T extends Temporal> Callback<TableColumn<ROW, T>, TableCell<ROW, T>> getDateCell (DateTimeFormatter format) {		
+	  return column -> {
+	    return new TableCell<ROW, T> () {
+	      @Override
+	      protected void updateItem (T item, boolean empty) {
+	        super.updateItem (item, empty);
+	        if (item == null || empty) {
+	          setText (null);
+	        }
+	        else {
+	          setText (format.format (item));
+	        }
+	      }
+	    };
+	  };
+	}		
 }

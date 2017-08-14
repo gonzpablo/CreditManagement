@@ -3,7 +3,10 @@ package com.cred.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,7 +16,17 @@ public class CreditoDAO {
 
 	public static ObservableList<CreditoModel> buscarCreditos(int cerrado) throws SQLException, ClassNotFoundException {
 	
-		String selectStmt = "SELECT rowid, * FROM creditos WHERE cerrado = " + cerrado + ";";
+		String selectStmt = "SELECT rowid, " +
+							" idCliente, " +
+							" cantCuotas," +
+							" unidad," +
+							" montoCuota," +
+							" montoTotal," +
+							" idCobrador," +
+							" idRuta," +
+							" cerrado," +
+							" date(fechaCreacion, 'unixepoch') as fechaCreacion " +
+				            " FROM creditos WHERE cerrado = " + cerrado + ";";		
 		
         try {
             ResultSet rsCreditos = DBUtil.dbExecuteQuery(selectStmt);
@@ -32,11 +45,12 @@ public class CreditoDAO {
 	    String insertStmt =
 	            "BEGIN;\n" +
 	                    "INSERT INTO creditos\n" +
-	                    "(IDCLIENTE, IDCOBRADOR, IDRUTA, MONTOTOTAL, MONTOCUOTA, CANTCUOTAS, UNIDAD, CERRADO)\n" +
+	                    "(IDCLIENTE, IDCOBRADOR, IDRUTA, FECHACREACION, MONTOTOTAL, MONTOCUOTA, CANTCUOTAS, UNIDAD, CERRADO)\n" +
 	                    "VALUES\n" +
 	                    "(" + credito.getClienteRef().getId() + "," + 
 	                    	  credito.getCobradorRef().getId() + "," +
-	                    	  credito.getRutaRef().getId() + "," +	                    	  
+	                    	  credito.getRutaRef().getId() + "," +
+	                    	  " (SELECT strftime('%s','" + credito.getFecha().getValue() + "')), " +  	                    	  
 	                    	  credito.getMontoCredito().multiply(BigDecimal.valueOf(100)) + "," +	                    	  
 	                    	  credito.getValorCuota().multiply(BigDecimal.valueOf(100)) + "," +
 							  credito.getCantCuotas() + "," +							  
@@ -98,6 +112,11 @@ public class CreditoDAO {
             										rs.getInt("IDCOBRADOR"),
             										rs.getInt("IDRUTA"),
             										rs.getInt("CERRADO"));
+                        
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate localDate = LocalDate.parse(rs.getString("FECHACREACION"), formatter);
+
+			credito.setFecha(new SimpleObjectProperty<LocalDate>(localDate));            
             
             listaCreditos.add(credito);
         }

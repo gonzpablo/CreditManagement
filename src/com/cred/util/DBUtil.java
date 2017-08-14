@@ -58,14 +58,15 @@ public class DBUtil {
 					"descripcion TEXT NOT NULL);\n" +
 
 		    	"CREATE TABLE pagos ( \n" + 
-		        		"idCredito	INTEGER NOT NULL, \n" + 
-		        		"montoPago	INTEGER, \n" + 
-		        		"fecha	INTEGER NOT NULL); \n" + 
+		        		"idCredito INTEGER NOT NULL, \n" + 
+		        		"montoPago INTEGER, \n" + 
+		        		"fecha INTEGER NOT NULL); \n" + 
 
 	        	"CREATE TABLE creditos ( \n" + 
-	        		"idCliente	INTEGER NOT NULL, \n" + 
+	        		"idCliente INTEGER NOT NULL, \n" + 
 	        		"idCobrador	INTEGER NOT NULL, \n" + 
-	        		"idRuta	INTEGER NOT NULL, \n" + 
+	        		"idRuta	INTEGER NOT NULL, \n" +
+	        		"fechaCreacion INTEGER NOT NULL, \n" +
 	        		"montoTotal	INTEGER, \n" + 
 	        		"montoCuota	INTEGER, \n" + 
 	        		"cantCuotas	INTEGER, \n" +
@@ -74,17 +75,17 @@ public class DBUtil {
 	
 	        	"CREATE TABLE cobradores ( \n" +
 	        		"nombre	TEXT NOT NULL, \n" + 
-	        		"apellido	TEXT, \n" +
+	        		"apellido TEXT, \n" +
 	        		"PRIMARY KEY(nombre,apellido)); \n" +
 	
 	        	"CREATE TABLE clientes ( \n" +
 	        		"nombre	TEXT, \n" +
-	        		"apellido	TEXT, \n" + 
-	        		"dni	TEXT, \n" + 
-	        		"direccion	TEXT, \n" +
-	        		"telefono	TEXT); \n"	+			
+	        		"apellido TEXT, \n" + 
+	        		"dni TEXT, \n" + 
+	        		"direccion TEXT, \n" +
+	        		"telefono TEXT); \n"	+			
 	
-					"COMMIT;";
+				"COMMIT;";
 
 		Log.show(updateStmt);
 
