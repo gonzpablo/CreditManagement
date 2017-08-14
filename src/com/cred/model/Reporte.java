@@ -152,6 +152,9 @@ public class Reporte {
 
 	private static void imprimirTexto(PDPageContentStream contentStream, String texto, float x, float y, float textWidth)  throws IOException {
 		
+		if (texto == null)
+			return;
+		
 		contentStream.beginText();
 		
 		if (textWidth > 0) {
