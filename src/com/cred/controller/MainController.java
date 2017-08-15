@@ -182,13 +182,14 @@ public class MainController {
 //			Se verifica la existencia de cada crédito porque puede haber ocurrido que 
 //			se cerró un crédito que estaba abierto al completar los pagos o al cerrarlo manualmente			
 			for ( CreditoModel credito : creditosCerrados ) {
-				   			
-	    	    if (creditos.contains(hashCreditos.get(credito.getId()))) {
+
+				if (hashCreditos.containsKey(credito.getId()))
 	    			continue;
-				} else {
+				else
 	    			creditos.add(credito);
-				}
 			}
+
+			creditos.addAll(creditosCerrados);			
 		}
 	}
 	
@@ -384,9 +385,11 @@ public class MainController {
 		if (!(result.get() == ButtonType.OK))
 		    return;
 		
+		hashCreditos.remove(credito.getId());
 		creditos.remove(credito);
 		credito.calcular();
 		credito.borrarCredito();
+		
 		calcularTotales();		
 	}
 
@@ -668,6 +671,7 @@ public class MainController {
     private void hashCreditos(ObservableList<CreditoModel> listaCreditos) {
     	
     	for ( CreditoModel credito : listaCreditos )
+    		
     		if (hashCreditos.containsKey(credito.getId()))
     			continue;
     		else
@@ -742,6 +746,8 @@ public class MainController {
 
     public void addItemToList(CreditoModel cred) {
     	creditos.add(cred);
+    	
+    	hashCreditos.put(cred.getId(), cred);
     }
 
 	public ObservableList<ClienteModel> getClientes() {

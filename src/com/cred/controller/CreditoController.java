@@ -173,7 +173,7 @@ public class CreditoController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	  	
+
 	  	mainController.addItemToList(nuevoCredito);
 	  	
 	    Stage stage = (Stage) crearButton.getScene().getWindow();
