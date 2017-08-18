@@ -84,11 +84,6 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Separator>
-                  <CheckBox fx:id="cerradoFilterCheckBox" contentDisplay="RIGHT" mnemonicParsing="false" text="Mostrar créditos cerrados">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </CheckBox>
                   <Button fx:id="btnModificarCreditos" mnemonicParsing="false" text="Modificar Crédito">
                      <opaqueInsets>
                         <Insets />

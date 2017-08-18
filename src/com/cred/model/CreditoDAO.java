@@ -14,7 +14,7 @@ import com.cred.util.DBUtil;
 
 public class CreditoDAO {
 
-	public static ObservableList<CreditoModel> buscarCreditos(int cerrado) throws SQLException, ClassNotFoundException {
+	public static ObservableList<CreditoModel> buscarCreditos() throws SQLException, ClassNotFoundException {
 	
 		String selectStmt = "SELECT rowid, " +
 							" idCliente, " +
@@ -27,6 +27,12 @@ public class CreditoDAO {
 							" cerrado," +
 							" date(fechaCreacion, 'unixepoch') as fechaCreacion " +
 				            " FROM creditos WHERE cerrado = " + cerrado + ";";		
+		
+// 		con esta sentencia de sqlite calculo 5 días anteriores a la fecha actual		
+//	       strftime('%s', datetime( julianday(date('now'))-5))		
+		
+//		la sentencia seria WHERE cerrado >= strftime('%s', datetime( julianday(date('now'))-5))
+//								OR cerrado = null  (ó is null)
 		
         try {
             ResultSet rsCreditos = DBUtil.dbExecuteQuery(selectStmt);
@@ -45,7 +51,7 @@ public class CreditoDAO {
 	    String insertStmt =
 	            "BEGIN;\n" +
 	                    "INSERT INTO creditos\n" +
-	                    "(IDCLIENTE, IDCOBRADOR, IDRUTA, FECHACREACION, MONTOTOTAL, MONTOCUOTA, CANTCUOTAS, UNIDAD, CERRADO)\n" +
+	                    "(IDCLIENTE, IDCOBRADOR, IDRUTA, FECHACREACION, MONTOTOTAL, MONTOCUOTA, CANTCUOTAS, UNIDAD)\n" +
 	                    "VALUES\n" +
 	                    "(" + credito.getClienteRef().getId() + "," + 
 	                    	  credito.getCobradorRef().getId() + "," +
@@ -54,8 +60,7 @@ public class CreditoDAO {
 	                    	  credito.getMontoCredito().multiply(BigDecimal.valueOf(100)) + "," +	                    	  
 	                    	  credito.getValorCuota().multiply(BigDecimal.valueOf(100)) + "," +
 							  credito.getCantCuotas() + "," +							  
-							  CreditoModel.obtenerIdUnidad(credito.getUnidad()) + "," + 
-							  0 + " );\n" +	                    
+							  CreditoModel.obtenerIdUnidad(credito.getUnidad()) + ");\n" + 	                    
 	                    "COMMIT;";	    
 	    
 	    try {
@@ -96,7 +101,7 @@ public class CreditoDAO {
 		    throw e;
 		}		
 	}		 
-	 
+
 	private static ObservableList<CreditoModel> getListaCreditos(ResultSet rs) throws SQLException, ClassNotFoundException {
 
         ObservableList<CreditoModel> listaCreditos = FXCollections.observableArrayList();
@@ -110,8 +115,7 @@ public class CreditoDAO {
             										rs.getInt("MONTOCUOTA"),
             										rs.getInt("MONTOTOTAL"),
             										rs.getInt("IDCOBRADOR"),
-            										rs.getInt("IDRUTA"),
-            										rs.getInt("CERRADO"));
+            										rs.getInt("IDRUTA"));
                         
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate localDate = LocalDate.parse(rs.getString("FECHACREACION"), formatter);
@@ -125,22 +129,25 @@ public class CreditoDAO {
     }
 
 	public static void cerrarCredito(CreditoModel credito, boolean cerrar) throws SQLException, ClassNotFoundException {
-
-		int cerrado = 0;
+		
+		String cerradoValue;
+		
 		
 		if (cerrar)
-			cerrado = 1;
+			cerradoValue = "strftime('%s','now')";
 		else
-			cerrado = 0;
-		
+			cerradoValue = "null";
+
 //		Cerrar un crédito		 
 		String updateStmt =
 		        "BEGIN;\n" +
 		                "UPDATE creditos \n" +
-		        		"SET cerrado = " + cerrado + " \n" +
+		        		"SET cerrado = " + cerradoValue + " \n" +
 		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
 		                "COMMIT;";	    
-			
+
+		System.out.println(updateStmt);
+		
 		try {
 		    DBUtil.dbExecuteUpdate(updateStmt);
 		} catch (SQLException e) {

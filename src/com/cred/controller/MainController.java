@@ -100,8 +100,6 @@ public class MainController {
 	@FXML
 	private ComboBox<CobradorModel> cobradorFilterCombo;	
 	@FXML
-	private CheckBox cerradoFilterCheckBox;
-	@FXML
 	private DatePicker fechaFilterField;
 //  -------------------------------------------------------------------	
 	@FXML
@@ -135,7 +133,7 @@ public class MainController {
 //  -------------------------------------------------------------------	
 
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
-	private ObservableList<CreditoModel> creditosCerrados = FXCollections.observableArrayList();
+//	private ObservableList<CreditoModel> creditosCerrados = FXCollections.observableArrayList();
 	
 	private FilteredList<CreditoModel> filteredItems;	 
 
@@ -166,31 +164,31 @@ public class MainController {
 		listaRutas = buscarRutas();				// Busca las rutas y carga hashRutas
 		listaCobradores = buscarCobradores();	// Busca los cobradores y carga hashCobradores
 		listaPagos = buscarPagos(0);  			// Buscar pagos correspondientes a créditos abiertos (no cerrados)
-		creditos = buscarCreditos(0); 			// Buscar creditos no cerrados		
+		creditos = buscarCreditos(); 			// Buscar creditos no cerrados		
 	}
 
 	private void buscarCredCerrados() {
 
-//		Solo buscar una vez los créditos cerrados
-		if (creditosCerrados.size() == 0) {
-			
-			listaPagos = buscarPagos(1);		  // Buscar pagos correspondientes a créditos cerrados
-			creditosCerrados = buscarCreditos(1); // Buscar creditos cerrados
-	
-			completarCreditos(creditosCerrados);
-			
-//			Se verifica la existencia de cada crédito porque puede haber ocurrido que 
-//			se cerró un crédito que estaba abierto al completar los pagos o al cerrarlo manualmente			
-			for ( CreditoModel credito : creditosCerrados ) {
-
-				if (hashCreditos.containsKey(credito.getId()))
-	    			continue;
-				else
-	    			creditos.add(credito);
-			}
-
-			creditos.addAll(creditosCerrados);			
-		}
+////		Solo buscar una vez los créditos cerrados
+//		if (creditosCerrados.size() == 0) {
+//			
+//			listaPagos = buscarPagos(1);		  // Buscar pagos correspondientes a créditos cerrados
+//			creditosCerrados = buscarCreditos(1); // Buscar creditos cerrados
+//	
+//			completarCreditos(creditosCerrados);
+//			
+////			Se verifica la existencia de cada crédito porque puede haber ocurrido que 
+////			se cerró un crédito que estaba abierto al completar los pagos o al cerrarlo manualmente			
+//			for ( CreditoModel credito : creditosCerrados ) {
+//
+//				if (hashCreditos.containsKey(credito.getId()))
+//	    			continue;
+//				else
+//	    			creditos.add(credito);
+//			}
+//
+//			creditos.addAll(creditosCerrados);			
+//		}
 	}
 	
 	@FXML
@@ -231,7 +229,6 @@ public class MainController {
 		
         ObjectProperty<Predicate<CreditoModel>> cobradorFilter = new SimpleObjectProperty<>();
         ObjectProperty<Predicate<CreditoModel>> rutaFilter = new SimpleObjectProperty<>();			
-        ObjectProperty<Predicate<CreditoModel>> cerradoFilter = new SimpleObjectProperty<>();
         
         cobradorFilter.bind(Bindings.createObjectBinding(() ->        
 		credito ->
@@ -242,15 +239,9 @@ public class MainController {
 		credito -> 
 			rutaFilterCombo.getValue() == null || rutaFilterCombo.getValue() == credito.getRutaRef(),
 			rutaFilterCombo.valueProperty()));		
-        
-        
-        cerradoFilter.bind(Bindings.createObjectBinding(() ->
-							credito -> 
-							    cerradoFilterCheckBox.isSelected() == credito.isCerrado(),
-								cerradoFilterCheckBox.selectedProperty()));
 
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> 
-				cobradorFilter.get().and(rutaFilter.get().and(cerradoFilter.get())), cobradorFilter, rutaFilter, cerradoFilter));
+				cobradorFilter.get().and(rutaFilter.get()), cobradorFilter, rutaFilter));
         
         // 3. Wrap the FilteredList in a SortedList. 
         SortedList<CreditoModel> sortedData = new SortedList<>(filteredItems);
@@ -274,12 +265,13 @@ public class MainController {
         rutaFilterCombo.setOnAction(e -> { 	calcularTotales();  });
         fechaFilterField.setOnAction(e -> { calcularTotales(); } );
         
-        cerradoFilterCheckBox.setOnAction( e -> { buscarCredCerrados(); calcularTotales(); });      
+//        cerradoFilterCheckBox.setOnAction( e -> { buscarCredCerrados(); calcularTotales(); });     
+        
         btnCleanFilters.setOnAction(e -> {
             rutaFilterCombo.setValue(null);
             cobradorFilterCombo.setValue(null);
             fechaFilterField.setValue(null);
-            cerradoFilterCheckBox.setSelected(false);           
+//            cerradoFilterCheckBox.setSelected(false);           
             calcularTotales();
         });            
 
@@ -653,12 +645,12 @@ public class MainController {
         
 	}
 
-    public ObservableList<CreditoModel> buscarCreditos(int cerrado) {
+    public ObservableList<CreditoModel> buscarCreditos() {
     	
     	ObservableList<CreditoModel> creditosBD = FXCollections.observableArrayList();
     	
     	try {
-			creditosBD = CreditoDAO.buscarCreditos(cerrado);
+			creditosBD = CreditoDAO.buscarCreditos();
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		}

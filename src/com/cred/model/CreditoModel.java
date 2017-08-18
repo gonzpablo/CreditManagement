@@ -25,7 +25,7 @@ public class CreditoModel {
 	private int cuotasPagas;
 	private String unidad;
 	private BigDecimal saldoCapital = new BigDecimal("0");;
-	private boolean cerrado = false;	// todos los creditos nacen abiertos	
+//	private boolean cerrado = false;	// todos los creditos nacen abiertos	
 	
 //	Id's Referencias	
 	private int idCliente;
@@ -55,7 +55,7 @@ public class CreditoModel {
 		this.cliente.set(cliente);
 		this.cobrador.set(cobrador);		
 		this.ruta.set(ruta);
-		this.cerrado = false;
+//		this.cerrado = false;
 		
 		this.cuotaCapital =	CreditoModel.obtenerCuotaCapital(
 				this.getMontoCredito().toString(), String.valueOf(this.getCantCuotas()));
@@ -78,7 +78,7 @@ public class CreditoModel {
 	
 //	CreditoModel (De BD):	
 	public CreditoModel(int id, int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
-						int montoCredito, int idCobrador, int idRuta, int cerrado) {
+						int montoCredito, int idCobrador, int idRuta) {
 		
 		this.cliente = new SimpleObjectProperty<ClienteModel>();		
 		this.cobrador = new SimpleObjectProperty<CobradorModel>();		
@@ -93,11 +93,6 @@ public class CreditoModel {
 		this.idRuta = idRuta;
 		this.unidad = obtenerUnidad(idUnidad);
 		this.valorCuota = BigDecimal.valueOf(montoCuota).divide(BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP));
-		
-		if (cerrado == 0)
-			this.cerrado = false;
-		else 
-			this.cerrado = true;
 		
 		this.cuotaCapital =	CreditoModel.obtenerCuotaCapital(
 				this.getMontoCredito().toString(), String.valueOf(this.getCantCuotas()));
@@ -382,13 +377,13 @@ public class CreditoModel {
 					.multiply(BigDecimal.valueOf(30)).setScale(2, RoundingMode.HALF_UP);
 	}
 
-	public boolean isCerrado() {
-		return cerrado;
-	}
+//	public boolean isCerrado() {
+//		return cerrado;
+//	}
 
-	public void setCerrado(boolean cerrado) {
-		this.cerrado = cerrado;
-	}
+//	public void setCerrado(boolean cerrado) {
+//		this.cerrado = cerrado;
+//	}
 
 	public String getUnidad() {
 		return unidad;
