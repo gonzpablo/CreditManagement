@@ -26,7 +26,9 @@ public class CreditoDAO {
 							" idRuta," +
 							" cerrado," +
 							" date(fechaCreacion, 'unixepoch') as fechaCreacion " +
-				            " FROM creditos WHERE cerrado = " + cerrado + ";";		
+				            " FROM creditos " + 
+							" WHERE cerrado >= strftime('%s', datetime( julianday(date('now'))-5)) OR " +
+  			            		  " cerrado = null;";		
 		
 // 		con esta sentencia de sqlite calculo 5 días anteriores a la fecha actual		
 //	       strftime('%s', datetime( julianday(date('now'))-5))		

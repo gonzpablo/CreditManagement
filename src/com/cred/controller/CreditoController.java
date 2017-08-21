@@ -161,7 +161,7 @@ public class CreditoController {
 	  	nuevoCredito.setCliente(cliente);
 	  	nuevoCredito.setCobrador(cobradorCombo.getValue());
 	  	nuevoCredito.setRuta(rutaCombo.getValue());
-	  	nuevoCredito.setCerrado(false);
+//	  	nuevoCredito.setCerrado(false);
 	  	nuevoCredito.calcularSaldoCapital();
 	  	
 	  	try {
