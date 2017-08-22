@@ -20,6 +20,7 @@ public class DBUtil {
 		try {
 			if (!tieneEsquema()) {
 				crearEsquema();
+				crearIndices();				
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -46,7 +47,24 @@ public class DBUtil {
         }
     }
 
-    private static void crearEsquema() throws SQLException, ClassNotFoundException {
+    private static void crearIndices() throws ClassNotFoundException, SQLException {
+    	String updateStmt =
+				"BEGIN TRANSACTION;\n" +	
+    	
+				"CREATE INDEX IF NOT EXISTS \n" +				
+				" idx_Cerrado on CREDITOS (cerrado);\n" +
+				
+				"COMMIT;";
+
+		try {
+			DBUtil.dbExecuteUpdate(updateStmt);
+		} catch (SQLException e) {
+			System.out.print("Error en Creación de índices: " + e);
+			throw e;
+		}		
+	}
+
+	private static void crearEsquema() throws SQLException, ClassNotFoundException {
 
 //		Todas las tablas tienen ROWID y éste es por defecto la clave primaria    	
     	
@@ -86,8 +104,6 @@ public class DBUtil {
 	        		"telefono TEXT); \n"	+			
 	
 				"COMMIT;";
-
-		Log.show(updateStmt);
 
 		try {
 			DBUtil.dbExecuteUpdate(updateStmt);

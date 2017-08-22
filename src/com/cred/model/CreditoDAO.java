@@ -29,13 +29,7 @@ public class CreditoDAO {
 				            " FROM creditos " + 
 							" WHERE cerrado >= strftime('%s', datetime( julianday(date('now'))-5)) OR " +
   			            		  " cerrado is null;";		
-		
-// 		con esta sentencia de sqlite calculo 5 días anteriores a la fecha actual		
-//	       strftime('%s', datetime( julianday(date('now'))-5))		
-		
-//		la sentencia seria WHERE cerrado >= strftime('%s', datetime( julianday(date('now'))-5))
-//								OR cerrado = null  (ó is null)
-		
+
         try {
             ResultSet rsCreditos = DBUtil.dbExecuteQuery(selectStmt);
  
@@ -81,14 +75,14 @@ public class CreditoDAO {
 		                "DELETE FROM creditos\n" +
 		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
 		                "COMMIT;";	    
-		
+
 		try {
 		    DBUtil.dbExecuteUpdate(deleteStmt);
 		} catch (SQLException e) {
 		    System.out.print("Error en Delete Creditos: " + e);
 		    throw e;
 		}
-		
+
 //		Borrar los pagos asociados
 		deleteStmt =
 		        "BEGIN;\n" +
@@ -117,7 +111,8 @@ public class CreditoDAO {
             										rs.getInt("MONTOCUOTA"),
             										rs.getInt("MONTOTOTAL"),
             										rs.getInt("IDCOBRADOR"),
-            										rs.getInt("IDRUTA"));
+            										rs.getInt("IDRUTA"),
+            										rs.getInt("CERRADO"));
                         
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate localDate = LocalDate.parse(rs.getString("FECHACREACION"), formatter);

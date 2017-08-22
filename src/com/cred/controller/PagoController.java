@@ -275,11 +275,10 @@ public class PagoController {
 			cerrarCreditoCheckBox.setDisable(true);
 		}
 	
-		if (this.credito.isCerrado() == true)
+		if (this.credito.isCerrado() == true) {
 			disableFields(true);
-		
-		if (this.credito.isCerrado() == true)
-			cerrarCreditoCheckBox.setSelected(true);;
+			cerrarCreditoCheckBox.setSelected(true);
+		}			
 	}
 
 	public void setMainController(MainController mainController) {

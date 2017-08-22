@@ -133,7 +133,6 @@ public class MainController {
 //  -------------------------------------------------------------------	
 
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
-//	private ObservableList<CreditoModel> creditosCerrados = FXCollections.observableArrayList();
 	
 	private FilteredList<CreditoModel> filteredItems;	 
 
@@ -165,30 +164,6 @@ public class MainController {
 		listaCobradores = buscarCobradores();	// Busca los cobradores y carga hashCobradores
 		listaPagos = buscarPagos(0);  			// Buscar pagos correspondientes a créditos abiertos (no cerrados)
 		creditos = buscarCreditos(); 			// Buscar creditos no cerrados		
-	}
-
-	private void buscarCredCerrados() {
-
-////		Solo buscar una vez los créditos cerrados
-//		if (creditosCerrados.size() == 0) {
-//			
-//			listaPagos = buscarPagos(1);		  // Buscar pagos correspondientes a créditos cerrados
-//			creditosCerrados = buscarCreditos(1); // Buscar creditos cerrados
-//	
-//			completarCreditos(creditosCerrados);
-//			
-////			Se verifica la existencia de cada crédito porque puede haber ocurrido que 
-////			se cerró un crédito que estaba abierto al completar los pagos o al cerrarlo manualmente			
-//			for ( CreditoModel credito : creditosCerrados ) {
-//
-//				if (hashCreditos.containsKey(credito.getId()))
-//	    			continue;
-//				else
-//	    			creditos.add(credito);
-//			}
-//
-//			creditos.addAll(creditosCerrados);			
-//		}
 	}
 	
 	@FXML
@@ -265,13 +240,10 @@ public class MainController {
         rutaFilterCombo.setOnAction(e -> { 	calcularTotales();  });
         fechaFilterField.setOnAction(e -> { calcularTotales(); } );
         
-//        cerradoFilterCheckBox.setOnAction( e -> { buscarCredCerrados(); calcularTotales(); });     
-        
         btnCleanFilters.setOnAction(e -> {
             rutaFilterCombo.setValue(null);
             cobradorFilterCombo.setValue(null);
             fechaFilterField.setValue(null);
-//            cerradoFilterCheckBox.setSelected(false);           
             calcularTotales();
         });            
 
