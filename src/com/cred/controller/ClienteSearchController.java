@@ -78,22 +78,21 @@ public class ClienteSearchController {
 		FilteredList<ClienteModel> filteredData = new FilteredList<>(clientes, p -> true);
 		
 		nombreFilterField.textProperty().addListener((observable, oldValue, newValue) -> {
-		
+			
             filteredData.setPredicate(cliente -> {
                 // Si el filtro está vacío, mostrar todos los clientes
-                if (newValue == null || newValue.isEmpty()) {
+                if (newValue == null || newValue.isEmpty())
                     return true;
-                }
 
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (cliente.getNombre().toLowerCase().contains(lowerCaseFilter)) {
+                if (cliente.getNombre().toLowerCase().contains(lowerCaseFilter)	||
+                	cliente.getApellido().toLowerCase().contains(lowerCaseFilter))
+                	
                     return true; // Filter matches first name.
-                } else if (cliente.getNombre().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                }
-                return false; // Does not match.
+                else
+                	return false; // Does not match.
             });
         });		
 		

@@ -8,9 +8,10 @@
 
 <GridPane maxHeight="500.0" maxWidth="500.0" prefHeight="453.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.ClienteController">
    <columnConstraints>
-      <ColumnConstraints />
-      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="330.0" />
-      <ColumnConstraints maxWidth="95.0" minWidth="10.0" prefWidth="91.0" />
+      <ColumnConstraints maxWidth="99.0" minWidth="29.0" prefWidth="72.0" />
+      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="71.0" />
+      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="245.0" />
+      <ColumnConstraints maxWidth="249.0" minWidth="10.0" prefWidth="95.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
@@ -33,7 +34,7 @@
       <TextField fx:id="clienteDireccionField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
       <TextField fx:id="clienteTelefonoField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
       <Button fx:id="clienteGuardarButton" mnemonicParsing="false" text="Guardar" GridPane.rowIndex="5" />
-      <Button fx:id="clienteNuevoButton" mnemonicParsing="false" text="Nuevo Cliente" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+      <Button fx:id="clienteNuevoButton" mnemonicParsing="false" text="Nuevo Cliente" GridPane.columnIndex="3" GridPane.rowIndex="5" />
       <Button fx:id="clienteBorrarButton" mnemonicParsing="false" text="Borrar" GridPane.columnIndex="1" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -52,6 +53,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <TextField fx:id="nombreFilterField" maxWidth="140.0" prefHeight="25.0" prefWidth="140.0" promptText="Buscar por Nombre" GridPane.columnIndex="2" GridPane.rowIndex="5" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

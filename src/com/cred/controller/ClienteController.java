@@ -15,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 
 public class ClienteController {
@@ -34,6 +36,9 @@ public class ClienteController {
 	@FXML
 	private TextField clienteTelefonoField;
 
+	@FXML
+	private TextField nombreFilterField;	
+	
 	@FXML
 	private Button clienteGuardarButton;
 	@FXML
@@ -132,26 +137,25 @@ public class ClienteController {
 	}
 
 	private void grisarCampos(Boolean value) {
-		clienteNombreField.setDisable(value);		
+		clienteNombreField.setDisable(value);
 		clienteApellidoField.setDisable(value);
 		clienteDniField.setDisable(value);
 		clienteDireccionField.setDisable(value);
-		clienteTelefonoField.setDisable(value);		
-		
+		clienteTelefonoField.setDisable(value);
 		clienteGuardarButton.setDisable(value);
-	}	
-	
+	}
+
 	private void guardarCliente() {
-		
+
 		if (!validar())
-			return;		
-		
+			return;
+
 		if (this.cliente == null) {
 			ClienteModel clienteNew = new ClienteModel(
-					  clienteNombreField.getText(), clienteApellidoField.getText(), 
-					  clienteDireccionField.getText(), clienteTelefonoField.getText(), 
-					  clienteDniField.getText()); 
-			
+					  clienteNombreField.getText(), clienteApellidoField.getText(),
+					  clienteDireccionField.getText(), clienteTelefonoField.getText(),
+					  clienteDniField.getText());
+
 	    	try {
 				ClienteDAO.agregarCliente(clienteNew);
 				clienteNew.setId(DBUtil.getLastRowId("clientes"));
@@ -183,7 +187,6 @@ public class ClienteController {
     }	
 	
 	private void initColumns() {
-
 		clienteNombreColumn.setCellValueFactory(cellData -> cellData.getValue().nombreProperty());		
         clienteApellidoColumn.setCellValueFactory(new PropertyValueFactory<>("apellido"));
         clienteDniColumn.setCellValueFactory(new PropertyValueFactory<>("dni"));
@@ -199,11 +202,6 @@ public class ClienteController {
 		clienteTelefonoField.clear();
 	}
 
-	public void setClientes(ObservableList<ClienteModel> clientes) {
-		this.clientes = clientes;
-		clientesTable.setItems(clientes);
-	}
-	
 	private void borrarCliente() {
 		
 		ClienteModel cliente = clientesTable.getSelectionModel().getSelectedItem();
@@ -249,5 +247,40 @@ public class ClienteController {
 		} 		
 	
 		return true;
+	}
+	
+	public void setClientes(ObservableList<ClienteModel> clientes) {
+		this.clientes = clientes;
+		clientesTable.setItems(clientes);
+		
+		FilteredList<ClienteModel> filteredData = new FilteredList<>(clientes, p -> true);
+		
+		nombreFilterField.textProperty().addListener((observable, oldValue, newValue) -> {
+		
+            filteredData.setPredicate(cliente -> {
+                // Si el filtro está vacío, mostrar todos los clientes
+                if (newValue == null || newValue.isEmpty())
+                    return true;
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (cliente.getNombre().toLowerCase().contains(lowerCaseFilter)	||
+                	cliente.getApellido().toLowerCase().contains(lowerCaseFilter))
+                	
+                    return true; // Filter matches first name.
+                else
+                	return false; // Does not match.
+            });
+        });		
+		
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<ClienteModel> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(clientesTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        clientesTable.setItems(sortedData);			
 	}
 }
