@@ -24,7 +24,7 @@ public class CreditoModel {
 	private BigDecimal indiceCapital;
 	private int cuotasPagas;
 	private int cerrado;
-	
+
 	private String unidad;
 	private BigDecimal saldoCapital = new BigDecimal("0");;
 //	private boolean cerrado = false;	// todos los creditos nacen abiertos	
@@ -379,12 +379,18 @@ public class CreditoModel {
 					.multiply(BigDecimal.valueOf(30)).setScale(2, RoundingMode.HALF_UP);
 	}
 
-//	public boolean isCerrado() {
-//		return cerrado;
-//	}
+	public boolean isCerrado() {
+		if (this.cerrado != 0)
+			return true;
+		else
+			return false;		
+	}
 
 	public void setCerrado(boolean cerrado) {
-		this.cerrado = cerrado;
+		if (cerrado)
+			this.cerrado = 1;
+		else
+			this.cerrado = 0;
 	}
 
 	public String getUnidad() {

@@ -58,8 +58,16 @@ public class PagoDAO {
 							"FROM pagos as p " +
 									"inner join creditos as c " +
 									"on p.idCredito = c.rowid " +
-							"WHERE c.cerrado = " + cerrado + " " +  
-							"ORDER BY fecha desc;";		
+							" WHERE c.cerrado >= strftime('%s', datetime( julianday(date('now'))-5)) OR " +
+							  " c.cerrado is null " +  
+							"ORDER BY fecha desc;";						
+
+//con esta sentencia de sqlite calculo 5 días anteriores a la fecha actual		
+//strftime('%s', datetime( julianday(date('now'))-5))		
+
+//la sentencia seria WHERE cerrado >= strftime('%s', datetime( julianday(date('now'))-5))
+//		OR cerrado = null  (ó is null)		
+		
 		
 		try {
 			ResultSet rsPagos = DBUtil.dbExecuteQuery(selectStmt);
