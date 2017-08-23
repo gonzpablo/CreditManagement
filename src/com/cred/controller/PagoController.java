@@ -1,5 +1,6 @@
 package com.cred.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
@@ -31,6 +32,8 @@ import com.cred.model.CreditoModel;
 import com.cred.model.NumeroUtil;
 import com.cred.model.PagoDAO;
 import com.cred.model.PagoModel;
+import com.cred.model.Reporte;
+import com.cred.model.ReportePagos;
 import com.cred.util.DBUtil;
 import com.cred.util.TextFieldValidator;
 import com.cred.util.TextFieldValidator.ValidationModus;
@@ -53,6 +56,8 @@ public class PagoController {
 	private Button cancelarButton;
 	@FXML
 	private Button borrarPagoButton;
+	@FXML
+	private Button reporteButton;	
 	@FXML
 	private TableColumn<PagoModel, LocalDate> fechaColumn;
 	@FXML	
@@ -102,9 +107,24 @@ public class PagoController {
 			borrarPago();
 		});
 		
+		reporteButton.setOnAction( (event) -> {
+			reportePagos();
+		});
+		
 		cerrarCreditoCheckBox.setOnAction( (event) -> { cerrarCredito(); } );
 
 		montoPagadoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());
+	}
+
+	private void reportePagos() {
+		Stage stage = new Stage();
+		ReportePagos rep = new ReportePagos(stage);
+		
+		try {
+			rep.generarReporte(this.credito, pagos);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 
 	private void borrarPago() {
