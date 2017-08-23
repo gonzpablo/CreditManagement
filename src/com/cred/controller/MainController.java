@@ -28,7 +28,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
@@ -320,7 +319,7 @@ public class MainController {
 		Reporte rep = new Reporte(stage);
 		
 		try {
-			rep.reporteRutaBeta(filteredItems);
+			rep.reporteRuta(filteredItems);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

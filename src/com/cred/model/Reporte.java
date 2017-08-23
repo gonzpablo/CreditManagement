@@ -36,164 +36,32 @@ public class Reporte {
 		this.stage = stage;
 	}
 	
-	public static void reporteRuta(FilteredList<CreditoModel> creditos) throws IOException {		
-		
-	    PDDocument doc = new PDDocument();
-	    
-	    drawTable(doc, 750, 50, creditos);
-	    	    
-	    doc.save("c:/temp/test_table.pdf" );
-	    doc.close();
-	}
-
-	public static void drawTable(PDDocument doc, float y, float margin,
-									ObservableList<CreditoModel> creditos) throws IOException {
-		
-		final int rows = creditos.size() + 1;  // +1 es para el heading
-		final int cols = 7;
-		final float rowHeight = 20f;
-		final float tableWidth;
-		final float tableHeight = rowHeight * rows;
-		final float colWidth;
-		final float cellMargin=5f;
-
-		//draw the rows
-		float nexty = y ;
-		
-		
-	    PDPage page = crearPagina();		// crear página A4	    
-	    tableWidth = page.getCropBox().getWidth() - margin - margin;
-	    colWidth = tableWidth/(float)cols;
-	    
-	    doc.addPage( page );
-	    PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-
-		contentStream.setNonStrokingColor(200, 200, 200); //gray background
-		contentStream.fillRect(margin, nexty-rowHeight, tableWidth, 20);		
-		
-		for (int i = 0; i <= rows; i++) {
-//			 * @param xStart The start x coordinate.
-//			 * @param yStart The start y coordinate.
-//			 * @param xEnd The end x coordinate.
-//			 * @param yEnd The end y coordinate.
-//			 * @throws IOException If there is an error while drawing on the screen.
-		
-			contentStream.drawLine(margin, nexty, margin+tableWidth, nexty);
-
-			contentStream.moveTo(margin, nexty);
-			contentStream.lineTo(margin+tableWidth, nexty);
-		
-			nexty-= rowHeight;
-			
-			if ( nexty < 10 ) {
-				contentStream.close();
-			    page = crearPagina();		// crear página A4	    
-			    doc.addPage( page );
-			    contentStream = new PDPageContentStream(doc, page);
-
-				contentStream.setNonStrokingColor(200, 200, 200); //gray background
-				contentStream.fillRect(margin, nexty-rowHeight, tableWidth, 20);	
-				
-				nexty = y ;
-			}
-					
-		}
-
-		contentStream.setNonStrokingColor(0, 0, 0); //black text
-		
-		//draw the columns
-		float nextx = margin;
-		for (int i = 0; i <= cols; i++) {
-			contentStream.drawLine(nextx, y, nextx, y-tableHeight);		
-			
-			switch (i) {
-			case 0 : { nextx += colWidth+30; break; }
-			case 3 : { nextx += colWidth-15; break; }
-			case 4 : { nextx += colWidth-15; break; }
-			default: { nextx += colWidth; }
-			}
-						
-		}
-
-//		now add the text
-		contentStream.setFont( PDType1Font.HELVETICA_BOLD , 12 );
-		
-		float textx = margin+cellMargin;
-		float texty = y-15;
-		
-		textx+=imprimirDato(1, "Cliente", contentStream, textx, texty, colWidth+30);
-		textx+=imprimirDato(1, "Valor Cuota", contentStream, textx, texty, colWidth);		
-		textx+=imprimirDato(1, "Monto Crédito", contentStream, textx, texty, colWidth);		
-		textx+=imprimirDato(1, "CP", contentStream, textx, texty, colWidth-15);		
-		textx+=imprimirDato(1, "CC", contentStream, textx, texty, colWidth-15);		
-		textx+=imprimirDato(1, "Cobrador", contentStream, textx, texty, colWidth);		
-		textx+=imprimirDato(1, "Ruta", contentStream, textx, texty, colWidth);
-		
-		texty-=rowHeight;
-
-		textx = margin+cellMargin;
-
-		//		loop de Registros		
-		for ( CreditoModel cred : creditos) {		
-			
-//			Loop de columnas			
-			textx+= imprimirDato(2, cred.getCliente(), contentStream, textx, texty, colWidth+30);
-			textx+=imprimirDato(2, cred.getValorCuota().toString(), contentStream, textx, texty, colWidth);
-			textx+=imprimirDato(2, cred.getMontoCredito().toString(), contentStream, textx, texty, colWidth);
-			textx+=imprimirDato(2, String.valueOf(cred.getCuotasPagas()), contentStream, textx, texty, colWidth-15);
-			textx+=imprimirDato(2, String.valueOf(cred.getCantCuotas()), contentStream, textx, texty, colWidth-15);
-			
-			texty-=rowHeight;
-			textx = margin+cellMargin;			
-		}		
-		
-	    contentStream.close();
-	}
-
 	private static void imprimirTexto(PDPageContentStream contentStream, String texto, float x, float y, float textWidth)  throws IOException {
 		
 		if (texto == null)
 			return;
 		
 		contentStream.beginText();
-		
+
 		if (textWidth > 0) {
 
-			contentStream.moveTextPositionByAmount(x-textWidth, y);				
-			contentStream.drawString(texto);		
-			contentStream.moveTextPositionByAmount(x+textWidth, y);		
+			contentStream.moveTextPositionByAmount(x-textWidth, y);
+			contentStream.drawString(texto);
+			contentStream.moveTextPositionByAmount(x+textWidth, y);
 			
-		
 		} else {
-			contentStream.moveTextPositionByAmount(x, y);	
-			contentStream.drawString(texto);		
-			
+			contentStream.moveTextPositionByAmount(x, y);
+			contentStream.drawString(texto);
 		}
 			
 		contentStream.endText();		
-	}
-	
-	private static float imprimirDato(int tipoLinea, String dato, PDPageContentStream contentStream, float textx, float texty, float colWidth) throws IOException {
-	
-		contentStream.beginText();
-
-		if (tipoLinea == 1)
-			contentStream.setFont( PDType1Font.HELVETICA.HELVETICA_BOLD , 9 );
-		else
-			contentStream.setFont( PDType1Font.HELVETICA , 10 );
-
-		contentStream.moveTextPositionByAmount(textx,texty);
-		contentStream.drawString(dato);
-		contentStream.endText();
-		
-		return colWidth;		
 	}
 	
 	private static PDPage crearPagina() {
 		return new PDPage(PDRectangle.A4); 
 	}
 	
-	public void reporteRutaBeta(FilteredList<CreditoModel> creditos) throws IOException {	
+	public void reporteRuta(FilteredList<CreditoModel> creditos) throws IOException {	
 
 		headerFields.add(new ReporteField("Cliente", 110));
 		headerFields.add(new ReporteField("Valor Cuota", 80));
@@ -315,6 +183,10 @@ public class Reporte {
 
 				
 		for ( CreditoModel credito : creditos ) {
+			
+			if (credito.isCerrado())
+				continue;
+			
 			contentStream.drawLine(x, y+15, x, y+15-rowHeight);			
 			imprimirTexto(contentStream, credito.getCliente(), x+5, y, textWidth);
 			x+=getLength("Cliente");			

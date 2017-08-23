@@ -142,8 +142,6 @@ public class CreditoDAO {
 		        		"SET cerrado = " + cerradoValue + " \n" +
 		                "WHERE rowid = " + credito.getId() + ";\n" +	                    
 		                "COMMIT;";	    
-
-		System.out.println(updateStmt);
 		
 		try {
 		    DBUtil.dbExecuteUpdate(updateStmt);
