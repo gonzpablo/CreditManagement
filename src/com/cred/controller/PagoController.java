@@ -32,7 +32,6 @@ import com.cred.model.CreditoModel;
 import com.cred.model.NumeroUtil;
 import com.cred.model.PagoDAO;
 import com.cred.model.PagoModel;
-import com.cred.model.Reporte;
 import com.cred.model.ReportePagos;
 import com.cred.util.DBUtil;
 import com.cred.util.TextFieldValidator;
