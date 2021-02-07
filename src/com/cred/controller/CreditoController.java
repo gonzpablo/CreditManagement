@@ -82,8 +82,7 @@ public class CreditoController {
 		montoCreditoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());
 		montoCuotaField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());		
 		cantCuotasField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_INTEGERS, 9).getFormatter());
-		
-		
+
 		crearButton.setOnAction( (event) -> { crear(); });
 		cancelarButton.setOnAction( (event) -> { cancelar(); });
 		buscarButton.setOnAction( (event) -> { buscarCliente(); });
@@ -91,7 +90,10 @@ public class CreditoController {
         rutaCombo.setConverter(new StringConverter<RutaModel>() {
             @Override
             public String toString(RutaModel ruta) {
-                return ruta.getNombre() + " - " + ruta.getDescripcion();
+                if (ruta == null)
+                	return null;
+                else
+            		return ruta.getNombre() + " - " + ruta.getDescripcion();
             }
 
             @Override
@@ -103,7 +105,10 @@ public class CreditoController {
         cobradorCombo.setConverter(new StringConverter<CobradorModel>() {
             @Override
             public String toString(CobradorModel cobrador) {
-                return cobrador.getNombre() + " " + cobrador.getApellido();
+            	if (cobrador == null)
+            		return null;
+				else
+                	return cobrador.getNombre() + " " + cobrador.getApellido();
             }
 
             @Override

@@ -18,7 +18,7 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Main.fxml"));
             VBox page = (VBox) loader.load();
-            
+
             Scene scene = new Scene(page);
             primaryStage.setScene(scene);
             primaryStage.getIcons().add(new Image("file:icons/calculator.png"));

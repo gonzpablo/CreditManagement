@@ -557,34 +557,40 @@ public class MainController {
 
     private void initComboRuta() {
 		rutaFilterCombo.setItems(listaRutas);
-		
+
         rutaFilterCombo.setConverter(new StringConverter<RutaModel>() {
             @Override
             public String toString(RutaModel ruta) {
-                return ruta.getNombre() + " - " + ruta.getDescripcion();
+            	if (ruta == null)
+            		return null;
+				else
+                	return ruta.getNombre() + " - " + ruta.getDescripcion();
             }
 
             @Override
             public RutaModel fromString(String string) {
                 return null;
             }
-        });		
+        });
 	}
 
     private void initComboCobrador() {
     	cobradorFilterCombo.setItems(listaCobradores);
-    	
+
         cobradorFilterCombo.setConverter(new StringConverter<CobradorModel>() {
             @Override
             public String toString(CobradorModel cobrador) {
-                return cobrador.getNombre() + " " + cobrador.getApellido();
+            	if (cobrador == null)
+            		return null;
+            	else
+                	return cobrador.getNombre() + " " + cobrador.getApellido();
             }
 
             @Override
             public CobradorModel fromString(String string) {
                 return null;
             }
-        });     	
+        });
 	}
 
 	private void initColumns() {

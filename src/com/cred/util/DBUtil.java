@@ -1,8 +1,11 @@
 package com.cred.util;
 
-import com.sun.rowset.CachedRowSetImpl;
-
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.SQLException;
 
 public class DBUtil {
     //Declare JDBC Driver
@@ -128,7 +131,7 @@ public class DBUtil {
 
         Statement stmt = null;
         ResultSet resultSet = null;
-        CachedRowSetImpl crs = null;
+        CachedRowSet crs = null;
         
         try {
             dbConnect();
@@ -142,7 +145,10 @@ public class DBUtil {
             //CachedRowSet Implementation
             //In order to prevent "java.sql.SQLRecoverableException: Closed Connection: next" error
             //We are using CachedRowSet
-            crs = new CachedRowSetImpl();
+            //crs = new CachedRowSetImpl();
+
+            crs = RowSetProvider.newFactory().createCachedRowSet();
+
             crs.populate(resultSet);
         } catch (SQLException e) {
             System.out.println("Ocurrió un problema en la operación: " + e);
