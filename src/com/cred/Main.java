@@ -17,6 +17,10 @@ public class Main extends Application {
 
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Main.fxml"));
+//
+//            if ( loader.getLocation() == null )
+//                loader.setLocation();
+
             VBox page = (VBox) loader.load();
 
             Scene scene = new Scene(page);
