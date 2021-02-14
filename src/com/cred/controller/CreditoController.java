@@ -142,6 +142,9 @@ public class CreditoController {
             
             Scene scene = new Scene(page);
 
+            stage.setMinWidth(600);
+            stage.setMinHeight(600);
+
             stage.setScene(scene);
             stage.show();
             

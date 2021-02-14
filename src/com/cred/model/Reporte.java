@@ -145,7 +145,7 @@ public class Reporte {
 		doc.save(file);
 		doc.close();		
 		
-		Desktop.getDesktop().open(file);
+//		Desktop.getDesktop().open(file);
 	}
 
 	private static void drawHeader(PDPageContentStream contentStream, List<ReporteField> headerFields, float startx, float starty) throws IOException {	

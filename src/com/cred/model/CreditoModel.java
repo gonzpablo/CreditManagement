@@ -366,11 +366,11 @@ public class CreditoModel {
 		
 		if ( unidad.equals("Días") )
 		
-		return montoTotalCredito.divide(montoCredito, 15, RoundingMode.HALF_UP)
-				.subtract(BigDecimal.valueOf(1))
-				.multiply(BigDecimal.valueOf(100))
-				.divide(BigDecimal.valueOf(cantCuotas), 15, RoundingMode.HALF_UP)
-				.multiply(BigDecimal.valueOf(30)).setScale(2, RoundingMode.HALF_UP);
+			return montoTotalCredito.divide(montoCredito, 15, RoundingMode.HALF_UP)
+					.subtract(BigDecimal.valueOf(1))
+					.multiply(BigDecimal.valueOf(100))
+					.divide(BigDecimal.valueOf(cantCuotas), 15, RoundingMode.HALF_UP)
+					.multiply(BigDecimal.valueOf(30)).setScale(2, RoundingMode.HALF_UP);
 		else // Semanas
 			return montoTotalCredito.divide(montoCredito, 15, RoundingMode.HALF_UP)
 					.subtract(BigDecimal.valueOf(1))
