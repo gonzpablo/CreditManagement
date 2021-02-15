@@ -58,11 +58,9 @@ public class RutaController {
         	grisarCampos(true);
 		});		
 		
-		rutaNuevoButton.setOnAction( event -> { 
-			nuevaRuta();
-		});
+		rutaNuevoButton.setOnAction( event -> nuevaRuta());
 		
-		rutaBorrarButton.setOnAction( event -> { borrarRuta(); });
+		rutaBorrarButton.setOnAction( event -> borrarRuta());
 		
 //		Doble-click        
         rutasTable.setRowFactory( tv -> {

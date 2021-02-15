@@ -3,127 +3,134 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane prefHeight="470.0" prefWidth="385.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.CreditoModController">
+<GridPane prefHeight="470.0" prefWidth="385.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.cred.controller.CreditoModController">
    <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="10.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="43.0" />
-      <RowConstraints maxHeight="35.0" minHeight="6.0" prefHeight="17.0" />
+      <RowConstraints minHeight="10.0" prefHeight="10.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="43.0"/>
+      <RowConstraints maxHeight="35.0" minHeight="6.0" prefHeight="17.0"/>
    </rowConstraints>
    <columnConstraints>
-      <ColumnConstraints maxWidth="164.0" minWidth="10.0" prefWidth="124.0" />
-      <ColumnConstraints maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
-      <ColumnConstraints maxWidth="105.0" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints maxWidth="164.0" minWidth="10.0" prefWidth="124.0"/>
+      <ColumnConstraints maxWidth="150.0" minWidth="10.0" prefWidth="150.0"/>
+      <ColumnConstraints maxWidth="105.0" minWidth="10.0" prefWidth="100.0"/>
    </columnConstraints>
-   <children>
-      <Label text="Cliente" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin></Label>
-      <Label text="Monto Crédito" GridPane.rowIndex="3">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin></Label>
-      <Label text="Tasa Int. Mensual (%)" GridPane.rowIndex="10">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin></Label>
-      <Label text="Cantidad Cuotas" GridPane.rowIndex="5">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin></Label>
-      <TextField fx:id="clienteField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding></TextField>
-      <TextField fx:id="montoCreditoField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding></TextField>
-      <TextField fx:id="montoCuotaField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </TextField>
-      <TextField fx:id="tasaInteresField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="10">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding></TextField>
-      <TextField fx:id="cantCuotasField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding></TextField>
-      <ComboBox fx:id="unidadCuotasCombo" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-      </ComboBox>
-      <Label text="Cobrador" GridPane.rowIndex="7">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-      </Label>
-      <ComboBox fx:id="cobradorCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin></ComboBox>
-      <ComboBox fx:id="rutaCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-      <Label text="Monto Cuota" GridPane.rowIndex="4">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-      </Label>
-      <Label text="Ganancia/día" GridPane.rowIndex="11">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-      </Label>
-      <TextField fx:id="gciaXDiaField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="11">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </TextField>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="14">
-         <children>
-            <Button fx:id="guardarButton" alignment="CENTER" mnemonicParsing="false" text="Guardar" />
-            <Button fx:id="cancelarButton" mnemonicParsing="false" text="Cancelar" />
-         </children>
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </HBox>
-      <Label text="Ruta" GridPane.rowIndex="8">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </Label>
-      <Label text="Monto Total Crédito" GridPane.rowIndex="12">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-      </Label>
-      <TextField fx:id="montoTotalCreditoField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="12">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </TextField>
-   </children>
    <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
    </padding>
+   <Label text="Cliente" GridPane.rowIndex="1">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Label>
+   <Label text="Monto Crédito" GridPane.rowIndex="3">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Label>
+   <Label text="Tasa Int. Mensual (%)" GridPane.rowIndex="10">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Label>
+   <Label text="Cantidad Cuotas" GridPane.rowIndex="5">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Label>
+   <TextField fx:id="clienteField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+   </TextField>
+   <TextField fx:id="montoCreditoField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+   </TextField>
+   <TextField fx:id="montoCuotaField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+   </TextField>
+   <TextField fx:id="tasaInteresField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="10">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+   </TextField>
+   <TextField fx:id="cantCuotasField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+   </TextField>
+   <ComboBox fx:id="unidadCuotasCombo" disable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </ComboBox>
+   <Label text="Cobrador" GridPane.rowIndex="7">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Label>
+   <ComboBox fx:id="cobradorCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+      <GridPane.margin>
+         <Insets/>
+      </GridPane.margin>
+   </ComboBox>
+   <ComboBox fx:id="rutaCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+   <Label text="Monto Cuota" GridPane.rowIndex="4">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Label>
+   <Label text="Ganancia/día" GridPane.rowIndex="11">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Label>
+   <TextField fx:id="gciaXDiaField" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="11">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+   </TextField>
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.columnSpan="2147483647"
+         GridPane.rowIndex="14">
+      <GridPane.margin>
+         <Insets/>
+      </GridPane.margin>
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+      <Button fx:id="guardarButton" alignment="CENTER" mnemonicParsing="false" text="Guardar"/>
+      <Button fx:id="cancelarButton" mnemonicParsing="false" text="Cancelar"/>
+   </HBox>
+   <Label text="Ruta" GridPane.rowIndex="8">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+   </Label>
+   <Label text="Monto Total Crédito" GridPane.rowIndex="12">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Label>
+   <TextField fx:id="montoTotalCreditoField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="12">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+   </TextField>
 </GridPane>

@@ -3,140 +3,128 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.MainController">
-   <children>
-      <MenuBar>
-        <menus>
-          <Menu mnemonicParsing="false" text="Archivo">
-            <items>
-              <MenuItem fx:id="salirMenu" mnemonicParsing="false" text="Salir" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Créditos">
-               <items>
-                  <MenuItem fx:id="crearCreditoMenu" mnemonicParsing="false" text="Crear crédito" />
-               </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Clientes">
-            <items>
-              <MenuItem fx:id="clienteMenuGestionar" mnemonicParsing="false" text="Gestionar Clientes" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Cobradores">
-               <items>
-                  <MenuItem fx:id="cobradorMenuGestionar" mnemonicParsing="false" text="Gestionar Cobradores" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Rutas">
-               <items>
-                  <MenuItem fx:id="rutasMenuGestionar" mnemonicParsing="false" text="Gestionar Rutas" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Reportes">
-               <items>
-                  <MenuItem fx:id="reporteMenu" mnemonicParsing="false" text="Emitir Reporte" />
-               </items>
-            </Menu>            
-        </menus>
-      </MenuBar>
-      <ToolBar>
-         <items>
-            <HBox alignment="CENTER_LEFT" focusTraversable="true" spacing="1.0">
-               <children>
-                  <Label alignment="BASELINE_CENTER" contentDisplay="CENTER" text="Cobrador" textAlignment="CENTER">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <ComboBox fx:id="cobradorFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0" />
-                  <Label text="Ruta">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <ComboBox fx:id="rutaFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0" />
-                  <Label text="Fecha">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <DatePicker fx:id="fechaFilterField" prefWidth="110.0" />
-                  <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="5.0">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </Separator>
-                  <Button fx:id="btnModificarCreditos" mnemonicParsing="false" text="Modificar Crédito">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin></Button>
-                  <Button id="btnCleanFilters" fx:id="btnBorrarCreditos" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Borrar Crédito">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin></Button>
-                  <Separator disable="true" orientation="VERTICAL" prefHeight="30.0">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin></Separator>
-                  <Button id="btnCleanFilters" fx:id="btnCleanFilters" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Limpiar Filtros">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <padding>
-                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-               </padding>
-            </HBox>
-         </items>
-      </ToolBar>
-      <TableView fx:id="creditosTable" maxWidth="1.7976931348623157E308" prefHeight="328.0" prefWidth="648.0" VBox.vgrow="ALWAYS">
-        <columns>
-          <TableColumn fx:id="clienteColumn" prefWidth="75.0" text="Cliente" />
-            <TableColumn fx:id="valorCuotaColumn" prefWidth="75.0" text="Valor Cuota" />
-          <TableColumn fx:id="montoCuotaColumn" prefWidth="45.0" text="Monto Cuota" />
-            <TableColumn fx:id="montoCuotaAcumuladoColumn" prefWidth="75.0" text="Monto Acumulado" />
-            <TableColumn fx:id="gciaXDiaColumn" prefWidth="100.0" text="Gcia. X Día" />
-            <TableColumn fx:id="saldoCapitalColumn" prefWidth="84.0" text="Saldo Capital" />
-            <TableColumn fx:id="montoCreditoColumn" prefWidth="74.0" text="Monto Crédito" />
-            <TableColumn fx:id="cuotasPagasColumn" prefWidth="140.0" text="Cuotas Pagas" />
-            <TableColumn fx:id="cantCuotasColumn" prefWidth="145.0" text="Cantidad Cuotas" />
-            <TableColumn fx:id="unidadColumn" editable="false" prefWidth="145.0" text="Unidad" />
-            <TableColumn fx:id="cobradorColumn" prefWidth="98.0" text="Cobrador" />
-            <TableColumn fx:id="rutaColumn" prefWidth="98.0" text="Ruta" />
-            <TableColumn fx:id="fechaCreacionColumn" prefWidth="75.0" text="Fecha Creación" />            
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-      <ToolBar>
-         <items>
-            <HBox>
-               <children>
-                  <Label text="Totales del dia: ">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <Label text="Cuota Pura" textAlignment="CENTER">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="cuotaPuraField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="150.0" scaleShape="false" />
-                  <Label text="Ganancia" textAlignment="CENTER">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="gciaDiaField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="150.0" scaleShape="false" />
-               </children>
-            </HBox>
-         </items>
-      </ToolBar>
-   </children>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0"
+      prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.cred.controller.MainController">
+    <MenuBar>
+        <Menu mnemonicParsing="false" text="Archivo">
+            <MenuItem fx:id="salirMenu" mnemonicParsing="false" text="Salir"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Créditos">
+            <MenuItem fx:id="crearCreditoMenu" mnemonicParsing="false" text="Crear crédito"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Clientes">
+            <MenuItem fx:id="clienteMenuGestionar" mnemonicParsing="false" text="Gestionar Clientes"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Cobradores">
+            <MenuItem fx:id="cobradorMenuGestionar" mnemonicParsing="false" text="Gestionar Cobradores"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Rutas">
+            <MenuItem fx:id="rutasMenuGestionar" mnemonicParsing="false" text="Gestionar Rutas"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Reportes">
+            <MenuItem fx:id="reporteMenu" mnemonicParsing="false" text="Emitir Reporte"/>
+        </Menu>
+    </MenuBar>
+    <ToolBar>
+        <HBox alignment="CENTER_LEFT" focusTraversable="true" spacing="1.0">
+            <padding>
+                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0"/>
+            </padding>
+            <Label alignment="BASELINE_CENTER" contentDisplay="CENTER" text="Cobrador" textAlignment="CENTER">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </Label>
+            <ComboBox fx:id="cobradorFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0"/>
+            <Label text="Ruta">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </Label>
+            <ComboBox fx:id="rutaFilterCombo" maxHeight="15.0" prefHeight="15.0" prefWidth="100.0"/>
+            <Label text="Fecha">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </Label>
+            <DatePicker fx:id="fechaFilterField" prefWidth="110.0"/>
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="5.0">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Separator>
+            <Button fx:id="btnModificarCreditos" mnemonicParsing="false" text="Modificar Crédito">
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Button>
+            <Button id="btnCleanFilters" fx:id="btnBorrarCreditos" alignment="CENTER_RIGHT" contentDisplay="RIGHT"
+                    mnemonicParsing="false" text="Borrar Crédito">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Button>
+            <Separator disable="true" orientation="VERTICAL" prefHeight="30.0">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Separator>
+            <Button id="btnCleanFilters" fx:id="btnCleanFilters" alignment="CENTER_RIGHT" contentDisplay="RIGHT"
+                    mnemonicParsing="false" text="Limpiar Filtros">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </ToolBar>
+    <TableView fx:id="creditosTable" maxWidth="1.7976931348623157E308" prefHeight="328.0" prefWidth="648.0"
+               VBox.vgrow="ALWAYS">
+      <columns>
+          <TableColumn fx:id="clienteColumn" prefWidth="75.0" text="Cliente"/>
+          <TableColumn fx:id="valorCuotaColumn" prefWidth="75.0" text="Valor Cuota"/>
+          <TableColumn fx:id="montoCuotaColumn" prefWidth="45.0" text="Monto Cuota"/>
+          <TableColumn fx:id="montoCuotaAcumuladoColumn" prefWidth="75.0" text="Monto Acumulado"/>
+          <TableColumn fx:id="gciaXDiaColumn" prefWidth="100.0" text="Gcia. X Día"/>
+          <TableColumn fx:id="saldoCapitalColumn" prefWidth="84.0" text="Saldo Capital"/>
+          <TableColumn fx:id="montoCreditoColumn" prefWidth="74.0" text="Monto Crédito"/>
+          <TableColumn fx:id="cuotasPagasColumn" prefWidth="140.0" text="Cuotas Pagas"/>
+          <TableColumn fx:id="cantCuotasColumn" prefWidth="145.0" text="Cantidad Cuotas"/>
+          <TableColumn fx:id="unidadColumn" editable="false" prefWidth="145.0" text="Unidad"/>
+          <TableColumn fx:id="cobradorColumn" prefWidth="98.0" text="Cobrador"/>
+          <TableColumn fx:id="rutaColumn" prefWidth="98.0" text="Ruta"/>
+          <TableColumn fx:id="fechaCreacionColumn" prefWidth="75.0" text="Fecha Creación"/>
+      </columns>
+        <columnResizePolicy>
+          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+    <ToolBar>
+        <HBox>
+            <Label text="Totales del dia: ">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </Label>
+            <Label text="Cuota Pura" textAlignment="CENTER">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </Label>
+            <TextField fx:id="cuotaPuraField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false"
+                       editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="150.0"
+                       scaleShape="false"/>
+            <Label text="Ganancia" textAlignment="CENTER">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </Label>
+            <TextField fx:id="gciaDiaField" alignment="CENTER_RIGHT" cacheShape="false" centerShape="false"
+                       editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="150.0"
+                       scaleShape="false"/>
+        </HBox>
+    </ToolBar>
 </VBox>

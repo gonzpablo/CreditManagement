@@ -17,17 +17,15 @@ public class CobradorDAO {
         try {
 
             ResultSet rsCobradores = DBUtil.dbExecuteQuery(selectStmt);
- 
-            ObservableList<CobradorModel> listaCobradores = getListaCobradores(rsCobradores);
- 
-            return listaCobradores;
+
+			return getListaCobradores(rsCobradores);
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
             throw e;
         }
     }
 
-	private static ObservableList<CobradorModel> getListaCobradores(ResultSet rs) throws SQLException, ClassNotFoundException {
+	private static ObservableList<CobradorModel> getListaCobradores(ResultSet rs) throws SQLException {
 
         ObservableList<CobradorModel> listaCobradores = FXCollections.observableArrayList();
  

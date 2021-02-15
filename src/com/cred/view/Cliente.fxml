@@ -3,59 +3,66 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane maxHeight="500.0" maxWidth="500.0" prefHeight="453.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.ClienteController">
+<GridPane maxHeight="500.0" maxWidth="500.0" prefHeight="453.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.ClienteController">
    <columnConstraints>
-      <ColumnConstraints maxWidth="99.0" minWidth="29.0" prefWidth="72.0" />
-      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="71.0" />
-      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="245.0" />
-      <ColumnConstraints maxWidth="249.0" minWidth="10.0" prefWidth="95.0" />
+      <ColumnConstraints maxWidth="99.0" minWidth="29.0" prefWidth="72.0"/>
+      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="71.0"/>
+      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="245.0"/>
+      <ColumnConstraints maxWidth="249.0" minWidth="10.0" prefWidth="95.0"/>
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="43.0" />
-      <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="250.0" />
+      <RowConstraints/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+      <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="43.0"/>
+      <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="250.0"/>
    </rowConstraints>
-   <children>
-      <Label text="Nombre" />
-      <TextField fx:id="clienteNombreField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" />
-      <Label text="Apellido" GridPane.rowIndex="1" />
-      <Label text="DNI" GridPane.rowIndex="2" />
-      <Label text="Dirección" GridPane.rowIndex="3" />
-      <Label text="Teléfono" GridPane.rowIndex="4" />
-      <TextField fx:id="clienteApellidoField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
-      <TextField fx:id="clienteDniField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
-      <TextField fx:id="clienteDireccionField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
-      <TextField fx:id="clienteTelefonoField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
-      <Button fx:id="clienteGuardarButton" mnemonicParsing="false" text="Guardar" GridPane.rowIndex="5" />
-      <Button fx:id="clienteNuevoButton" mnemonicParsing="false" text="Nuevo Cliente" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-      <Button fx:id="clienteBorrarButton" mnemonicParsing="false" text="Borrar" GridPane.columnIndex="1" GridPane.rowIndex="5">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-      </Button>
-      
-      <TableView fx:id="clientesTable" maxHeight="-Infinity" prefHeight="400.0" prefWidth="480.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
-        <columns>
-          <TableColumn fx:id="clienteNombreColumn" prefWidth="75.0" text="Nombre" />
-          <TableColumn fx:id="clienteApellidoColumn" prefWidth="75.0" text="Apellido" />
-            <TableColumn fx:id="clienteDniColumn" prefWidth="75.0" text="DNI" />
-            <TableColumn fx:id="clienteDireccionColumn" prefWidth="75.0" text="Dirección" />
-            <TableColumn fx:id="clienteTelefonoColumn" prefWidth="75.0" text="Teléfono" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-      <TextField fx:id="nombreFilterField" maxWidth="140.0" prefHeight="25.0" prefWidth="140.0" promptText="Buscar por Nombre" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-   </children>
    <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
    </padding>
    <opaqueInsets>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
    </opaqueInsets>
+   <Label text="Nombre"/>
+   <TextField fx:id="clienteNombreField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647"
+              GridPane.hgrow="ALWAYS"/>
+   <Label text="Apellido" GridPane.rowIndex="1"/>
+   <Label text="DNI" GridPane.rowIndex="2"/>
+   <Label text="Dirección" GridPane.rowIndex="3"/>
+   <Label text="Teléfono" GridPane.rowIndex="4"/>
+   <TextField fx:id="clienteApellidoField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647"
+              GridPane.rowIndex="1"/>
+   <TextField fx:id="clienteDniField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2"/>
+   <TextField fx:id="clienteDireccionField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647"
+              GridPane.rowIndex="3"/>
+   <TextField fx:id="clienteTelefonoField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647"
+              GridPane.rowIndex="4"/>
+   <Button fx:id="clienteGuardarButton" mnemonicParsing="false" text="Guardar" GridPane.rowIndex="5"/>
+   <Button fx:id="clienteNuevoButton" mnemonicParsing="false" text="Nuevo Cliente" GridPane.columnIndex="3"
+           GridPane.rowIndex="5"/>
+   <Button fx:id="clienteBorrarButton" mnemonicParsing="false" text="Borrar" GridPane.columnIndex="1"
+           GridPane.rowIndex="5">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Button>
+
+   <TableView fx:id="clientesTable" maxHeight="-Infinity" prefHeight="400.0" prefWidth="480.0"
+              GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
+      <columns>
+         <TableColumn fx:id="clienteNombreColumn" prefWidth="75.0" text="Nombre"/>
+         <TableColumn fx:id="clienteApellidoColumn" prefWidth="75.0" text="Apellido"/>
+         <TableColumn fx:id="clienteDniColumn" prefWidth="75.0" text="DNI"/>
+         <TableColumn fx:id="clienteDireccionColumn" prefWidth="75.0" text="Dirección"/>
+         <TableColumn fx:id="clienteTelefonoColumn" prefWidth="75.0" text="Teléfono"/>
+      </columns>
+      <columnResizePolicy>
+         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+      </columnResizePolicy>
+   </TableView>
+   <TextField fx:id="nombreFilterField" maxWidth="140.0" prefHeight="25.0" prefWidth="140.0"
+              promptText="Buscar por Nombre" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
 </GridPane>

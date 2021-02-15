@@ -19,18 +19,18 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+@SuppressWarnings("ALL")
 public class ReportePagos {
 
 	private static final float rowHeight = 20f;
 	private static final float rowHeightL = 14f;
 	private static final float beginX = 70;
 	private static final float MARGEN_ARRIBA = 130;
-	private List<ReporteField> headerFields = new ArrayList<ReporteField>();
-	private Stage stage;
+	private final List<ReporteField> headerFields = new ArrayList<>();
+	private final Stage stage;
 	
 	public ReportePagos(Stage stage) {
 		this.stage = stage;
@@ -45,7 +45,7 @@ public class ReportePagos {
 //		Dibujar cabecera
 
 		float x, y;
-		float tableWidth; 
+		float tableWidth;
 
 		String fileName = "ReportePagos_";
 
@@ -54,12 +54,12 @@ public class ReportePagos {
 		LocalTime time1 = currentDateTime.toLocalTime();
 		
 		
-		String fechaFormat = date1.format(DateTimeFormatter.ofPattern("dd_MM_YYYY"));
+		String fechaFormat = date1.format(DateTimeFormatter.ofPattern("dd_MM_yyyy"));
 		String horaFormat = time1.format(DateTimeFormatter.ofPattern("HH_mm_ss"));
 
 		fileName = fileName + fechaFormat + "_" + horaFormat + ".pdf";
 		
-		fechaFormat = date1.format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		fechaFormat = date1.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		horaFormat = time1.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 		
 		String cliente = "Cliente"; 
@@ -100,7 +100,7 @@ public class ReportePagos {
 	    
 	    doc.addPage( page );
 	    PDPageContentStream contentStream = new PDPageContentStream(doc, page);		
-	    contentStream.setFont( PDType1Font.HELVETICA.HELVETICA_BOLD , 9 );
+	    contentStream.setFont(PDType1Font.HELVETICA_BOLD, 9 );
 		tableWidth = page.getCropBox().getWidth();
 	    
 		x = beginX;
@@ -168,13 +168,13 @@ public class ReportePagos {
 
 		if (textWidth > 0) {
 
-			contentStream.moveTextPositionByAmount(x-textWidth, y);
-			contentStream.drawString(texto);
-			contentStream.moveTextPositionByAmount(x+textWidth, y);
+			contentStream.newLineAtOffset(x - textWidth, y);
+			contentStream.showText(texto);
+			contentStream.newLineAtOffset(x + textWidth, y);
 			
 		} else {
-			contentStream.moveTextPositionByAmount(x, y);
-			contentStream.drawString(texto);
+			contentStream.newLineAtOffset(x, y);
+			contentStream.showText(texto);
 		}
 			
 		contentStream.endText();		
@@ -188,7 +188,7 @@ public class ReportePagos {
 		y = starty; 	    
 		
 		contentStream.setNonStrokingColor(200, 200, 200); //gray background
-		contentStream.fillRect(startx, starty-5, 290, rowHeight);
+		contentStream.addRect(startx, starty - 5, 290, rowHeight);
 		contentStream.setNonStrokingColor(0, 0, 0); //gray background
 		
 		for ( ReporteField field : headerFields) {
@@ -246,7 +246,7 @@ public class ReportePagos {
 				page = crearPagina();		// crear página A4	    
 			    doc.addPage( page );
 			    contentStream = new PDPageContentStream(doc, page);
-			    contentStream.setFont( PDType1Font.HELVETICA.HELVETICA_BOLD , 8 );
+			    contentStream.setFont(PDType1Font.HELVETICA_BOLD, 8 );
 				x = beginX;
 				y = page.getCropBox().getHeight() - MARGEN_ARRIBA;
 

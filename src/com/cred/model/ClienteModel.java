@@ -1,7 +1,6 @@
 package com.cred.model;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,11 +14,9 @@ public class ClienteModel {
 	private final StringProperty apellido;
 	private final StringProperty direccion;
 	private final StringProperty telefono;
-	private final StringProperty dni; 
-	
-	private List<CreditoModel> creditos;
-	
-	
+	private final StringProperty dni;
+
+
 	public ClienteModel() {
 		id = new SimpleIntegerProperty();
 		nombre = new SimpleStringProperty();
@@ -39,9 +36,11 @@ public class ClienteModel {
 		this.dni = new SimpleStringProperty(dni);
 	}
 
-	public List<CreditoModel> getCreditos() {
-		return creditos;
-	}
+// --Commented out by Inspection START (14/2/21 19:19):
+//	public List<CreditoModel> getCreditos() {
+//		return creditos;
+//	}
+// --Commented out by Inspection STOP (14/2/21 19:19)
 
 	public void setId(int id) {
 		this.id.set(id);	
@@ -49,10 +48,6 @@ public class ClienteModel {
 	
 	public int getId() {
 		return id.get();
-	}
-	
-	public void setCreditos(List<CreditoModel> creditos) {
-		this.creditos = creditos;
 	}
 
 	public String getNombre() {

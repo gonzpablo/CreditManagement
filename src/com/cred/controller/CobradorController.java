@@ -56,11 +56,9 @@ public class CobradorController {
         	grisarCampos(true);
 		});		
 		
-		cobradorNuevoButton.setOnAction( event -> { 
-			nuevoCobrador();
-		});
+		cobradorNuevoButton.setOnAction( event -> nuevoCobrador());
 		
-		cobradorBorrarButton.setOnAction( event -> { borrarCobrador(); });
+		cobradorBorrarButton.setOnAction( event -> borrarCobrador());
 		
 //		Doble-click        
         cobradoresTable.setRowFactory( tv -> {

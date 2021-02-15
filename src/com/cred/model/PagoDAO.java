@@ -1,6 +1,7 @@
 package com.cred.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -64,17 +65,15 @@ public class PagoDAO {
 		
 		try {
 			ResultSet rsPagos = DBUtil.dbExecuteQuery(selectStmt);
- 
-			ObservableList<PagoModel> listaPagos = getListaPagos(rsPagos);
- 
-			return listaPagos;
+
+			return getListaPagos(rsPagos);
 		} catch (SQLException e) {
 			System.out.println("SQL select operation has failed: " + e);
 			throw e;
 		}
 	}
 
-	private static ObservableList<PagoModel> getListaPagos(ResultSet rs) throws SQLException, ClassNotFoundException {
+	private static ObservableList<PagoModel> getListaPagos(ResultSet rs) throws SQLException {
 
 		ObservableList<PagoModel> listaPagos = FXCollections.observableArrayList();
 
@@ -83,12 +82,12 @@ public class PagoDAO {
 
 			pago.setId(rs.getInt("ROWID"));
 			pago.setIdCredito(rs.getInt("IDCREDITO"));
-			pago.setMontoPagoNumeric(BigDecimal.valueOf(rs.getInt("MONTOPAGO")).divide(BigDecimal.valueOf(100)));
+			pago.setMontoPagoNumeric(BigDecimal.valueOf(rs.getInt("MONTOPAGO")).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
 
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate localDate = LocalDate.parse(rs.getString("FECHA"), formatter);
 
-			pago.setFecha(new SimpleObjectProperty<LocalDate>(localDate));
+			pago.setFecha(new SimpleObjectProperty<>(localDate));
 
 			listaPagos.add(pago);
 		}

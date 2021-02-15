@@ -3,45 +3,50 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane maxHeight="500.0" maxWidth="500.0" prefHeight="402.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.RutaController">
+<GridPane maxHeight="500.0" maxWidth="500.0" prefHeight="402.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cred.controller.RutaController">
    <columnConstraints>
-      <ColumnConstraints maxWidth="115.0" minWidth="64.0" prefWidth="115.0" />
-      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="64.0" />
-      <ColumnConstraints maxWidth="115.0" minWidth="10.0" prefWidth="78.0" />
+      <ColumnConstraints maxWidth="115.0" minWidth="64.0" prefWidth="115.0"/>
+      <ColumnConstraints maxWidth="357.0" minWidth="10.0" prefWidth="64.0"/>
+      <ColumnConstraints maxWidth="115.0" minWidth="10.0" prefWidth="78.0"/>
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="56.0" minHeight="17.0" prefHeight="40.0" />
-      <RowConstraints maxHeight="103.0" minHeight="10.0" prefHeight="80.0" />
-      <RowConstraints maxHeight="55.0" minHeight="0.0" prefHeight="8.0" />
-      <RowConstraints maxHeight="146.0" minHeight="10.0" prefHeight="46.0" />
-      <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="203.0" />
+      <RowConstraints maxHeight="56.0" minHeight="17.0" prefHeight="40.0"/>
+      <RowConstraints maxHeight="103.0" minHeight="10.0" prefHeight="80.0"/>
+      <RowConstraints maxHeight="55.0" minHeight="0.0" prefHeight="8.0"/>
+      <RowConstraints maxHeight="146.0" minHeight="10.0" prefHeight="46.0"/>
+      <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="203.0"/>
    </rowConstraints>
-   <children>
-      <Label text="Nombre Ruta" />
-      <TextField fx:id="rutaNombreField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" />
-      <Label text="Descripcion" GridPane.rowIndex="1" />
-      <TextArea fx:id="rutaDescTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />      
-      <Button fx:id="rutaGuardarButton" mnemonicParsing="false" text="Guardar" GridPane.halignment="CENTER" GridPane.rowIndex="3" />      
-      <Button fx:id="rutaNuevoButton" mnemonicParsing="false" text="Nueva Ruta" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <Button fx:id="rutaBorrarButton" mnemonicParsing="false" text="Borrar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-      </Button>      
-      <TableView fx:id="rutasTable" maxHeight="-Infinity" prefHeight="211.0" prefWidth="294.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
-        <columns>
-          <TableColumn fx:id="rutaNombreColumn" prefWidth="75.0" text="Nombre" />
-          <TableColumn fx:id="rutaDescColumn" prefWidth="75.0" text="Descripcion" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-   </children>
    <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
    </padding>
    <opaqueInsets>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
    </opaqueInsets>
+   <Label text="Nombre Ruta"/>
+   <TextField fx:id="rutaNombreField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647"
+              GridPane.hgrow="ALWAYS"/>
+   <Label text="Descripcion" GridPane.rowIndex="1"/>
+   <TextArea fx:id="rutaDescTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
+             GridPane.columnSpan="2147483647" GridPane.rowIndex="1"/>
+   <Button fx:id="rutaGuardarButton" mnemonicParsing="false" text="Guardar" GridPane.halignment="CENTER"
+           GridPane.rowIndex="3"/>
+   <Button fx:id="rutaNuevoButton" mnemonicParsing="false" text="Nueva Ruta" GridPane.columnIndex="2"
+           GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+   <Button fx:id="rutaBorrarButton" mnemonicParsing="false" text="Borrar" GridPane.columnIndex="1"
+           GridPane.halignment="CENTER" GridPane.rowIndex="3">
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </GridPane.margin>
+   </Button>
+   <TableView fx:id="rutasTable" maxHeight="-Infinity" prefHeight="211.0" prefWidth="294.0"
+              GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+      <columns>
+         <TableColumn fx:id="rutaNombreColumn" prefWidth="75.0" text="Nombre"/>
+         <TableColumn fx:id="rutaDescColumn" prefWidth="75.0" text="Descripcion"/>
+      </columns>
+      <columnResizePolicy>
+         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+      </columnResizePolicy>
+   </TableView>
 </GridPane>

@@ -18,7 +18,7 @@ public class PagoModel {
 	public PagoModel() {
 
 	    LocalDateTime fechaHoraActual = LocalDateTime.now();	    
-	    SimpleObjectProperty<LocalDate> fecha = new SimpleObjectProperty<LocalDate>( fechaHoraActual.toLocalDate() );
+	    SimpleObjectProperty<LocalDate> fecha = new SimpleObjectProperty<>(fechaHoraActual.toLocalDate());
 	    setFecha(fecha);
 	}
 

@@ -3,9 +3,6 @@ package com.cred.util;
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.SQLException;
 
 public class DBUtil {
     //Declare JDBC Driver
@@ -124,14 +121,14 @@ public class DBUtil {
 
         } catch (Exception e){
            throw e;
-        }                
+        }
     }
 
     public static ResultSet dbExecuteQuery(String queryStmt) throws SQLException, ClassNotFoundException {
 
         Statement stmt = null;
         ResultSet resultSet = null;
-        CachedRowSet crs = null;
+        CachedRowSet crs;
         
         try {
             dbConnect();
@@ -215,11 +212,8 @@ public class DBUtil {
         
         try {
             ResultSet rs = DBUtil.dbExecuteQuery(selectStmt);
- 
-			if (rs.next())
-				return true;
-			else
-				return false;
+
+            return rs.next();
 			
         } catch (SQLException e) {
             System.out.println("Ha fallado la operación select: " + e);

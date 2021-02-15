@@ -39,8 +39,10 @@ public class CreditoController {
 	private TextField tasaInteresField;		
 	@FXML
 	private TextField cantCuotasField;
-	@FXML
-	private TextField cobradorField;
+// --Commented out by Inspection START (14/2/21 19:19):
+//	@FXML
+//	private TextField cobradorField;
+// --Commented out by Inspection STOP (14/2/21 19:19)
 	@FXML
 	private TextField montoCuotaField;
 	@FXML
@@ -72,20 +74,20 @@ public class CreditoController {
 		
 		initComboUnidadCuotas();
 		
-		unidadCuotasCombo.setOnAction( (event) -> {simular();} ); 
+		unidadCuotasCombo.setOnAction( (event) -> simular());
 		
-		montoCreditoField.setOnKeyReleased( (event) -> { simular(); });		
-		montoCuotaField.setOnKeyReleased( (event) -> { simular(); });
-		cantCuotasField.setOnKeyReleased( (event) -> { simular(); });		
+		montoCreditoField.setOnKeyReleased( (event) -> simular());
+		montoCuotaField.setOnKeyReleased( (event) -> simular());
+		cantCuotasField.setOnKeyReleased( (event) -> simular());
 
 		
 		montoCreditoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());
 		montoCuotaField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());		
 		cantCuotasField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_INTEGERS, 9).getFormatter());
 
-		crearButton.setOnAction( (event) -> { crear(); });
-		cancelarButton.setOnAction( (event) -> { cancelar(); });
-		buscarButton.setOnAction( (event) -> { buscarCliente(); });
+		crearButton.setOnAction( (event) -> crear());
+		cancelarButton.setOnAction( (event) -> cancelar());
+		buscarButton.setOnAction( (event) -> buscarCliente());
 		
         rutaCombo.setConverter(new StringConverter<RutaModel>() {
             @Override
@@ -129,8 +131,8 @@ public class CreditoController {
 		
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/ClienteSearch.fxml"));
-            VBox page = (VBox) loader.load();
-            ClienteSearchController controller = loader.<ClienteSearchController>getController();
+            VBox page = loader.load();
+            ClienteSearchController controller = loader.getController();
 
             controller.setClientes(mainController.getClientes()); 
             controller.setMainController(this);            
@@ -159,7 +161,7 @@ public class CreditoController {
 	  		return;
   	
 	  	CreditoModel nuevoCredito = new CreditoModel(this.cliente,
-	  												 Integer.valueOf(cantCuotasField.getText()),
+	  												 Integer.parseInt(cantCuotasField.getText()),
 	  												 unidadCuotasCombo.getValue(),					
 	  												 montoCuotaField.getText(),
 	  												 montoCreditoField.getText(),	      											
@@ -176,13 +178,11 @@ public class CreditoController {
 			CreditoDAO.agregarCredito(nuevoCredito);
 //			Obtener Id asignado al crédito por la base de datos						
 			nuevoCredito.setId(DBUtil.getLastRowId("creditos"));
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 
-	  	mainController.addItemToList(nuevoCredito);
+		mainController.addItemToList(nuevoCredito);
 	  	
 	    Stage stage = (Stage) crearButton.getScene().getWindow();
 	    stage.close();      	
@@ -212,9 +212,9 @@ public class CreditoController {
 			   cantCuotasField.getText().length() == 0 || 
 			   montoCuotaField.getText().length() == 0 )
 				
-			|| ( Float.valueOf(montoCreditoField.getText()) <= 0 ) ||
-				( Integer.valueOf(cantCuotasField.getText()) <= 0 ) || // numero muy grande de cuotas
-				( Float.valueOf(montoCuotaField.getText()) <= 0 ) ) {
+			|| ( Float.parseFloat(montoCreditoField.getText()) <= 0 ) ||
+				( Integer.parseInt(cantCuotasField.getText()) <= 0 ) || // numero muy grande de cuotas
+				( Float.parseFloat(montoCuotaField.getText()) <= 0 ) ) {
 		
 			initFields();
 			return;

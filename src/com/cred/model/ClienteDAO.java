@@ -16,17 +16,15 @@ public class ClienteDAO {
 		
         try {
             ResultSet rsClientes = DBUtil.dbExecuteQuery(selectStmt);
- 
-            ObservableList<ClienteModel> listaClientes = getListaClientes(rsClientes);
- 
-            return listaClientes;
+
+			return getListaClientes(rsClientes);
         } catch (SQLException e) {
             System.out.println("SQL select operation has failed: " + e);
             throw e;
         }		
 	}
 	
-	private static ObservableList<ClienteModel> getListaClientes(ResultSet rs) throws SQLException, ClassNotFoundException {
+	private static ObservableList<ClienteModel> getListaClientes(ResultSet rs) throws SQLException {
 
         ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();
  

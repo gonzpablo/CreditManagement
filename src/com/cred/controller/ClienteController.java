@@ -78,11 +78,9 @@ public class ClienteController {
         	grisarCampos(true);
 		});		
 		
-		clienteNuevoButton.setOnAction( event -> { 
-			nuevoCliente();
-		});
+		clienteNuevoButton.setOnAction( event -> nuevoCliente());
 		
-		clienteBorrarButton.setOnAction( event -> { borrarCliente(); });
+		clienteBorrarButton.setOnAction( event -> borrarCliente());
 		
 //		Doble-click        
         clientesTable.setRowFactory( tv -> {
@@ -255,24 +253,18 @@ public class ClienteController {
 		
 		FilteredList<ClienteModel> filteredData = new FilteredList<>(clientes, p -> true);
 		
-		nombreFilterField.textProperty().addListener((observable, oldValue, newValue) -> {
-		
-            filteredData.setPredicate(cliente -> {
-                // Si el filtro está vacío, mostrar todos los clientes
-                if (newValue == null || newValue.isEmpty())
-                    return true;
+		nombreFilterField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cliente -> {
+			// Si el filtro está vacío, mostrar todos los clientes
+			if (newValue == null || newValue.isEmpty())
+				return true;
 
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
+			// Compare first name and last name of every person with filter text.
+			String lowerCaseFilter = newValue.toLowerCase();
 
-                if (cliente.getNombre().toLowerCase().contains(lowerCaseFilter)	||
-                	cliente.getApellido().toLowerCase().contains(lowerCaseFilter))
-                	
-                    return true; // Filter matches first name.
-                else
-                	return false; // Does not match.
-            });
-        });		
+			// Does not match.
+			return cliente.getNombre().toLowerCase().contains(lowerCaseFilter) ||
+					cliente.getApellido().toLowerCase().contains(lowerCaseFilter); // Filter matches first name.
+		}));
 		
         // 3. Wrap the FilteredList in a SortedList. 
         SortedList<ClienteModel> sortedData = new SortedList<>(filteredData);

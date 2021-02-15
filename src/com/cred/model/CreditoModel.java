@@ -20,13 +20,13 @@ public class CreditoModel {
 	private BigDecimal montoCuota = new BigDecimal("0"); // Monto pagado un día determinado
 	private BigDecimal montoCuotaAcumulado = new BigDecimal("0");	
 	private BigDecimal gciaXDia = new BigDecimal("0");
-	private BigDecimal cuotaCapital;
-	private BigDecimal indiceCapital;
+	private final BigDecimal cuotaCapital;
+	private final BigDecimal indiceCapital;
 	private int cuotasPagas;
 	private int cerrado;
 
 	private String unidad;
-	private BigDecimal saldoCapital = new BigDecimal("0");;
+	private BigDecimal saldoCapital = new BigDecimal("0");
 	
 //	Id's Referencias	
 	private int idCliente;
@@ -34,18 +34,18 @@ public class CreditoModel {
 	private int idRuta;
 
 //  Referencias objetos	
-	private SimpleObjectProperty<ClienteModel> cliente;	
-	private SimpleObjectProperty<CobradorModel> cobrador;
-	private SimpleObjectProperty<RutaModel> ruta;
+	private final SimpleObjectProperty<ClienteModel> cliente;
+	private final SimpleObjectProperty<CobradorModel> cobrador;
+	private final SimpleObjectProperty<RutaModel> ruta;
 		
-	private List<PagoModel> listaPagos = new ArrayList<PagoModel>();
+	private List<PagoModel> listaPagos = new ArrayList<>();
 	
 	public CreditoModel(ClienteModel cliente, int cantCuotas, String unidad, String montoCuota,
 						String montoCredito, CobradorModel cobrador, RutaModel ruta) {
 
-		this.cliente = new SimpleObjectProperty<ClienteModel>();		
-		this.cobrador = new SimpleObjectProperty<CobradorModel>();
-		this.ruta = new SimpleObjectProperty<RutaModel>();
+		this.cliente = new SimpleObjectProperty<>();
+		this.cobrador = new SimpleObjectProperty<>();
+		this.ruta = new SimpleObjectProperty<>();
 		
 		this.cantCuotas = cantCuotas;
 		this.montoCredito = NumeroUtil.crearBigDecimal(montoCredito);		
@@ -71,29 +71,26 @@ public class CreditoModel {
 					this.getCuotaCapital()).divide(
 							this.getValorCuota(), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP));
 		
-	    LocalDateTime fechaHoraActual = LocalDateTime.now();	    
-	    SimpleObjectProperty<LocalDate> fecha = new SimpleObjectProperty<LocalDate>( fechaHoraActual.toLocalDate() );
-	    this.fechaCreacion = fecha;
+	    LocalDateTime fechaHoraActual = LocalDateTime.now();
+		this.fechaCreacion = new SimpleObjectProperty<>(fechaHoraActual.toLocalDate());
 	}	
 	
 //	CreditoModel (De BD):	
 	public CreditoModel(int id, int idCliente, int cantCuotas, int idUnidad, int montoCuota, 
 						int montoCredito, int idCobrador, int idRuta, int cerrado) {
 		
-		this.cliente = new SimpleObjectProperty<ClienteModel>();		
-		this.cobrador = new SimpleObjectProperty<CobradorModel>();		
-		this.ruta = new SimpleObjectProperty<RutaModel>();
+		this.cliente = new SimpleObjectProperty<>();
+		this.cobrador = new SimpleObjectProperty<>();
+		this.ruta = new SimpleObjectProperty<>();
 		
 		this.id = id;
 		this.idCliente = idCliente;
 		this.cantCuotas = cantCuotas;
-		this.montoCredito = BigDecimal.valueOf(montoCredito).divide(BigDecimal.valueOf(100));
-		this.idCliente = idCliente;
+		this.montoCredito = BigDecimal.valueOf(montoCredito).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
 		this.idCobrador = idCobrador;
 		this.idRuta = idRuta;
 		this.unidad = obtenerUnidad(idUnidad);
-		this.valorCuota = BigDecimal.valueOf(montoCuota).divide(BigDecimal.valueOf(100).setScale(2, RoundingMode.HALF_UP));
-		
+		this.valorCuota = BigDecimal.valueOf(montoCuota).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
 		this.cuotaCapital =	CreditoModel.obtenerCuotaCapital(
 				this.getMontoCredito().toString(), String.valueOf(this.getCantCuotas()));
 
@@ -132,7 +129,7 @@ public class CreditoModel {
 	public static BigDecimal obtenerCuotaCapital(String montoCred, String cantCuotas2) {
 //		montoCredito: es el monto prestado (sin intereses)
 		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCred);
-		int cantCuotas = Integer.valueOf(cantCuotas2);
+		int cantCuotas = Integer.parseInt(cantCuotas2);
 		
 		return montoCredito.divide(BigDecimal.valueOf(cantCuotas), NumeroUtil.EXCEL_MAX_DIGITS, RoundingMode.HALF_UP);
 	}
@@ -140,7 +137,7 @@ public class CreditoModel {
 	public static BigDecimal obtenerMontoTotalCredito(String montoCuotaIn, String cantCuotasIn) {
 //		montoCredito: es el monto prestado (sin intereses)
 		BigDecimal montoCuota = NumeroUtil.crearBigDecimal(montoCuotaIn);
-		int cantCuotas = Integer.valueOf(cantCuotasIn);
+		int cantCuotas = Integer.parseInt(cantCuotasIn);
 		
 //		Fórmula: montoCredito + (montoCredito * (tasaInteres/100/30) * cantCuotas)
 //		Como es tasa de interés mensual, se divide la tasa en 30 días y se aplica a la cantidad de cuotas
@@ -149,7 +146,7 @@ public class CreditoModel {
 
 	public static BigDecimal obtenerMontoCuota(BigDecimal montoTotalCredito, int cantCuotas) {
 //		montoTotalCredito: Es el monto total a pagar, incluyendo los intereses
-		return montoTotalCredito.divide(BigDecimal.valueOf(Integer.valueOf(cantCuotas)), 2, RoundingMode.HALF_UP);
+		return montoTotalCredito.divide(BigDecimal.valueOf(cantCuotas), 2, RoundingMode.HALF_UP);
 	}
 
 	public void calcularSaldoCapital() {
@@ -217,7 +214,7 @@ public class CreditoModel {
 			if ( pago.getFecha().getValue().equals(fechaFiltro) )
 				montoPagado = montoPagado.add(pago.getMontoPagoInterno());
 
-		if (montoPagado.compareTo(BigDecimal.valueOf(0)) == 1)	// mayor que 0			
+		if (montoPagado.compareTo(BigDecimal.valueOf(0)) > 0)	// mayor que 0
 			gciaXDia = montoPagado.multiply((BigDecimal.valueOf(1).subtract(this.getIndiceCapital())));
 
 		this.setGciaXDia(gciaXDia);
@@ -327,20 +324,17 @@ public class CreditoModel {
 
 		montoTotal = montoCuotaAcumulado.add(monto).setScale(2, RoundingMode.HALF_UP);
 
-		if ( montoTotal.compareTo(
-				CreditoModel.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas))) == 1 )			
+		if (montoTotal.compareTo(
+				CreditoModel.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas))) > 0)
 			result = false;
 
 		return result;
 	}
 	
 	public boolean alcanzoMontoFinal() {
-			
-		if ( montoCuotaAcumulado.compareTo(
-				CreditoModel.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas))) == 0 )
-			return true;
-		else
-			return false;
+
+		return montoCuotaAcumulado.compareTo(
+				CreditoModel.obtenerMontoTotalCredito(this.valorCuota.toString(), String.valueOf(cantCuotas))) == 0;
 	}
 	
 	public void borrarPago(PagoModel pago) {
@@ -357,33 +351,29 @@ public class CreditoModel {
 	public static BigDecimal obtenerTasaInteres(
 				String montoCreditoIn, BigDecimal montoTotalCredito, String cantCuotasIn, String unidad) {	
 
-		int cantCuotas = Integer.valueOf(cantCuotasIn);
+		int cantCuotas = Integer.parseInt(cantCuotasIn);
 		BigDecimal montoCredito = NumeroUtil.crearBigDecimal(montoCreditoIn);
 		
 //		A = montoTotalCredito / montoCredito => Importe debido a intereses		
 //		B = A / cantCuotas => Interés diario
 //		C = Interés Diario * 30 => Tasa interés mensual		
-		
+
+		final BigDecimal multiply = montoTotalCredito.divide(montoCredito, 15, RoundingMode.HALF_UP)
+				.subtract(BigDecimal.valueOf(1))
+				.multiply(BigDecimal.valueOf(100));
 		if ( unidad.equals("Días") )
 		
-			return montoTotalCredito.divide(montoCredito, 15, RoundingMode.HALF_UP)
-					.subtract(BigDecimal.valueOf(1))
-					.multiply(BigDecimal.valueOf(100))
+			return multiply
 					.divide(BigDecimal.valueOf(cantCuotas), 15, RoundingMode.HALF_UP)
 					.multiply(BigDecimal.valueOf(30)).setScale(2, RoundingMode.HALF_UP);
 		else // Semanas
-			return montoTotalCredito.divide(montoCredito, 15, RoundingMode.HALF_UP)
-					.subtract(BigDecimal.valueOf(1))
-					.multiply(BigDecimal.valueOf(100))
+			return multiply
 					.divide(BigDecimal.valueOf(cantCuotas).multiply(BigDecimal.valueOf(7)), 15, RoundingMode.HALF_UP)
 					.multiply(BigDecimal.valueOf(30)).setScale(2, RoundingMode.HALF_UP);
 	}
 
 	public boolean isCerrado() {
-		if (this.cerrado != 0)
-			return true;
-		else
-			return false;		
+		return this.cerrado != 0;
 	}
 
 	public void setCerrado(boolean cerrado) {

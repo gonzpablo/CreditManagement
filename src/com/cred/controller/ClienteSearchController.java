@@ -1,6 +1,5 @@
 package com.cred.controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -32,10 +31,7 @@ public class ClienteSearchController {
 	private TableView<ClienteModel> clientesTable;
 	
 	private CreditoController creditoController;
-		
-	private ObservableList<ClienteModel> clientes = FXCollections.observableArrayList();;
 
-	
 	@FXML
 	private void initialize() {	
 		initColumns();
@@ -72,29 +68,22 @@ public class ClienteSearchController {
 	}
 
 	public void setClientes(ObservableList<ClienteModel> clientes) {
-		this.clientes = clientes;
-		clientesTable.setItems(this.clientes);
+		clientesTable.setItems(clientes);
 		
 		FilteredList<ClienteModel> filteredData = new FilteredList<>(clientes, p -> true);
 		
-		nombreFilterField.textProperty().addListener((observable, oldValue, newValue) -> {
-			
-            filteredData.setPredicate(cliente -> {
-                // Si el filtro está vacío, mostrar todos los clientes
-                if (newValue == null || newValue.isEmpty())
-                    return true;
+		nombreFilterField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(cliente -> {
+			// Si el filtro está vacío, mostrar todos los clientes
+			if (newValue == null || newValue.isEmpty())
+				return true;
 
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
+			// Compare first name and last name of every person with filter text.
+			String lowerCaseFilter = newValue.toLowerCase();
 
-                if (cliente.getNombre().toLowerCase().contains(lowerCaseFilter)	||
-                	cliente.getApellido().toLowerCase().contains(lowerCaseFilter))
-                	
-                    return true; // Filter matches first name.
-                else
-                	return false; // Does not match.
-            });
-        });		
+			// Does not match.
+			return cliente.getNombre().toLowerCase().contains(lowerCaseFilter) ||
+					cliente.getApellido().toLowerCase().contains(lowerCaseFilter); // Filter matches first name.
+		}));
 		
         // 3. Wrap the FilteredList in a SortedList. 
         SortedList<ClienteModel> sortedData = new SortedList<>(filteredData);

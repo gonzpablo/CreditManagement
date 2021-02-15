@@ -30,8 +30,6 @@ public class CreditoModController {
 	@FXML
 	private TextField cantCuotasField;
 	@FXML
-	private TextField cobradorField;
-	@FXML
 	private TextField montoCuotaField;
 	@FXML
 	private TextField gciaXDiaField;
@@ -60,12 +58,12 @@ public class CreditoModController {
 		
 		initComboUnidadCuotas();
 		
-		montoCreditoField.setOnKeyReleased( (event) -> { simular(); });		
-		montoCuotaField.setOnKeyReleased( (event) -> { simular(); });
-		cantCuotasField.setOnKeyReleased( (event) -> { simular(); });		
+		montoCreditoField.setOnKeyReleased( (event) -> simular());
+		montoCuotaField.setOnKeyReleased( (event) -> simular());
+		cantCuotasField.setOnKeyReleased( (event) -> simular());
 
-		guardarButton.setOnAction( (event) -> { guardar(); });
-		cancelarButton.setOnAction( (event) -> { cancelar(); });
+		guardarButton.setOnAction( (event) -> guardar());
+		cancelarButton.setOnAction( (event) -> cancelar());
 		
         rutaCombo.setConverter(new StringConverter<RutaModel>() {
             @Override
@@ -141,13 +139,11 @@ public class CreditoModController {
 	  	
 	  	try {
 			CreditoDAO.modificarCredito(this.credito);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 
-	  	this.mainController.refreshTableView();
+		this.mainController.refreshTableView();
 	  	
 	    Stage stage = (Stage) guardarButton.getScene().getWindow();
 	    stage.close();      	
@@ -168,9 +164,9 @@ public class CreditoModController {
 		if ( ( montoCreditoField.getText().length() == 0 || 
 			   cantCuotasField.getText().length() == 0 || 
 			   montoCuotaField.getText().length() == 0 )
-			|| ( Float.valueOf(montoCreditoField.getText()) <= 0 ) ||
-				( Integer.valueOf(cantCuotasField.getText()) <= 0 ) ||
-				( Float.valueOf(montoCuotaField.getText()) <= 0 ) ) {
+			|| ( Float.parseFloat(montoCreditoField.getText()) <= 0 ) ||
+				( Integer.parseInt(cantCuotasField.getText()) <= 0 ) ||
+				( Float.parseFloat(montoCuotaField.getText()) <= 0 ) ) {
 		
 			initFields();
 			return;

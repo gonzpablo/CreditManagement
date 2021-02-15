@@ -68,7 +68,7 @@ public class PagoController {
 
 	private CreditoModel credito;
 
-	private ObservableList<PagoModel> pagos = FXCollections.observableArrayList();	
+	private final ObservableList<PagoModel> pagos = FXCollections.observableArrayList();
 
 	private MainController mainController;
 
@@ -84,33 +84,21 @@ public class PagoController {
 		
 		pagosTable.setItems(pagos);
 		
-		montoPagadoField.setOnKeyReleased( (event) -> {			
-			actualizarCuotasPagadasField();
-		});
+		montoPagadoField.setOnKeyReleased( (event) -> actualizarCuotasPagadasField());
 	
 		cuotasPagadasField.getEditor().setTextFormatter(new TextFieldValidator(ValidationModus.MAX_INTEGERS, 9).getFormatter());
 
-		cuotasPagadasField.setOnMouseReleased((event) -> {
-			actualizarMontoPagadoField();
-		});
+		cuotasPagadasField.setOnMouseReleased((event) -> actualizarMontoPagadoField());
 		
-		ingresarPagoButton.setOnAction((event) -> {
-		    ingresarPago();
-		});		
+		ingresarPagoButton.setOnAction((event) -> ingresarPago());
 		
-		cancelarButton.setOnAction( (event) -> {
-			cancelarPago();
-		});
+		cancelarButton.setOnAction( (event) -> cancelarPago());
 		
-		borrarPagoButton.setOnAction( (event) -> {
-			borrarPago();
-		});
+		borrarPagoButton.setOnAction( (event) -> borrarPago());
 		
-		reporteButton.setOnAction( (event) -> {
-			reportePagos();
-		});
+		reporteButton.setOnAction( (event) -> reportePagos());
 		
-		cerrarCreditoCheckBox.setOnAction( (event) -> { cerrarCredito(); } );
+		cerrarCreditoCheckBox.setOnAction( (event) -> cerrarCredito());
 
 		montoPagadoField.setTextFormatter(new TextFieldValidator(ValidationModus.MAX_FRACTION_DIGITS, 2).getFormatter());
 	}
@@ -167,7 +155,7 @@ public class PagoController {
 		credito.setMontoCuota(new BigDecimal(montoPagadoField.textProperty().getValue()));
 			
 		cuotasPagadasField.getValueFactory().setValue(credito.calcularCuotasAPagarSegunMonto());
-	};	
+	}
 	
 	private void initColumns() {
 		fechaColumn.setCellValueFactory(cellData -> cellData.getValue().getFecha());
@@ -183,19 +171,17 @@ public class PagoController {
 	}
 
 	public static <ROW,T extends Temporal> Callback<TableColumn<ROW, T>, TableCell<ROW, T>> getDateCell (DateTimeFormatter format) {		
-		  return column -> {
-		    return new TableCell<ROW, T> () {
-		      @Override
-		      protected void updateItem (T item, boolean empty) {
-		        super.updateItem (item, empty);
-		        if (item == null || empty) {
-		          setText (null);
-		        }
-		        else {
-		          setText (format.format (item));
-		        }
-		      }
-		    };
+		  return column -> new TableCell<ROW, T> () {
+			@Override
+			protected void updateItem (T item, boolean empty) {
+			  super.updateItem (item, empty);
+			  if (item == null || empty) {
+				setText (null);
+			  }
+			  else {
+				setText (format.format (item));
+			  }
+			}
 		  };
 		}
 	
@@ -233,19 +219,16 @@ public class PagoController {
 		}
 			
 		this.pago.setMontoPago(montoPagadoField.getText());
-		this.pago.setFecha(new SimpleObjectProperty<LocalDate>(fechaPagoField.getValue()));
+		this.pago.setFecha(new SimpleObjectProperty<>(fechaPagoField.getValue()));
 		this.credito.agregarPago(this.pago);
 
 		pagos.add(this.pago);
 		
-		Comparator<PagoModel> comparator = new Comparator<PagoModel>() {
-		    @Override
-		    public int compare(final PagoModel o1, final PagoModel o2) {
-		        if (o1.getFechaValue()== null || o2.getFechaValue() == null)
-		            return 0;
-		        return o2.getFechaValue().compareTo(o1.getFechaValue());
-		    }
-		};	
+		Comparator<PagoModel> comparator = (o1, o2) -> {
+			if (o1.getFechaValue()== null || o2.getFechaValue() == null)
+				return 0;
+			return o2.getFechaValue().compareTo(o1.getFechaValue());
+		};
 
 		FXCollections.sort(pagos, comparator);
 		
@@ -253,12 +236,10 @@ public class PagoController {
 			PagoDAO.agregarPago(credito.getId(), this.pago);
 //			Obtener Id asignado por la base de datos						
 			this.pago.setId(DBUtil.getLastRowId("pagos"));			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		credito.calcularMontoAcumulado();
 		
 		if (credito.alcanzoMontoFinal()) {
@@ -294,7 +275,7 @@ public class PagoController {
 			cerrarCreditoCheckBox.setDisable(true);
 		}
 	
-		if (this.credito.isCerrado() == true) {
+		if (this.credito.isCerrado()) {
 			disableFields(true);
 			cerrarCreditoCheckBox.setSelected(true);
 		}			
@@ -309,9 +290,8 @@ public class PagoController {
 	    stage.close();		
 	}
 	
-	public static final LocalDate LOCAL_DATE (String dateString) {
+	public static LocalDate LOCAL_DATE (String dateString) {
 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-	    LocalDate localDate = LocalDate.parse(dateString, formatter);
-	    return localDate;
+		return LocalDate.parse(dateString, formatter);
 	}	
 }

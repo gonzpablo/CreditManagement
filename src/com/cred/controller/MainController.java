@@ -133,17 +133,17 @@ public class MainController {
 
 	private ObservableList<CreditoModel> creditos = FXCollections.observableArrayList();
 	
-	private FilteredList<CreditoModel> filteredItems;	 
+	private final FilteredList<CreditoModel> filteredItems;
 
 	private ObservableList<ClienteModel> listaClientes = FXCollections.observableArrayList();
 	private ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();	
 	private ObservableList<CobradorModel> listaCobradores = FXCollections.observableArrayList();	
 	private ObservableList<PagoModel> listaPagos = FXCollections.observableArrayList();
 	
-	private Map<Integer, ClienteModel> hashClientes = new HashMap<Integer, ClienteModel>(); 
-	private Map<Integer, RutaModel> hashRutas = new HashMap<Integer, RutaModel>();
-	private Map<Integer, CobradorModel> hashCobradores = new HashMap<Integer, CobradorModel>();
-	private Map<Integer, CreditoModel> hashCreditos = new HashMap<Integer, CreditoModel>();
+	private final Map<Integer, ClienteModel> hashClientes = new HashMap<>();
+	private final Map<Integer, RutaModel> hashRutas = new HashMap<>();
+	private final Map<Integer, CobradorModel> hashCobradores = new HashMap<>();
+	private final Map<Integer, CreditoModel> hashCreditos = new HashMap<>();
 	
 
 	public MainController() {	
@@ -235,9 +235,9 @@ public class MainController {
 	private void defineActions() {
 
 //		Filtros
-        cobradorFilterCombo.setOnAction(e -> { calcularTotales(); });
-        rutaFilterCombo.setOnAction(e -> { 	calcularTotales();  });
-        fechaFilterField.setOnAction(e -> { calcularTotales(); } );
+        cobradorFilterCombo.setOnAction(e -> calcularTotales());
+        rutaFilterCombo.setOnAction(e -> calcularTotales());
+        fechaFilterField.setOnAction(e -> calcularTotales());
         
         btnCleanFilters.setOnAction(e -> {
             rutaFilterCombo.setValue(null);
@@ -247,16 +247,16 @@ public class MainController {
         });            
 
 //		Menú
-        salirMenu.setOnAction( e-> { salir(); });
-        crearCreditoMenu.setOnAction( e -> { crearCredito(); } );
-        clienteMenuGestionar.setOnAction( e -> { gestClientes(); } );
-        cobradorMenuGestionar.setOnAction( e -> { gestCobradores(); });
-        rutasMenuGestionar.setOnAction( e -> { gestRutas();} );       
-        reporteMenu.setOnAction( e -> { reporte(); } );
+        salirMenu.setOnAction( e-> salir());
+        crearCreditoMenu.setOnAction( e -> crearCredito());
+        clienteMenuGestionar.setOnAction( e -> gestClientes());
+        cobradorMenuGestionar.setOnAction( e -> gestCobradores());
+        rutasMenuGestionar.setOnAction( e -> gestRutas());
+        reporteMenu.setOnAction( e -> reporte());
 
 //		Botones        
-        btnModificarCreditos.setOnAction( (event) -> { modificarCredito(); } );
-        btnBorrarCreditos.setOnAction( (event) -> {	borrarCredito(); });           
+        btnModificarCreditos.setOnAction( (event) -> modificarCredito());
+        btnBorrarCreditos.setOnAction( (event) -> borrarCredito());
 	}
 
 	private void salir() {
@@ -359,8 +359,8 @@ public class MainController {
 	private void crearCredito() {
 	   try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Credito.fxml"));
-            GridPane page = (GridPane) loader.load();
-            CreditoController controller = loader.<CreditoController>getController();
+            GridPane page = loader.load();
+            CreditoController controller = loader.getController();
 
             controller.setMainController(this);
             
@@ -383,8 +383,8 @@ public class MainController {
 	private void gestClientes() {
 	   try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Cliente.fxml"));
-            GridPane page = (GridPane) loader.load();
-            ClienteController controller = loader.<ClienteController>getController();
+            GridPane page = loader.load();
+            ClienteController controller = loader.getController();
 
             controller.setClientes(listaClientes);  
             
@@ -407,8 +407,8 @@ public class MainController {
 	private void gestCobradores() {
 	   try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Cobrador.fxml"));
-            GridPane page = (GridPane) loader.load();
-            CobradorController controller = loader.<CobradorController>getController();
+            GridPane page = loader.load();
+            CobradorController controller = loader.getController();
 
             controller.setCobradores(listaCobradores);
             
@@ -443,8 +443,8 @@ public class MainController {
 
 		try {
 			FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/CreditoModificar.fxml"));
-			GridPane page = (GridPane) loader.load();
-			CreditoModController controller = loader.<CreditoModController>getController();
+			GridPane page = loader.load();
+			CreditoModController controller = loader.getController();
 
 			controller.setCredito(credito);
 			controller.setMainController(this);
@@ -470,8 +470,8 @@ public class MainController {
 	
 	   try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Ruta.fxml"));
-            GridPane page = (GridPane) loader.load();
-            RutaController controller = loader.<RutaController>getController();
+            GridPane page = loader.load();
+            RutaController controller = loader.getController();
 
             controller.setRutas(listaRutas);
             
@@ -499,8 +499,8 @@ public class MainController {
 
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/Pago.fxml"));
-            GridPane page = (GridPane) loader.load();
-            PagoController controller = loader.<PagoController>getController();
+            GridPane page = loader.load();
+            PagoController controller = loader.getController();
 
             controller.setCredito(rowData);            
             controller.setMainController(this);            
@@ -529,7 +529,7 @@ public class MainController {
 			cuotaPuraField.setText("Seleccione una fecha");
 			gciaDiaField.setText(null);
 			cuotaPuraField.setDisable(true);
-			gciaDiaField.setDisable(true);;			
+			gciaDiaField.setDisable(true);
 			
 			for ( CreditoModel cred : filteredItems ) {				
 				cred.setMontoCuota(BigDecimal.valueOf(0));
@@ -640,11 +640,10 @@ public class MainController {
     private void hashCreditos(ObservableList<CreditoModel> listaCreditos) {
     	
     	for ( CreditoModel credito : listaCreditos )
-    		
-    		if (hashCreditos.containsKey(credito.getId()))
-    			continue;
-    		else
-    			hashCreditos.put(credito.getId(), credito);
+
+			if (!hashCreditos.containsKey(credito.getId())) {
+				hashCreditos.put(credito.getId(), credito);
+			}
 	}
 
 	public ObservableList<PagoModel> buscarPagos(int cerrado) {
@@ -742,19 +741,17 @@ public class MainController {
 	}
 	
 	public static <ROW,T extends Temporal> Callback<TableColumn<ROW, T>, TableCell<ROW, T>> getDateCell (DateTimeFormatter format) {		
-	  return column -> {
-	    return new TableCell<ROW, T> () {
-	      @Override
-	      protected void updateItem (T item, boolean empty) {
-	        super.updateItem (item, empty);
-	        if (item == null || empty) {
-	          setText (null);
-	        }
-	        else {
-	          setText (format.format (item));
-	        }
-	      }
-	    };
+	  return column -> new TableCell<ROW, T> () {
+		@Override
+		protected void updateItem (T item, boolean empty) {
+		  super.updateItem (item, empty);
+		  if (item == null || empty) {
+			setText (null);
+		  }
+		  else {
+			setText (format.format (item));
+		  }
+		}
 	  };
 	}		
 }

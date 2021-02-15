@@ -1,6 +1,5 @@
 package com.cred.model;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -18,7 +17,6 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -29,8 +27,8 @@ public class Reporte {
 	private static final float rowHeight = 20f;
 	private static final float beginX = 70;
 	private static final float MARGEN_ARRIBA = 90;
-	private List<ReporteField> headerFields = new ArrayList<ReporteField>();
-	private Stage stage;
+	private final List<ReporteField> headerFields = new ArrayList<>();
+	private final Stage stage;
 	
 	public Reporte(Stage stage) {
 		this.stage = stage;
@@ -45,13 +43,13 @@ public class Reporte {
 
 		if (textWidth > 0) {
 
-			contentStream.moveTextPositionByAmount(x-textWidth, y);
-			contentStream.drawString(texto);
-			contentStream.moveTextPositionByAmount(x+textWidth, y);
+			contentStream.newLineAtOffset(x - textWidth, y);
+			contentStream.showText(texto);
+			contentStream.newLineAtOffset(x + textWidth, y);
 			
 		} else {
-			contentStream.moveTextPositionByAmount(x, y);
-			contentStream.drawString(texto);
+			contentStream.newLineAtOffset(x, y);
+			contentStream.showText(texto);
 		}
 			
 		contentStream.endText();		
@@ -83,12 +81,12 @@ public class Reporte {
 		LocalTime time1 = currentDateTime.toLocalTime();
 		
 		
-		String fechaFormat = date1.format(DateTimeFormatter.ofPattern("dd_MM_YYYY"));
+		String fechaFormat = date1.format(DateTimeFormatter.ofPattern("dd_MM_yyyy"));
 		String horaFormat = time1.format(DateTimeFormatter.ofPattern("HH_mm_ss"));
 
 		fileName = fileName + fechaFormat + "_" + horaFormat + ".pdf";
 		
-		fechaFormat = date1.format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+		fechaFormat = date1.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		horaFormat = time1.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 		
 		String fecha = "Fecha Reporte: " + fechaFormat;
@@ -109,7 +107,7 @@ public class Reporte {
 	    
 	    doc.addPage( page );
 	    PDPageContentStream contentStream = new PDPageContentStream(doc, page);		
-	    contentStream.setFont( PDType1Font.HELVETICA.HELVETICA_BOLD , 9 );
+	    contentStream.setFont(PDType1Font.HELVETICA_BOLD, 9 );
 		tableWidth = page.getCropBox().getWidth();
 	    
 		x = beginX;
@@ -156,7 +154,7 @@ public class Reporte {
 		y = starty; 	    
 		
 		contentStream.setNonStrokingColor(200, 200, 200); //gray background
-		contentStream.fillRect(startx, starty-5, 460, rowHeight);
+		contentStream.addRect(startx, starty - 5, 460, rowHeight);
 		contentStream.setNonStrokingColor(0, 0, 0); //gray background
 		
 		for ( ReporteField field : headerFields) {
@@ -197,8 +195,7 @@ public class Reporte {
 			imprimirTexto(contentStream, credito.getValorCuota().toString(), x+73, y, textWidth);
 			
 			x+=getLength("Valor Cuota");
-			
-			textWidth = 0;
+
 			contentStream.drawLine(x, y+15, x, y+15-rowHeight);
 			textWidth = (font.getStringWidth(credito.getMontoCredito().toString()) / 1000.0f) * fontSize;
 
@@ -232,7 +229,7 @@ public class Reporte {
 				page = crearPagina();		// crear página A4	    
 			    doc.addPage( page );
 			    contentStream = new PDPageContentStream(doc, page);
-			    contentStream.setFont( PDType1Font.HELVETICA.HELVETICA_BOLD , 8 );
+			    contentStream.setFont(PDType1Font.HELVETICA_BOLD, 8 );
 				x = beginX;
 				y = page.getCropBox().getHeight() - MARGEN_ARRIBA;
 

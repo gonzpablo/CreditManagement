@@ -19,24 +19,8 @@ public class TextFieldValidator {
         this(modus.createPattern(countOf));
     }
 
-    public TextFieldValidator(@NamedArg("regex") String regex) {
-        this(Pattern.compile(regex));
-    }
-
     public TextFieldValidator(Pattern inputPattern) {
         INPUT_PATTERN = inputPattern;
-    }
-
-    public static TextFieldValidator maxFractionDigits(int countOf) {
-        return new TextFieldValidator(maxFractionPattern(countOf));
-    }
-
-    public static TextFieldValidator maxIntegers(int countOf) {
-        return new TextFieldValidator(maxIntegerPattern(countOf));
-    }
-
-    public static TextFieldValidator integersOnly() {
-        return new TextFieldValidator(integersOnlyPattern());
     }
 
     public TextFormatter<Object> getFormatter() {
@@ -55,16 +39,17 @@ public class TextFieldValidator {
     }
 
     private static Pattern maxFractionPattern(int countOf) {
-        return Pattern.compile("(\\d+(\\" + DECIMAL_SEPARATOR + "\\d{0," + countOf + "})?)|()");
+        //return Pattern.compile("(\\d+(\\" + DECIMAL_SEPARATOR + "\\d{0," + countOf + "})?)|()");
+        return Pattern.compile("(\\d+(\\" + DECIMAL_SEPARATOR + "\\d*" + countOf + "})?)|()");
     }
 
     private static Pattern maxCurrencyFractionPattern(int countOf) {
-        return Pattern.compile("^\\" + CURRENCY_SYMBOL + "?\\s?\\d*(\\" + DECIMAL_SEPARATOR + "\\d{0," + countOf + "})?\\s?\\" +
+        return Pattern.compile("^\\" + CURRENCY_SYMBOL + "?\\s?\\d*(\\" + DECIMAL_SEPARATOR + "\\d*" + countOf + "})?\\s?\\" +
                 CURRENCY_SYMBOL + "?");
     }
 
     private static Pattern maxIntegerPattern(int countOf) {
-        return Pattern.compile("\\d{0," + countOf + "}");
+        return Pattern.compile("\\d*" + countOf + "}");
     }
 
     private static Pattern integersOnlyPattern() {

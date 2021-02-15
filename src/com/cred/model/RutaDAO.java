@@ -15,17 +15,15 @@ public class RutaDAO {
  
         try {
             ResultSet rsRutas = DBUtil.dbExecuteQuery(selectStmt);
- 
-            ObservableList<RutaModel> listaRutas = getListaRutas(rsRutas);
- 
-            return listaRutas;
+
+			return getListaRutas(rsRutas);
         } catch (SQLException e) {
             System.out.println("SQL select operation has been failed: " + e);
             throw e;
         }
     }
 
-	private static ObservableList<RutaModel> getListaRutas(ResultSet rs) throws SQLException, ClassNotFoundException {
+	private static ObservableList<RutaModel> getListaRutas(ResultSet rs) throws SQLException {
 
         ObservableList<RutaModel> listaRutas = FXCollections.observableArrayList();
  

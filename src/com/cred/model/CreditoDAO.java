@@ -32,10 +32,8 @@ public class CreditoDAO {
 
         try {
             ResultSet rsCreditos = DBUtil.dbExecuteQuery(selectStmt);
- 
-            ObservableList<CreditoModel> listaCreditos = getListaCreditos(rsCreditos);
- 
-            return listaCreditos;
+
+			return getListaCreditos(rsCreditos);
         } catch (SQLException e) {
             System.out.println("SQL select operation has failed: " + e);
             throw e;
@@ -98,7 +96,7 @@ public class CreditoDAO {
 		}		
 	}		 
 
-	private static ObservableList<CreditoModel> getListaCreditos(ResultSet rs) throws SQLException, ClassNotFoundException {
+	private static ObservableList<CreditoModel> getListaCreditos(ResultSet rs) throws SQLException {
 
         ObservableList<CreditoModel> listaCreditos = FXCollections.observableArrayList();
  
@@ -117,7 +115,7 @@ public class CreditoDAO {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate localDate = LocalDate.parse(rs.getString("FECHACREACION"), formatter);
 
-			credito.setFecha(new SimpleObjectProperty<LocalDate>(localDate));            
+			credito.setFecha(new SimpleObjectProperty<>(localDate));
             
             listaCreditos.add(credito);
         }
